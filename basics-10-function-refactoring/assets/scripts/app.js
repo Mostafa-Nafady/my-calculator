@@ -42,7 +42,7 @@ function calculation(calculationType){
      return ;
    }
    
-    initialResult=currentResult;
+   initialResult=currentResult;
     /* ADD function condition */
  if (calculationType=== "ADD"){
    currentResult += parseInt(inputUser);
