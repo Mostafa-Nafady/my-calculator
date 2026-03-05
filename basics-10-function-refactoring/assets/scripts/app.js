@@ -1,3 +1,12 @@
+// Render the Header component when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof replaceHeader === 'function') {
+    replaceHeader('The Unconventional Calculator', [
+      { label: 'Home', href: 'home.html' }
+    ]);
+  }
+});
+
 const defaultResult = 0;
 let initialResult;
 let operatorType;
