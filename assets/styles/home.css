@@ -44,6 +44,27 @@
   border-color: #084f88;
 }
 
+#btn-xpy {
+  display: inline-block;
+  font: inherit;
+  background: #28a745;
+  color: white;
+  border: 1px solid #28a745;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+}
+
+#btn-xpy:hover,
+#btn-xpy:active {
+  background: #218838;
+  border-color: #218838;
+}
+
 #features {
   margin: 2rem auto;
   width: 40rem;
@@ -76,4 +97,5 @@
   border: 1px solid #023d6d;
   font-weight: bold;
 }
+
 

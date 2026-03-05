@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>XPY Calculator - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/xpy.css" />
+    <script src="../assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/xpy.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="xpy-calculator">
+      <h2>XPY (X Power Y) Calculator</h2>
+      <p>Calculate X raised to the power of Y</p>
+      <div id="xpy-inputs">
+        <input type="number" id="input-base" placeholder="Base (X)" />
+        <span id="power-symbol">^</span>
+        <input type="number" id="input-exponent" placeholder="Exponent (Y)" />
+      </div>
+      <div id="xpy-actions">
+        <button type="button" id="btn-calculate">Calculate</button>
+        <button type="button" id="btn-clear">Clear</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+  </body>
+</html>
+

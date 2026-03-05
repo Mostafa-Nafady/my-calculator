@@ -1,8 +1,10 @@
 // Render the Header component when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  if (typeof replaceHeader === 'function') {
-    replaceHeader('The Unconventional Calculator', [
-      { label: 'Home', href: 'home.html' }
+  if (typeof renderHeader === 'function') {
+    renderHeader('header-container', 'The Unconventional Calculator', [
+      { label: 'Home', href: '../index.html' },
+      { label: 'Basic Calculator', href: 'index.html' },
+      { label: 'XPY Calculator', href: '../xpy/index.html' }
     ]);
   }
 });
@@ -92,3 +94,4 @@ addBtn.addEventListener('click', add);
 subtractBtn.addEventListener('click', subtract);
 multiplyBtn.addEventListener('click', multiplication);
 divideBtn.addEventListener('click', division); 
+
