@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
     renderHeader('header-container', 'The Unconventional Calculator', [
       { label: 'Home', href: '../index.html' },
+      { label: 'About', href: '../about.html' },
       { label: 'Basic Calculator', href: 'index.html' },
       { label: 'XPY Calculator', href: '../xpy/index.html' }
     ]);
@@ -94,4 +95,5 @@ addBtn.addEventListener('click', add);
 subtractBtn.addEventListener('click', subtract);
 multiplyBtn.addEventListener('click', multiplication);
 divideBtn.addEventListener('click', division); 
+
 
