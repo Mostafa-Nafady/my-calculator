@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>UYT Calculator - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/uyt.css" />
+    <script src="../assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/uyt.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="uyt-calculator">
+      <h2>UYT (U Yield T) Calculator</h2>
+      <p>Calculate U multiplied by Y and divided by T</p>
+      <div id="uyt-inputs">
+        <input type="number" id="input-u" placeholder="Value (U)" />
+        <span id="multiply-symbol">×</span>
+        <input type="number" id="input-y" placeholder="Multiplier (Y)" />
+        <span id="divide-symbol">÷</span>
+        <input type="number" id="input-t" placeholder="Divisor (T)" />
+      </div>
+      <div id="uyt-actions">
+        <button type="button" id="btn-calculate">Calculate</button>
+        <button type="button" id="btn-clear">Clear</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+  </body>
+</html>
+

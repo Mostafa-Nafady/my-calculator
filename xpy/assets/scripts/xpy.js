@@ -91,9 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'Home', href: '../index.html' },
       { label: 'About', href: '../about.html' },
       { label: 'Basic Calculator', href: '../basics-10-function-refactoring/index.html' },
-      { label: 'XPY Calculator', href: 'index.html' }
+      { label: 'XPY Calculator', href: 'index.html' },
+      { label: 'UYT Calculator', href: '../uyt/index.html' }
     ]);
   }
 });
+
 
 
