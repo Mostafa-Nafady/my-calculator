@@ -1,0 +1,123 @@
+#df-content {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#df-content h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#df-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
+#df-actions {
+  margin-top: 2rem;
+}
+
+#btn-home {
+  display: inline-block;
+  font: inherit;
+  background: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#btn-home:hover,
+#btn-home:active {
+  background: #5a6268;
+  border-color: #5a6268;
+}
+
+#btn-start {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+}
+
+#btn-start:hover,
+#btn-start:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+#btn-about {
+  display: inline-block;
+  font: inherit;
+  background: #28a745;
+  color: white;
+  border: 1px solid #28a745;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+}
+
+#btn-about:hover,
+#btn-about:active {
+  background: #218838;
+  border-color: #218838;
+}
+
+#df-info {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  color: #023d6d;
+}
+
+#df-info h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #023d6d;
+}
+
+#df-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#df-info li {
+  background: #f0f4f8;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #023d6d;
+  font-weight: bold;
+}
+
+#df-info li:last-child {
+  margin-bottom: 0;
+}
+
