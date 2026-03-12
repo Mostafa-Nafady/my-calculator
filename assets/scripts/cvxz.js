@@ -1,3 +1,6 @@
+// TYU constant for CVXZ calculator
+const TYU = 'TYU';
+
 // Render the Header component when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
@@ -10,4 +13,5 @@ document.addEventListener('DOMContentLoaded', () => {
     ]);
   }
 });
+
 
