@@ -1,44 +1,41 @@
 /**
- * UYT Calculator
- * Calculates U multiplied by Y and divided by T
+ * YTER Calculator
+ * Calculates Y multiplied by E raised to the power of R
  */
 
-const uInput = document.getElementById('input-u');
 const yInput = document.getElementById('input-y');
-const tInput = document.getElementById('input-t');
+const eInput = document.getElementById('input-e');
+const rInput = document.getElementById('input-r');
 const calculateBtn = document.getElementById('btn-calculate');
 const clearBtn = document.getElementById('btn-clear');
 const currentCalculation = document.getElementById('current-calculation');
 const currentResult = document.getElementById('current-result');
 
 let defaultResult = 0;
-let currentU = 0;
 let currentY = 0;
-let currentT = 0;
+let currentE = 0;
+let currentR = 0;
 
 /**
- * Calculates U multiplied by Y and divided by T
- * @param {number} u - The U value
+ * Calculates Y multiplied by E raised to the power of R
  * @param {number} y - The Y value (multiplier)
- * @param {number} t - The T value (divisor)
- * @returns {number} The result of (u * y) / t
+ * @param {number} e - The base value (E)
+ * @param {number} r - The exponent (R)
+ * @returns {number} The result of y * (e ^ r)
  */
-function calculateUYT(u, y, t) {
-  if (t === 0) {
-    throw new Error('Cannot divide by zero');
-  }
-  return (u * y) / t;
+function calculateYTER(y, e, r) {
+  return y * Math.pow(e, r);
 }
 
 /**
  * Updates the calculation display
- * @param {number} u - The U value
  * @param {number} y - The Y value
- * @param {number} t - The T value
+ * @param {number} e - The E value
+ * @param {number} r - The R value
  * @param {number} result - The calculated result
  */
-function updateCalculationDisplay(u, y, t, result) {
-  currentCalculation.textContent = `(${u} × ${y}) ÷ ${t}`;
+function updateCalculationDisplay(y, e, r, result) {
+  currentCalculation.textContent = `${y} × (${e} ^ ${r})`;
   currentResult.textContent = result;
 }
 
@@ -46,42 +43,33 @@ function updateCalculationDisplay(u, y, t, result) {
  * Handles the calculate button click
  */
 function handleCalculate() {
-  const u = parseFloat(uInput.value);
   const y = parseFloat(yInput.value);
-  const t = parseFloat(tInput.value);
+  const e = parseFloat(eInput.value);
+  const r = parseFloat(rInput.value);
 
-  if (isNaN(u) || isNaN(y) || isNaN(t)) {
-    alert('Please enter valid numbers for U, Y, and T.');
+  if (isNaN(y) || isNaN(e) || isNaN(r)) {
+    alert('Please enter valid numbers for Y, E, and R.');
     return;
   }
 
-  if (t === 0) {
-    alert('Cannot divide by zero. Please enter a non-zero value for T.');
-    return;
-  }
-
-  currentU = u;
   currentY = y;
-  currentT = t;
-  
-  try {
-    defaultResult = calculateUYT(u, y, t);
-    updateCalculationDisplay(u, y, t, defaultResult);
-  } catch (error) {
-    alert(error.message);
-  }
+  currentE = e;
+  currentR = r;
+  defaultResult = calculateYTER(y, e, r);
+
+  updateCalculationDisplay(y, e, r, defaultResult);
 }
 
 /**
  * Handles the clear button click
  */
 function handleClear() {
-  uInput.value = '';
   yInput.value = '';
-  tInput.value = '';
-  currentU = 0;
+  eInput.value = '';
+  rInput.value = '';
   currentY = 0;
-  currentT = 0;
+  currentE = 0;
+  currentR = 0;
   defaultResult = 0;
   currentCalculation.textContent = '0';
   currentResult.textContent = '0';
@@ -92,19 +80,19 @@ calculateBtn.addEventListener('click', handleCalculate);
 clearBtn.addEventListener('click', handleClear);
 
 // Allow Enter key to trigger calculation
-uInput.addEventListener('keypress', (event) => {
-  if (event.key === 'Enter') {
-    handleCalculate();
-  }
-});
-
 yInput.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     handleCalculate();
   }
 });
 
-tInput.addEventListener('keypress', (event) => {
+eInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    handleCalculate();
+  }
+});
+
+rInput.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     handleCalculate();
   }
@@ -118,10 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'About', href: '../about.html' },
       { label: 'Basic Calculator', href: '../basics-10-function-refactoring/index.html' },
       { label: 'XPY Calculator', href: '../xpy/index.html' },
-      { label: 'UYT Calculator', href: 'index.html' },
-      { label: 'YTER Calculator', href: '../yter/index.html' }
+      { label: 'UYT Calculator', href: '../uyt/index.html' },
+      { label: 'YTER Calculator', href: 'index.html' }
     ]);
   }
 });
-
 
