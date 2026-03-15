@@ -1,7 +1,7 @@
 // Render the Header component when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
-    renderHeader('header-container', 'Welcome to My Calculator', [
+    renderHeader('header-container', 'WER Calculator', [
       { label: 'Home', href: 'index.html' },
       { label: 'About', href: 'about.html' },
       { label: 'ASD', href: 'asd.html' },
@@ -11,8 +11,4 @@ document.addEventListener('DOMContentLoaded', () => {
     ]);
   }
 });
-
-
-
-
 
