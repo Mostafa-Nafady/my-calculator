@@ -9,7 +9,7 @@
  * @param {Array<{label: string, href: string}>} [navLinks] - Optional navigation links
  * @returns {HTMLElement} The header element
  */
-function createHeader(title, navLinks = [{ label: 'RTEA', href: '/rtea' }]) {
+function createHeader(title, navLinks = [{ label: 'RTEA', href: '/rtea' }, { label: 'ASSDSFSF', href: '/assdsfsf' }]) {
   const header = document.createElement('header');
   
   // Create title element
@@ -40,7 +40,7 @@ function createHeader(title, navLinks = [{ label: 'RTEA', href: '/rtea' }]) {
  * @param {string} title - The title to display
  * @param {Array<{label: string, href: string}>} [navLinks] - Optional navigation links
  */
-function renderHeader(containerId, title, navLinks = [{ label: 'RTEA', href: '/rtea' }]) {
+function renderHeader(containerId, title, navLinks = [{ label: 'RTEA', href: '/rtea' }, { label: 'ASSDSFSF', href: '/assdsfsf' }]) {
   const container = document.getElementById(containerId);
   if (!container) {
     console.error(`Container with ID '${containerId}' not found`);
@@ -56,7 +56,7 @@ function renderHeader(containerId, title, navLinks = [{ label: 'RTEA', href: '/r
  * @param {string} title - The title to display
  * @param {Array<{label: string, href: string}>} [navLinks] - Optional navigation links
  */
-function replaceHeader(title, navLinks = [{ label: 'RTEA', href: '/rtea' }]) {
+function replaceHeader(title, navLinks = [{ label: 'RTEA', href: '/rtea' }, { label: 'ASSDSFSF', href: '/assdsfsf' }]) {
   const existingHeader = document.querySelector('header');
   const header = createHeader(title, navLinks);
   
@@ -72,6 +72,9 @@ function replaceHeader(title, navLinks = [{ label: 'RTEA', href: '/rtea' }]) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { createHeader, renderHeader, replaceHeader };
 }
+
+
+
 
 
 
