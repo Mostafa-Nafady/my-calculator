@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>OOP Concepts - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/oop.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/oop.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="oop-content">
+      <h2>Object-Oriented Programming Concepts</h2>
+      <p>
+        Object-Oriented Programming (OOP) is a programming paradigm based on the concept of "objects",
+        which can contain data and code: data in the form of fields (often known as attributes or properties),
+        and code in the form of procedures (often known as methods).
+      </p>
+      <p>
+        Understanding OOP principles is essential for building scalable, maintainable, and reusable code.
+        Our calculator application demonstrates these concepts through practical implementation.
+      </p>
+      <div id="oop-actions">
+        <a href="index.html" id="btn-home">Back to Home</a>
+        <a href="basics-10-function-refactoring/index.html" id="btn-start">Start Calculating</a>
+        <a href="uyt/index.html" id="btn-uyt">UYT Calculator</a>
+      </div>
+    </section>
+
+    <section id="oop-concepts">
+      <h3>Core OOP Principles Demonstrated</h3>
+      <div class="concept-card">
+        <h4>Encapsulation</h4>
+        <p>Bundling data and methods that operate on that data within a single unit (class). Our Calculator class encapsulates all calculation logic.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Inheritance</h4>
+        <p>Creating new classes from existing ones. Specialized calculators like XPYCalculator and UYTCalculator inherit from base Calculator.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Polymorphism</h4>
+        <p>Methods performing differently based on the object. Different calculator types implement operations in their own way.</p>
+      </div>
+      <div class="concept-card">
+        <h4>Abstraction</h4>
+        <p>Hiding complex implementation details. Users interact with simple interfaces while complex logic stays hidden.</p>
+      </div>
+    </section>
+
+    <section id="oop-example">
+      <h3>Code Example</h3>
+      <pre id="code-display"><code>// Base Calculator Class
+class Calculator {
+  constructor() {
+    this.result = 0;
+    this.history = [];
+  }
+  
+  add(a, b) {
+    const result = a + b;
+    this.logOperation('add', [a, b], result);
+    return result;
+  }
+  
+  logOperation(op, inputs, output) {
+    this.history.push({ op, inputs, output, time: Date.now() });
+  }
+}
+
+// Specialized Calculator
+class XPYCalculator extends Calculator {
+  power(base, exponent) {
+    const result = Math.pow(base, exponent);
+    this.logOperation('power', [base, exponent], result);
+    return result;
+  }
+}</code></pre>
+    </section>
+  </body>
+</html>
+

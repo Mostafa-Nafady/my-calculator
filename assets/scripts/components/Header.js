@@ -25,6 +25,14 @@ function createHeader(title, navLinks = []) {
       const anchor = document.createElement('a');
       anchor.href = link.href;
       anchor.textContent = link.label;
+      
+      // Highlight current page link
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const linkPage = link.href.split('/').pop() || 'index.html';
+      if (currentPage === linkPage) {
+        anchor.classList.add('active');
+      }
+      
       nav.appendChild(anchor);
     });
     
@@ -32,6 +40,17 @@ function createHeader(title, navLinks = []) {
   }
   
   return header;
+}
+
+/**
+ * Default navigation links for the application
+ * @returns {Array<{label: string, href: string}>} Default navigation links
+ */
+function getDefaultNavLinks() {
+  return [
+    { label: 'Home', href: '/index.html' },
+    { label: 'OOP', href: '/oop.html' }
+  ];
 }
 
 /**
@@ -72,4 +91,6 @@ function replaceHeader(title, navLinks = []) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { createHeader, renderHeader, replaceHeader };
 }
+
+
 
