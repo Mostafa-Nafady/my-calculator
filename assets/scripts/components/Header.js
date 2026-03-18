@@ -4,6 +4,15 @@
  */
 
 /**
+ * Default navigation links for the application
+ * @type {Array<{label: string, href: string}>}
+ */
+const DEFAULT_NAV_LINKS = [
+  { label: 'Home', href: 'index.html' },
+  { label: 'AXZAW', href: 'axzaw.html' }
+];
+
+/**
  * Creates a header element with title and optional navigation
  * @param {string} title - The title to display in the header
  * @param {Array<{label: string, href: string}>} [navLinks] - Optional navigation links
@@ -72,4 +81,5 @@ function replaceHeader(title, navLinks = []) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { createHeader, renderHeader, replaceHeader };
 }
+
 
