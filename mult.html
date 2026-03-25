@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>MULT - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/mult.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/mult.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="mult-content">
+      <h2>MULT Calculator</h2>
+      <p>
+        The MULT calculator is a specialized tool designed to help you perform
+        multiplication operations with precision and ease. Built with modern web
+        technologies, it provides a clean and intuitive interface for all your
+        multiplication calculation needs.
+      </p>
+      <p>
+        Whether you need to multiply two numbers, calculate products, or
+        perform complex multiplication sequences, the MULT calculator has you covered.
+      </p>
+      
+      <div id="mult-calculator">
+        <div id="mult-inputs">
+          <input type="number" id="num1" placeholder="First number" />
+          <span class="operator">×</span>
+          <input type="number" id="num2" placeholder="Second number" />
+        </div>
+        <button id="btn-calculate">Calculate</button>
+        <div id="mult-result">
+          <p>Result: <span id="result-value">-</span></p>
+        </div>
+      </div>
+
+      <div id="mult-actions">
+        <a href="index.html" id="btn-home">Back to Home</a>
+        <a href="basics-10-function-refactoring/index.html" id="btn-start">Start Calculating</a>
+        <a href="xpy/index.html" id="btn-xpy">XPY Calculator</a>
+        <a href="uyt/index.html" id="btn-uyt">UYT Calculator</a>
+        <a href="asd.html" id="btn-asd">ASD Calculator</a>
+        <a href="addop.html" id="btn-addop">ADDOP Calculator</a>
+      </div>
+    </section>
+
+    <section id="mult-info">
+      <h3>Why Choose MULT?</h3>
+      <ul>
+        <li>Fast multiplication operations</li>
+        <li>Accurate product calculations</li>
+        <li>Multiple number support</li>
+        <li>Fast and responsive design</li>
+        <li>No installation required - works in your browser</li>
+        <li>Free to use</li>
+      </ul>
+    </section>
+  </body>
+</html>
+
