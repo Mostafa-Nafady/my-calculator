@@ -1,0 +1,242 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+  packages: write
+  actions: read
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  lint:
+    name: Lint HTML/CSS/JS
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970ee6e94c472d6c1a303a5aea7758d3d # v4.1.0
+        with:
+          node-version: '20'
+
+      - name: Cache npm dependencies
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install html-validate
+        run: npm install -g html-validate@8.27.0
+
+      - name: Validate HTML files
+        run: |
+          if [ -f "index.html" ]; then
+            html-validate index.html
+          fi
+          if [ -d "src" ]; then
+            html-validate "src/**/*.html" || true
+          fi
+
+      - name: Install stylelint
+        run: npm install -g stylelint@16.11.0 stylelint-config-standard@36.0.1
+
+      - name: Validate CSS files
+        run: |
+          if [ -f ".stylelintrc.json" ] || [ -f ".stylelintrc" ]; then
+            stylelint "**/*.css" || true
+          else
+            echo "No stylelint config found, skipping CSS validation"
+          fi
+
+      - name: Install ESLint
+        run: npm install -g eslint@9.16.0
+
+      - name: Validate JavaScript files
+        run: |
+          if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ] || [ -f ".eslintrc" ]; then
+            eslint "**/*.js" --ignore-pattern node_modules/ || true
+          else
+            echo "No ESLint config found, skipping JS validation"
+          fi
+
+  build:
+    name: Build and Test Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: lint
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
+      image_digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
+
+      - name: Log in to Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@9780b0e4884b8e0e6e5b3e8b5c5e0e6e5b3e8b5c # v3.3.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@369eb59187a7f650520f31d9596e9f5e14df851c # v5.6.1
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix=,suffix=,format=short
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build Docker image
+        id: build
+        uses: docker/build-push-action@48aba3c46be1c8d08e827a5ca388d9baa426a37f # v6.10.0
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ github.workflow }}
+          cache-to: type=gha,mode=max,scope=${{ github.workflow }}
+          platforms: linux/amd64
+          load: true
+
+      - name: Test Docker image
+        run: |
+          docker run -d --name calculator-test -p 8080:80 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+          sleep 5
+          
+          # Test if nginx is serving content
+          curl -f http://localhost:8080/ || exit 1
+          
+          # Cleanup
+          docker stop calculator-test
+          docker rm calculator-test
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        with:
+          name: docker-image-digest
+          path: |
+            ${{ steps.build.outputs.digest }}
+          retention-days: 7
+
+  security-scan-trivy-fs:
+    name: Trivy Filesystem Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a5a6fe6f # v0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-fs-results.sarif
+          severity: HIGH,CRITICAL
+          exit-code: 1
+
+      - name: Upload Trivy filesystem scan results
+        if: always()
+        uses: github/codeql-action/upload-sarif@df32e3991393058f604f0cfbf0b955bdbafe1eba # v3.27.9
+        with:
+          sarif_file: trivy-fs-results.sarif
+          category: trivy-fs
+
+  security-scan-trivy-image:
+    name: Trivy Image Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+    steps:
+      - name: Run Trivy image scan
+        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a5a6fe6f # v0.28.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+          format: sarif
+          output: trivy-image-results.sarif
+          severity: HIGH,CRITICAL
+          exit-code: 1
+
+      - name: Upload Trivy image scan results
+        if: always()
+        uses: github/codeql-action/upload-sarif@df32e3991393058f604f0cfbf0b955bdbafe1eba # v3.27.9
+        with:
+          sarif_file: trivy-image-results.sarif
+          category: trivy-image
+
+  security-scan-codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@df32e3991393058f604f0cfbf0b955bdbafe1eba # v3.27.9
+        with:
+          languages: javascript
+          queries: security-extended,security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@df32e3991393058f604f0cfbf0b955bdbafe1eba # v3.27.9
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@df32e3991393058f604f0cfbf0b955bdbafe1eba # v3.27.9
+        with:
+          category: /language:javascript
+
+  security-summary:
+    name: Security Scan Summary
+    runs-on: ubuntu-latest
+    needs: [security-scan-trivy-fs, security-scan-trivy-image, security-scan-codeql]
+    if: always()
+    steps:
+      - name: Check security scan results
+        run: |
+          echo "Trivy FS Scan: ${{ needs.security-scan-trivy-fs.result }}"
+          echo "Trivy Image Scan: ${{ needs.security-scan-trivy-image.result }}"
+          echo "CodeQL Scan: ${{ needs.security-scan-codeql.result }}"
+          
+          if [ "${{ needs.security-scan-trivy-fs.result }}" == "failure" ] || \
+             [ "${{ needs.security-scan-trivy-image.result }}" == "failure" ] || \
+             [ "${{ needs.security-scan-codeql.result }}" == "failure" ]; then
+            echo "Security scans failed!"
+            exit 1
+          fi
+          
+          echo "All security scans passed!"
+
+
