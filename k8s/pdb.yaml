@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: my-calculator
+  namespace: default
+  labels:
+    app: my-calculator
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: my-calculator
+

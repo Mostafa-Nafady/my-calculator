@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-calculator
+  namespace: default
+  labels:
+    app: my-calculator
+spec:
+  type: ClusterIP
+  selector:
+    app: my-calculator
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+
