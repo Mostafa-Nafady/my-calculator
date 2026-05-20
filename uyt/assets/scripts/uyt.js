@@ -118,8 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'About', href: '../about.html' },
       { label: 'Basic Calculator', href: '../basics-10-function-refactoring/index.html' },
       { label: 'XPY Calculator', href: '../xpy/index.html' },
-      { label: 'UYT Calculator', href: 'index.html' }
+      { label: 'UYT Calculator', href: 'index.html' },
+      { label: 'QWE', href: '../qwe.html' }
     ]);
   }
 });
+
 

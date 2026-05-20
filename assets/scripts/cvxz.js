@@ -9,9 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'About', href: 'about.html' },
       { label: 'ASD', href: 'asd.html' },
       { label: 'Basic Calculator', href: 'basics-10-function-refactoring/index.html' },
-      { label: 'XPY Calculator', href: 'xpy/index.html' }
+      { label: 'XPY Calculator', href: 'xpy/index.html' },
+      { label: 'QWE', href: 'qwe.html' }
     ]);
   }
 });
+
 
 

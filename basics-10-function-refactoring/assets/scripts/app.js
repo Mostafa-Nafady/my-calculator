@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'Home', href: '../index.html' },
       { label: 'About', href: '../about.html' },
       { label: 'Basic Calculator', href: 'index.html' },
-      { label: 'XPY Calculator', href: '../xpy/index.html' }
+      { label: 'XPY Calculator', href: '../xpy/index.html' },
+      { label: 'QWE', href: '../qwe.html' }
     ]);
   }
 });
@@ -95,5 +96,6 @@ addBtn.addEventListener('click', add);
 subtractBtn.addEventListener('click', subtract);
 multiplyBtn.addEventListener('click', multiplication);
 divideBtn.addEventListener('click', division); 
+
 
 
