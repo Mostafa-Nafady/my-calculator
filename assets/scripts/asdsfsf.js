@@ -1,15 +1,17 @@
 // Render the Header component when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
-    renderHeader('header-container', 'ADDOP Calculator', [
+    renderHeader('header-container', 'ASDSFSF Calculator', [
       { label: 'Home', href: 'index.html' },
       { label: 'About', href: 'about.html' },
-      { label: 'ADDOP', href: 'addop.html' },
       { label: 'ASD', href: 'asd.html' },
+      { label: 'ADDOP', href: 'addop.html' },
       { label: 'Basic Calculator', href: 'basics/index.html' },
-      { label: 'XPY Calculator', href: 'xpy/index.html' }
+      { label: 'XPY Calculator', href: 'xpy/index.html' },
+      { label: 'ASDSFSF', href: 'asdsfsf.html' }
     ]);
   }
 });
+
 
 
