@@ -1,3 +1,142 @@
+/* Calculator Container */
+.calculator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px);
+  padding: 2rem;
+}
+
+/* Calculator */
+.calculator {
+  background: #ffffff;
+  border: 2px solid #023d6d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 320px;
+  box-shadow: 0 8px 20px rgba(2, 61, 109, 0.15);
+}
+
+/* Display */
+.display {
+  background: #f0f4f8;
+  border: 2px solid #023d6d;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: right;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #023d6d;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* Buttons Container */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Button Rows */
+.calc-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Buttons */
+.calc-btn {
+  flex: 1;
+  padding: 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: 2px solid #023d6d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Number Buttons */
+.calc-btn-number {
+  background: #ffffff;
+  color: #023d6d;
+}
+
+.calc-btn-number:hover {
+  background: #e8f0f8;
+}
+
+.calc-btn-number:active {
+  background: #d0e0f0;
+}
+
+/* Zero Button (wide) */
+.calc-btn-zero {
+  flex: 2;
+}
+
+/* Operator Buttons */
+.calc-btn-operator {
+  background: #023d6d;
+  color: #ffffff;
+}
+
+.calc-btn-operator:hover {
+  background: #034a8a;
+}
+
+.calc-btn-operator:active {
+  background: #012f52;
+}
+
+/* Clear Button */
+.calc-btn-clear {
+  background: #6c757d;
+  color: #ffffff;
+}
+
+.calc-btn-clear:hover {
+  background: #5a6268;
+}
+
+.calc-btn-clear:active {
+  background: #495057;
+}
+
+/* Equals Button */
+.calc-btn-equals {
+  background: #023d6d;
+  color: #ffffff;
+}
+
+.calc-btn-equals:hover {
+  background: #034a8a;
+}
+
+.calc-btn-equals:active {
+  background: #012f52;
+}
+
+/* Decimal Button */
+.calc-btn-decimal {
+  background: #ffffff;
+  color: #023d6d;
+}
+
+.calc-btn-decimal:hover {
+  background: #e8f0f8;
+}
+
+.calc-btn-decimal:active {
+  background: #d0e0f0;
+}
+
 #asd-content {
   margin: 2rem auto;
   width: 40rem;
@@ -120,5 +259,6 @@
 #asd-info li:last-child {
   margin-bottom: 0;
 }
+
 
 
