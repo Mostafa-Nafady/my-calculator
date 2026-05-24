@@ -1,0 +1,95 @@
+#aui-calculator {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#aui-calculator h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#aui-calculator p {
+  font-size: 1.1rem;
+  margin: 1rem 0;
+}
+
+#aui-inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+#aui-inputs input {
+  font: inherit;
+  font-size: 2rem;
+  border: 2px solid #023d6d;
+  width: 8rem;
+  padding: 0.5rem;
+  color: #023d6d;
+  text-align: center;
+  border-radius: 5px;
+}
+
+#aui-inputs input:focus {
+  outline: none;
+}
+
+#operation-select {
+  font: inherit;
+  font-size: 2rem;
+  border: 2px solid #023d6d;
+  padding: 0.5rem;
+  color: #023d6d;
+  background: white;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 4rem;
+}
+
+#operation-select:focus {
+  outline: none;
+}
+
+#aui-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+#aui-actions button {
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#aui-actions button:hover,
+#aui-actions button:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+#btn-clear {
+  background: #6c757d !important;
+  border-color: #6c757d !important;
+}
+
+#btn-clear:hover,
+#btn-clear:active {
+  background: #5a6268 !important;
+  border-color: #5a6268 !important;
+}

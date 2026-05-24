@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>AUI Calculator - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/aui.css" />
+    <script src="../assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/aui.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="aui-calculator">
+      <h2>AUI Arithmetic Calculator</h2>
+      <p>Perform basic arithmetic operations</p>
+      <div id="aui-inputs">
+        <input type="number" id="input-a" placeholder="A" />
+        <select id="operation-select">
+          <option value="+">+</option>
+          <option value="-">-</option>
+          <option value="*">&times;</option>
+          <option value="/">&divide;</option>
+        </select>
+        <input type="number" id="input-b" placeholder="B" />
+      </div>
+      <div id="aui-actions">
+        <button type="button" id="btn-calculate">Calculate</button>
+        <button type="button" id="btn-clear">Clear</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+  </body>
+</html>
