@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qwe Calculator</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles/app.css" />
+  <link rel="stylesheet" href="assets/styles/qwe.css" />
+  <script src="assets/scripts/components/Header.js" defer></script>
+  <script src="assets/scripts/qwe.js" defer></script>
+</head>
+<body>
+  <div id="header-container"></div>
+  <main class="calculator-container">
+    <div class="calculator">
+      <div id="display" class="display">0</div>
+      <div class="buttons">
+        <!-- Row 1: Clear, Divide, Multiply -->
+        <div class="calc-row">
+          <button type="button" class="calc-btn calc-btn-clear" data-action="clear">C</button>
+          <button type="button" class="calc-btn calc-btn-operator" data-action="operator" data-value="/">÷</button>
+          <button type="button" class="calc-btn calc-btn-operator" data-action="operator" data-value="*">×</button>
+        </div>
+
+        <!-- Row 2: 7, 8, 9, Subtract -->
+        <div class="calc-row">
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="7">7</button>
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="8">8</button>
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="9">9</button>
+          <button type="button" class="calc-btn calc-btn-operator" data-action="operator" data-value="-">−</button>
+        </div>
+
+        <!-- Row 3: 4, 5, 6, Add -->
+        <div class="calc-row">
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="4">4</button>
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="5">5</button>
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="6">6</button>
+          <button type="button" class="calc-btn calc-btn-operator" data-action="operator" data-value="+">+</button>
+        </div>
+
+        <!-- Row 4: 1, 2, 3, Equals -->
+        <div class="calc-row">
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="1">1</button>
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="2">2</button>
+          <button type="button" class="calc-btn calc-btn-number" data-action="number" data-value="3">3</button>
+          <button type="button" class="calc-btn calc-btn-equals" data-action="equals">=</button>
+        </div>
+
+        <!-- Row 5: 0 (wide), Decimal -->
+        <div class="calc-row">
+          <button type="button" class="calc-btn calc-btn-number calc-btn-zero" data-action="number" data-value="0">0</button>
+          <button type="button" class="calc-btn calc-btn-decimal" data-action="decimal">.</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

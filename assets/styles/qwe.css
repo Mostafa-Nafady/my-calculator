@@ -1,0 +1,262 @@
+/* Calculator Container */
+.calculator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px);
+  padding: 2rem;
+}
+
+/* Calculator */
+.calculator {
+  background: #ffffff;
+  border: 2px solid #023d6d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 320px;
+  box-shadow: 0 8px 20px rgba(2, 61, 109, 0.15);
+}
+
+/* Display */
+.display {
+  background: #f0f4f8;
+  border: 2px solid #023d6d;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: right;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #023d6d;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* Buttons Container */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Button Rows */
+.calc-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Buttons */
+.calc-btn {
+  flex: 1;
+  padding: 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: 2px solid #023d6d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Number Buttons */
+.calc-btn-number {
+  background: #ffffff;
+  color: #023d6d;
+}
+
+.calc-btn-number:hover {
+  background: #e8f0f8;
+}
+
+.calc-btn-number:active {
+  background: #d0e0f0;
+}
+
+/* Zero Button (wide) */
+.calc-btn-zero {
+  flex: 2;
+}
+
+/* Operator Buttons */
+.calc-btn-operator {
+  background: #023d6d;
+  color: #ffffff;
+}
+
+.calc-btn-operator:hover {
+  background: #034a8a;
+}
+
+.calc-btn-operator:active {
+  background: #012f52;
+}
+
+/* Clear Button */
+.calc-btn-clear {
+  background: #6c757d;
+  color: #ffffff;
+}
+
+.calc-btn-clear:hover {
+  background: #5a6268;
+}
+
+.calc-btn-clear:active {
+  background: #495057;
+}
+
+/* Equals Button */
+.calc-btn-equals {
+  background: #023d6d;
+  color: #ffffff;
+}
+
+.calc-btn-equals:hover {
+  background: #034a8a;
+}
+
+.calc-btn-equals:active {
+  background: #012f52;
+}
+
+/* Decimal Button */
+.calc-btn-decimal {
+  background: #ffffff;
+  color: #023d6d;
+}
+
+.calc-btn-decimal:hover {
+  background: #e8f0f8;
+}
+
+.calc-btn-decimal:active {
+  background: #d0e0f0;
+}
+
+#qwe-content {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#qwe-content h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#qwe-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
+#qwe-actions {
+  margin-top: 2rem;
+}
+
+#btn-home {
+  display: inline-block;
+  font: inherit;
+  background: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#btn-home:hover,
+#btn-home:active {
+  background: #5a6268;
+  border-color: #5a6268;
+}
+
+#btn-start {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+}
+
+#btn-start:hover,
+#btn-start:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+#btn-about {
+  display: inline-block;
+  font: inherit;
+  background: #28a745;
+  color: white;
+  border: 1px solid #28a745;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+}
+
+#btn-about:hover,
+#btn-about:active {
+  background: #218838;
+  border-color: #218838;
+}
+
+#qwe-info {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  color: #023d6d;
+}
+
+#qwe-info h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #023d6d;
+}
+
+#qwe-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#qwe-info li {
+  background: #f0f4f8;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #023d6d;
+  font-weight: bold;
+}
+
+#qwe-info li:last-child {
+  margin-bottom: 0;
+}
+
