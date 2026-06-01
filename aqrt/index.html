@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>AQRT Calculator - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/aqrt.css" />
+    <script src="../assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/aqrt.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="aqrt-calculator">
+      <h2>AQRT (Arc Cotangent) Calculator</h2>
+      <p>Calculate the inverse cotangent of X divided by Y</p>
+      <div id="aqrt-inputs">
+        <input type="number" id="input-x" placeholder="X" />
+        <span id="operator-symbol">/</span>
+        <input type="number" id="input-y" placeholder="Y" />
+      </div>
+      <div id="aqrt-actions">
+        <button type="button" id="btn-calculate">Calculate</button>
+        <button type="button" id="btn-clear">Clear</button>
+      </div>
+    </section>
+    <section id="results">
+      <h2 id="current-calculation">0</h2>
+      <h2>Result: <span id="current-result">0</span></h2>
+    </section>
+  </body>
+</html>
