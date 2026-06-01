@@ -1,0 +1,32 @@
+# Git
+.git
+.gitignore
+
+# Node (if present)
+node_modules
+package-lock.json
+package.json
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Documentation
+README.md
+*.md
+
+# IDE/Editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files (avoid copying these into the image)
+Dockerfile
+docker-compose.yml
+.dockerignore
