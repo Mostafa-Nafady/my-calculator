@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AQUi Calculator</title>
+  <link rel="stylesheet" href="assets/styles/aqui.css">
+</head>
+<body>
+  <div id="header-container"></div>
+  
+  <main class="calculator-container">
+    <section class="input-section">
+      <h2>Input Values</h2>
+      
+      <div class="input-group">
+        <label for="aqui-a">A Value:</label>
+        <input type="number" id="aqui-a" step="any" placeholder="Enter A value">
+      </div>
+      
+      <div class="input-group">
+        <label for="aqui-q">Q Value:</label>
+        <input type="number" id="aqui-q" step="any" placeholder="Enter Q value">
+      </div>
+      
+      <div class="input-group">
+        <label for="aqui-u">U Value:</label>
+        <input type="number" id="aqui-u" step="any" placeholder="Enter U value">
+      </div>
+      
+      <div class="input-group">
+        <label for="aqui-i">I Value:</label>
+        <input type="number" id="aqui-i" step="any" placeholder="Enter I value">
+      </div>
+      
+      <button id="calculate-btn" class="btn-primary">Calculate</button>
+    </section>
+    
+    <section class="result-section">
+      <h2>Result</h2>
+      <div id="aqui-result" class="result-display">—</div>
+    </section>
+  </main>
+  
+  <script src="assets/scripts/aqui.js"></script>
+</body>
+</html>
