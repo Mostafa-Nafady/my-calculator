@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CXD Calculator</title>
+  <link rel="stylesheet" href="assets/styles/cxd.css">
+</head>
+<body>
+  <div id="header-container"></div>
+  
+  <main class="calculator-container">
+    <section class="input-section">
+      <h2>Input Values</h2>
+      
+      <div class="input-group">
+        <label for="cxd-x">X Value:</label>
+        <input type="number" id="cxd-x" step="any" placeholder="Enter X value">
+      </div>
+      
+      <div class="input-group">
+        <label for="cxd-d">D Value:</label>
+        <input type="number" id="cxd-d" step="any" placeholder="Enter D value">
+      </div>
+      
+      <button id="calculate-btn" class="btn-primary">Calculate</button>
+    </section>
+    
+    <section class="result-section">
+      <h2>Result</h2>
+      <div id="cxd-result" class="result-display">—</div>
+    </section>
+  </main>
+  
+  <script src="assets/scripts/cxd.js"></script>
+</body>
+</html>
