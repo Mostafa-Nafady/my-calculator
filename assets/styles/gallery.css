@@ -1,0 +1,146 @@
+#gallery-content {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#gallery-content h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#gallery-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
+#gallery-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#gallery-actions a {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#gallery-actions a:hover,
+#gallery-actions a:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+#gallery-grid {
+  margin: 2rem auto;
+  width: 60rem;
+  max-width: 95%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+}
+
+.gallery-item {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #023d6d;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(2, 61, 109, 0.2);
+}
+
+.gallery-item h3 {
+  margin-top: 0;
+  color: #023d6d;
+  font-size: 1.3rem;
+}
+
+.gallery-item p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 1rem 0;
+}
+
+.gallery-item .item-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.gallery-item a {
+  display: inline-block;
+  margin-top: 1rem;
+  background: #023d6d;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.gallery-item a:hover {
+  background: #084f88;
+}
+
+#gallery-info {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  color: #023d6d;
+}
+
+#gallery-info h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #023d6d;
+}
+
+#gallery-info ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#gallery-info li {
+  background: #f0f4f8;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #023d6d;
+  font-weight: bold;
+}
+
+
+
+
