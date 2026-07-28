@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
     renderHeader('header-container', 'Welcome to My Calculator', [
       { label: 'Home', href: 'index.html' },
+      { label: 'Gallery', href: 'gallery.html' },
       { label: 'About', href: 'about.html' },
       { label: 'ASD', href: 'asd.html' },
       { label: 'Basic Calculator', href: 'basics-10-function-refactoring/index.html' },
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ]);
   }
 });
+
 
 
 

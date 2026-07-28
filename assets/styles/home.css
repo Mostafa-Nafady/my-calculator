@@ -128,6 +128,27 @@
   border-color: #5a32a3;
 }
 
+#btn-gallery {
+  display: inline-block;
+  font: inherit;
+  background: #dc3545;
+  color: white;
+  border: 1px solid #dc3545;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+}
+
+#btn-gallery:hover,
+#btn-gallery:active {
+  background: #c82333;
+  border-color: #c82333;
+}
+
 #features {
   margin: 2rem auto;
   width: 40rem;
@@ -160,6 +181,7 @@
   border: 1px solid #023d6d;
   font-weight: bold;
 }
+
 
 
 
