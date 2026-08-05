@@ -1,0 +1,160 @@
+/* =============================================
+   Gallery Store Page Styles
+   Matches the existing color scheme:
+   - Primary: #023d6d (dark blue)
+   - Hover:   #084f88 (lighter blue)
+   - Font:    Roboto (loaded globally via app.css)
+   ============================================= */
+
+/* -------------------------------------------
+   Hero Section
+   ------------------------------------------- */
+#gallery-hero {
+  background-color: #023d6d;
+  background-image:
+    /* Soft radial glow — upper-right, adds depth & dimension */
+    radial-gradient(ellipse at 85% 15%, rgba(8, 79, 136, 0.55) 0%, transparent 45%),
+    /* Soft radial glow — lower-left, grounds the composition */
+    radial-gradient(ellipse at 15% 85%, rgba(2, 61, 109, 0.7) 0%, transparent 40%),
+    /* Calculator-key dot pattern — small circles like button highlights */
+    radial-gradient(circle, rgba(255, 255, 255, 0.08) 2px, transparent 2.5px),
+    /* Faint horizontal grid lines — keypad row separators */
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    /* Faint vertical grid lines — keypad column separators */
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    /* Base diagonal gradient — original color scheme */
+    linear-gradient(135deg, #023d6d, #084f88);
+  background-size:
+    100% 100%,
+    100% 100%,
+    32px 32px,
+    32px 32px,
+    32px 32px,
+    100% 100%;
+  background-position: center;
+  background-repeat: no-repeat, no-repeat, repeat, repeat, repeat, no-repeat;
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#gallery-hero h1 {
+  font-size: 2.5rem;
+  margin: 0 0 1rem 0;
+}
+
+#gallery-hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* -------------------------------------------
+   Gallery Section
+   ------------------------------------------- */
+#gallery {
+  max-width: 75rem;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+#gallery h2 {
+  text-align: center;
+  color: #023d6d;
+  margin-bottom: 2rem;
+}
+
+/* -------------------------------------------
+   Gallery Grid
+   ------------------------------------------- */
+#gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 2rem;
+}
+
+/* -------------------------------------------
+   Gallery Cards
+   ------------------------------------------- */
+.gallery-card {
+  background: white;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(2, 61, 109, 0.2);
+}
+
+.gallery-card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-card-title {
+  color: #023d6d;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-card-desc {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.gallery-card-btn {
+  display: inline-block;
+  background: #023d6d;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  border: 1px solid #023d6d;
+  font-size: 1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.gallery-card-btn:hover,
+.gallery-card-btn:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+/* -------------------------------------------
+   Footer
+   ------------------------------------------- */
+#gallery-footer {
+  background: #023d6d;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+#gallery-footer p {
+  margin: 0;
+}
+
+/* -------------------------------------------
+   Responsive — Mobile (max-width: 768px)
+   ------------------------------------------- */
+@media (max-width: 768px) {
+  #gallery-hero h1 {
+    font-size: 2rem;
+  }
+
+  #gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+}
+
+
