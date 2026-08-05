@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Home - My Calculator</title>
+    <title>Pinguin Store - Home</title>
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
       rel="stylesheet"
@@ -17,34 +17,55 @@
   <body>
     <div id="header-container"></div>
 
-    <section id="home-content">
-      <h2>Your Simple Web-Based Calculator</h2>
-      <p>
-        This calculator allows you to perform basic arithmetic operations including
-        addition, subtraction, multiplication, and division.
-      </p>
-      <div id="home-actions">
-        <a href="basics-10-function-refactoring/index.html" id="btn-start">Start Calculating</a>
-        <a href="xpy/index.html" id="btn-xpy">XPY Calculator</a>
-        <a href="uyt/index.html" id="btn-uyt">UYT Calculator</a>
-        <a href="asd.html" id="btn-asd">ASD Calculator</a>
-      </div>
+    <section id="hero">
+      <h1>Pinguin Store</h1>
+      <p class="hero-subtitle">Cool gear for cool people. Free shipping on orders over $50.</p>
+      <a href="#products" class="btn btn-primary">Shop Now</a>
     </section>
 
-    <section id="features">
-      <h3>Features</h3>
-      <ul>
-        <li>Addition (+)</li>
-        <li>Subtraction (-)</li>
-        <li>Multiplication (*)</li>
-        <li>Division (/)</li>
-        <li>X Power Y (XPY)</li>
-        <li>U Yield T (UYT)</li>
-        <li>ASD Calculator</li>
-      </ul>
+    <section id="categories">
+      <h2>Shop by Category</h2>
+      <div class="category-chips" id="category-chips"></div>
     </section>
+
+    <section id="products">
+      <h2>Featured Products</h2>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <section id="promo-banner">
+      <h2>Winter Sale — Up to 40% Off</h2>
+      <p>Refresh your wardrobe with our cozy penguin-approved collection.</p>
+      <a href="#products" class="btn btn-primary">Browse Deals</a>
+    </section>
+
+    <aside id="cart-panel">
+      <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button id="cart-close" class="cart-close">&times;</button>
+      </div>
+      <ul id="cart-items"></ul>
+      <div class="cart-footer">
+        <span id="cart-total">Total: $0.00</span>
+        <button id="cart-checkout" class="btn btn-primary">Checkout</button>
+      </div>
+    </aside>
+
+    <button id="cart-toggle" class="cart-toggle">🛒 Cart (<span id="cart-count">0</span>)</button>
+
+    <footer id="footer">
+      <p>&copy; 2024 Pinguin Store. All rights reserved.</p>
+      <nav class="footer-nav">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+      </nav>
+    </footer>
   </body>
 </html>
+
+
 
 
 
