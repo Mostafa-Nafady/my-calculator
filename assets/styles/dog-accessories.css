@@ -1,0 +1,274 @@
+/* =============================================
+   Dog Accessories Landing Page Styles
+   ============================================= */
+
+/* ---------------------------------------------
+   Hero Section
+   --------------------------------------------- */
+#hero {
+  background: linear-gradient(135deg, #023d6d, #084f88);
+  color: white;
+  text-align: center;
+  padding: 4rem;
+}
+
+#hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-cta {
+  display: inline-block;
+  font: inherit;
+  background: white;
+  color: #023d6d;
+  border: 1px solid white;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+.hero-cta:hover,
+.hero-cta:active {
+  background: #084f88;
+  color: white;
+}
+
+/* ---------------------------------------------
+   Products Section
+   --------------------------------------------- */
+#products {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+#products h2 {
+  color: #023d6d;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  background: #f0f4f8;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-info {
+  padding: 1rem;
+}
+
+.product-name {
+  color: #023d6d;
+  font-weight: bold;
+  margin: 0 0 0.5rem 0;
+}
+
+.product-price {
+  color: #023d6d;
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+}
+
+.add-to-cart {
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 0.75rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.add-to-cart:hover,
+.add-to-cart:active {
+  background: #084f88;
+}
+
+/* ---------------------------------------------
+   Features Section
+   --------------------------------------------- */
+#features {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+#features h2 {
+  color: #023d6d;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-item {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+}
+
+.feature-title {
+  color: #023d6d;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.feature-desc {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* ---------------------------------------------
+   CTA Section
+   --------------------------------------------- */
+#cta {
+  background: #023d6d;
+  color: white;
+  text-align: center;
+  padding: 3rem;
+}
+
+#cta h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.cta-button {
+  display: inline-block;
+  font: inherit;
+  background: white;
+  color: #023d6d;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cta-button:hover,
+.cta-button:active {
+  background: #084f88;
+  color: white;
+}
+
+/* ---------------------------------------------
+   Cart Badge
+   --------------------------------------------- */
+.cart-badge {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #023d6d;
+  color: white;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+/* ---------------------------------------------
+   Section Headings
+   --------------------------------------------- */
+#products h2,
+#products h3,
+#features h2,
+#features h3 {
+  color: #023d6d;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------------------------------------------
+   Responsive — Mobile (max-width: 768px)
+   --------------------------------------------- */
+@media (max-width: 768px) {
+  #hero {
+    padding: 2rem;
+  }
+
+  #hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-cta {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  #products,
+  #features {
+    padding: 1rem;
+  }
+
+  #products h2,
+  #features h2 {
+    font-size: 1.5rem;
+  }
+
+  .product-name {
+    font-size: 1rem;
+  }
+
+  .product-price {
+    font-size: 1.1rem;
+  }
+
+  #cta {
+    padding: 2rem;
+  }
+
+  #cta h2 {
+    font-size: 1.5rem;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
