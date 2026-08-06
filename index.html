@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Home - My Calculator</title>
+    <title>DriveLux - Premium Car Agency</title>
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
       rel="stylesheet"
@@ -17,34 +17,349 @@
   <body>
     <div id="header-container"></div>
 
-    <section id="home-content">
-      <h2>Your Simple Web-Based Calculator</h2>
-      <p>
-        This calculator allows you to perform basic arithmetic operations including
-        addition, subtraction, multiplication, and division.
-      </p>
-      <div id="home-actions">
-        <a href="basics-10-function-refactoring/index.html" id="btn-start">Start Calculating</a>
-        <a href="xpy/index.html" id="btn-xpy">XPY Calculator</a>
-        <a href="uyt/index.html" id="btn-uyt">UYT Calculator</a>
-        <a href="asd.html" id="btn-asd">ASD Calculator</a>
+    <!-- ======================== HERO ======================== -->
+    <section id="hero" class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Find Your Dream Car Today</h1>
+        <p class="hero__subtitle">
+          Explore our exclusive collection of premium vehicles. Quality, luxury,
+          and performance — all in one place at DriveLux.
+        </p>
+        <div class="hero__actions">
+          <a href="#featured-cars" class="hero__btn hero__btn--primary">Browse Cars</a>
+          <a href="#contact" class="hero__btn hero__btn--secondary">Contact Us</a>
+        </div>
       </div>
     </section>
 
-    <section id="features">
-      <h3>Features</h3>
-      <ul>
-        <li>Addition (+)</li>
-        <li>Subtraction (-)</li>
-        <li>Multiplication (*)</li>
-        <li>Division (/)</li>
-        <li>X Power Y (XPY)</li>
-        <li>U Yield T (UYT)</li>
-        <li>ASD Calculator</li>
-      </ul>
+    <!-- ==================== FEATURED CARS ==================== -->
+    <section id="featured-cars" class="featured-cars">
+      <div class="section-header">
+        <h2 class="section-title">Featured Cars</h2>
+        <p class="section-subtitle">Handpicked vehicles from the world's finest manufacturers</p>
+      </div>
+      <div class="cars-grid">
+        <!-- Car 1 -->
+        <article class="car-card">
+          <div class="car-card__image">
+            <span class="car-card__badge">New</span>
+          </div>
+          <div class="car-card__body">
+            <h3 class="car-card__title">Tesla Model S</h3>
+            <div class="car-card__specs">
+              <span>2024</span>
+              <span>0 miles</span>
+              <span>Electric</span>
+            </div>
+            <div class="car-card__price">$89,900</div>
+            <button class="car-card__btn">View Details</button>
+          </div>
+        </article>
+        <!-- Car 2 -->
+        <article class="car-card">
+          <div class="car-card__image car-card__image--bmw">
+            <span class="car-card__badge">Featured</span>
+          </div>
+          <div class="car-card__body">
+            <h3 class="car-card__title">BMW X5</h3>
+            <div class="car-card__specs">
+              <span>2023</span>
+              <span>12,500 miles</span>
+              <span>Petrol</span>
+            </div>
+            <div class="car-card__price">$65,500</div>
+            <button class="car-card__btn">View Details</button>
+          </div>
+        </article>
+        <!-- Car 3 -->
+        <article class="car-card">
+          <div class="car-card__image car-card__image--audi">
+            <span class="car-card__badge">New</span>
+          </div>
+          <div class="car-card__body">
+            <h3 class="car-card__title">Audi A4</h3>
+            <div class="car-card__specs">
+              <span>2024</span>
+              <span>3,200 miles</span>
+              <span>Diesel</span>
+            </div>
+            <div class="car-card__price">$42,800</div>
+            <button class="car-card__btn">View Details</button>
+          </div>
+        </article>
+        <!-- Car 4 -->
+        <article class="car-card">
+          <div class="car-card__image car-card__image--mercedes">
+            <span class="car-card__badge">Featured</span>
+          </div>
+          <div class="car-card__body">
+            <h3 class="car-card__title">Mercedes C-Class</h3>
+            <div class="car-card__specs">
+              <span>2023</span>
+              <span>8,700 miles</span>
+              <span>Petrol</span>
+            </div>
+            <div class="car-card__price">$48,300</div>
+            <button class="car-card__btn">View Details</button>
+          </div>
+        </article>
+        <!-- Car 5 -->
+        <article class="car-card">
+          <div class="car-card__image car-card__image--rover">
+            <span class="car-card__badge">New</span>
+          </div>
+          <div class="car-card__body">
+            <h3 class="car-card__title">Range Rover Sport</h3>
+            <div class="car-card__specs">
+              <span>2024</span>
+              <span>1,500 miles</span>
+              <span>Diesel</span>
+            </div>
+            <div class="car-card__price">$95,200</div>
+            <button class="car-card__btn">View Details</button>
+          </div>
+        </article>
+        <!-- Car 6 -->
+        <article class="car-card">
+          <div class="car-card__image car-card__image--porsche">
+            <span class="car-card__badge">Featured</span>
+          </div>
+          <div class="car-card__body">
+            <h3 class="car-card__title">Porsche 911</h3>
+            <div class="car-card__specs">
+              <span>2023</span>
+              <span>5,400 miles</span>
+              <span>Petrol</span>
+            </div>
+            <div class="car-card__price">$128,500</div>
+            <button class="car-card__btn">View Details</button>
+          </div>
+        </article>
+      </div>
     </section>
+
+    <!-- ====================== SERVICES ====================== -->
+    <section id="services" class="services">
+      <div class="section-header">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Everything you need, from purchase to maintenance</p>
+      </div>
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-card__icon">🚗</div>
+          <h3 class="service-card__title">Car Sales</h3>
+          <p class="service-card__desc">
+            Browse our extensive inventory of new and certified pre-owned vehicles
+            from top global brands.
+          </p>
+        </article>
+        <article class="service-card">
+          <div class="service-card__icon">💰</div>
+          <h3 class="service-card__title">Financing</h3>
+          <p class="service-card__desc">
+            Flexible financing options tailored to your budget with competitive
+            interest rates and fast approval.
+          </p>
+        </article>
+        <article class="service-card">
+          <div class="service-card__icon">🔄</div>
+          <h3 class="service-card__title">Trade-In</h3>
+          <p class="service-card__desc">
+            Get the best value for your current vehicle with our hassle-free
+            trade-in evaluation process.
+          </p>
+        </article>
+        <article class="service-card">
+          <div class="service-card__icon">🛠️</div>
+          <h3 class="service-card__title">After-Sales Service</h3>
+          <p class="service-card__desc">
+            Certified technicians and genuine parts keep your car running like
+            new long after you drive off the lot.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== WHY CHOOSE US ===================== -->
+    <section id="why-us" class="why-us">
+      <div class="why-us__content">
+        <div class="why-us__text">
+          <h2 class="section-title">Why Choose DriveLux?</h2>
+          <p class="why-us__paragraph">
+            For over 15 years, DriveLux has been the trusted destination for
+            premium automotive experiences. We combine an unmatched selection of
+            luxury vehicles with transparent pricing and exceptional customer
+            service to make your car-buying journey effortless.
+          </p>
+          <ul class="why-us__list">
+            <li class="why-us__list-item">
+              <span class="why-us__check">✓</span>
+              <span>Certified pre-owned vehicles with full history reports</span>
+            </li>
+            <li class="why-us__list-item">
+              <span class="why-us__check">✓</span>
+              <span>Competitive financing with same-day approval</span>
+            </li>
+            <li class="why-us__list-item">
+              <span class="why-us__check">✓</span>
+              <span>Dedicated after-sales support and maintenance</span>
+            </li>
+            <li class="why-us__list-item">
+              <span class="why-us__check">✓</span>
+              <span>7-day money-back guarantee on every purchase</span>
+            </li>
+          </ul>
+        </div>
+        <div class="why-us__visual">
+          <div class="stat-item">
+            <span class="stat-item__number">500+</span>
+            <span class="stat-item__label">Cars Sold</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__number">15</span>
+            <span class="stat-item__label">Years Experience</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__number">98%</span>
+            <span class="stat-item__label">Happy Customers</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section id="testimonials" class="testimonials">
+      <div class="section-header">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-subtitle">Real stories from satisfied DriveLux clients</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card">
+          <p class="testimonial-card__quote">
+            "DriveLux made the entire process seamless. I drove away in my dream
+            BMW the same day I walked in. The team was professional and
+            transparent from start to finish."
+          </p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">JD</div>
+            <div>
+              <div class="testimonial-card__name">James Donovan</div>
+              <div class="testimonial-card__role">BMW X5 Owner</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <p class="testimonial-card__quote">
+            "The financing team worked wonders. I got a rate far better than my
+            bank offered, and the trade-in value for my old car exceeded all
+            expectations. Highly recommend!"
+          </p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">SM</div>
+            <div>
+              <div class="testimonial-card__name">Sarah Mitchell</div>
+              <div class="testimonial-card__role">Audi A4 Owner</div>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <p class="testimonial-card__quote">
+            "From the test drive to the after-sales service, everything was
+            first-class. The Porsche 911 I purchased was immaculate. DriveLux
+            truly lives up to its name."
+          </p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar">RK</div>
+            <div>
+              <div class="testimonial-card__name">Robert King</div>
+              <div class="testimonial-card__role">Porsche 911 Owner</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= CONTACT ======================= -->
+    <section id="contact" class="contact">
+      <div class="section-header">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Visit our showroom or send us a message — we'd love to help you find your perfect car</p>
+      </div>
+      <div class="contact__content">
+        <div class="contact__info">
+          <div class="contact__info-item">
+            <span class="contact__info-icon">📍</span>
+            <div>
+              <h4>Address</h4>
+              <p>123 Luxury Avenue, Beverly Hills, CA 90210</p>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-icon">📞</span>
+            <div>
+              <h4>Phone</h4>
+              <p>+1 (800) 555-0199</p>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-icon">✉️</span>
+            <div>
+              <h4>Email</h4>
+              <p>info@drivelux.com</p>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-icon">🕐</span>
+            <div>
+              <h4>Hours</h4>
+              <p>Mon–Sat: 9:00 AM – 7:00 PM<br />Sunday: 11:00 AM – 5:00 PM</p>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" id="contact-form">
+          <div class="contact-form__field">
+            <label for="contact-name">Name</label>
+            <input type="text" id="contact-name" name="name" placeholder="Your full name" required />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-email">Email</label>
+            <input type="email" id="contact-email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-phone">Phone</label>
+            <input type="tel" id="contact-phone" name="phone" placeholder="+1 (555) 000-0000" />
+          </div>
+          <div class="contact-form__field">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="4" placeholder="Tell us what you're looking for..." required></textarea>
+          </div>
+          <button type="submit" class="contact-form__btn" id="contact-submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ======================= FOOTER ======================= -->
+    <footer id="footer" class="footer">
+      <div class="footer__content">
+        <div class="footer__brand">
+          <h3 class="footer__name">DriveLux</h3>
+          <p class="footer__tagline">Premium Car Agency</p>
+        </div>
+        <nav class="footer__links" aria-label="Footer navigation">
+          <a href="#hero">Home</a>
+          <a href="#featured-cars">Featured Cars</a>
+          <a href="#services">Services</a>
+          <a href="#why-us">Why Us</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2024 DriveLux. All rights reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>
+
 
 
 

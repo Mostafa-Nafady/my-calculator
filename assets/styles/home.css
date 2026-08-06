@@ -1,145 +1,966 @@
-#home-content {
-  margin: 2rem auto;
-  width: 40rem;
-  max-width: 90%;
-  border: 1px solid #023d6d;
-  border-radius: 10px;
-  padding: 2rem;
-  color: #023d6d;
-  text-align: center;
+/* ============================================================
+   DriveLux — Premium Car Agency Landing Page Styles
+   Brand palette:
+     --brand-primary:   #023d6d
+     --brand-hover:     #084f88
+     --accent-gold:     #f5a623
+     --accent-gold-dk:  #d4881a
+     --bg-light:        #f0f4f8
+     --bg-lighter:      #f8fafc
+     --text-dark:       #1a1a2e
+     --text-muted:      #555
+   ============================================================ */
+
+:root {
+  --brand-primary: #023d6d;
+  --brand-hover: #084f88;
+  --accent-gold: #f5a623;
+  --accent-gold-dk: #d4881a;
+  --bg-light: #f0f4f8;
+  --bg-lighter: #f8fafc;
+  --text-dark: #1a1a2e;
+  --text-muted: #555;
+  --text-gray: #6b7280;
+  --border-light: #e5e7eb;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.15);
+  --transition: 0.3s ease;
 }
 
-#home-content h2 {
+/* ============================================================
+   Header / Sticky Navbar
+   ============================================================ */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+header nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
   margin-top: 0;
-  color: #023d6d;
 }
 
-#home-content p {
+header nav a {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+
+header nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================================
+   Mobile Nav Toggle (hamburger) — hidden on desktop
+   ============================================================ */
+
+.nav-toggle {
+  display: none; /* shown only inside the 768px media query */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.nav-toggle__bar {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Animate bars into an X when active */
+.nav-toggle--active .nav-toggle__bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle--active .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle--active .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ============================================================
+   Section Helpers
+   ============================================================ */
+
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.section-title {
+  font-size: 2.25rem;
+  color: var(--brand-primary);
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+  color: var(--text-gray);
   font-size: 1.1rem;
+  margin: 0;
   line-height: 1.6;
-  margin: 1.5rem 0;
 }
 
-#home-actions {
-  margin-top: 2rem;
+/* ============================================================
+   Hero
+   ============================================================ */
+
+.hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #023d6d 0%, #084f88 60%, #0a5a9e 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-#btn-start {
-  display: inline-block;
-  font: inherit;
-  background: #023d6d;
-  color: white;
-  border: 1px solid #023d6d;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  transition: background 0.2s, border-color 0.2s;
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.35) 100%);
 }
 
-#btn-start:hover,
-#btn-start:active {
-  background: #084f88;
-  border-color: #084f88;
-}
-
-#btn-xpy {
-  display: inline-block;
-  font: inherit;
-  background: #28a745;
-  color: white;
-  border: 1px solid #28a745;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  transition: background 0.2s, border-color 0.2s;
-  margin-left: 1rem;
-}
-
-#btn-xpy:hover,
-#btn-xpy:active {
-  background: #218838;
-  border-color: #218838;
-}
-
-#btn-uyt {
-  display: inline-block;
-  font: inherit;
-  background: #fd7e14;
-  color: white;
-  border: 1px solid #fd7e14;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  transition: background 0.2s, border-color 0.2s;
-  margin-left: 1rem;
-}
-
-#btn-uyt:hover,
-#btn-uyt:active {
-  background: #e56b0a;
-  border-color: #e56b0a;
-}
-
-#btn-asd {
-  display: inline-block;
-  font: inherit;
-  background: #6f42c1;
-  color: white;
-  border: 1px solid #6f42c1;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  transition: background 0.2s, border-color 0.2s;
-  margin-left: 1rem;
-}
-
-#btn-asd:hover,
-#btn-asd:active {
-  background: #5a32a3;
-  border-color: #5a32a3;
-}
-
-#features {
-  margin: 2rem auto;
-  width: 40rem;
-  max-width: 90%;
-  border: 1px solid #023d6d;
-  border-radius: 10px;
-  padding: 1.5rem;
-  color: #023d6d;
-}
-
-#features h3 {
-  margin-top: 0;
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
   text-align: center;
-  color: #023d6d;
+  color: #fff;
+  padding: 4rem 1.5rem;
 }
 
-#features ul {
+.hero__title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1.25rem;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  margin: 0 0 2.5rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero__btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.hero__btn--primary {
+  background: var(--accent-gold);
+  color: var(--text-dark);
+  border: 2px solid var(--accent-gold);
+}
+
+.hero__btn--primary:hover,
+.hero__btn--primary:active {
+  background: var(--accent-gold-dk);
+  border-color: var(--accent-gold-dk);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+}
+
+.hero__btn--secondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.hero__btn--secondary:hover,
+.hero__btn--secondary:active {
+  background: #fff;
+  color: var(--brand-primary);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   Featured Cars
+   ============================================================ */
+
+.featured-cars {
+  padding: 4rem 1rem;
+  background: var(--bg-lighter);
+}
+
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.car-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.car-card__image {
+  height: 200px;
+  position: relative;
+  background: linear-gradient(135deg, #023d6d, #084f88);
+}
+
+.car-card__image--bmw {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.car-card__image--audi {
+  background: linear-gradient(135deg, #2c3e50, #4ca1af);
+}
+
+.car-card__image--mercedes {
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+}
+
+.car-card__image--rover {
+  background: linear-gradient(135deg, #2d4059, #05386b);
+}
+
+.car-card__image--porsche {
+  background: linear-gradient(135deg, #232526, #414345);
+}
+
+.car-card__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--accent-gold);
+  color: var(--text-dark);
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.car-card__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.car-card__title {
+  font-size: 1.35rem;
+  color: var(--brand-primary);
+  margin: 0 0 0.75rem;
+  font-weight: 700;
+}
+
+.car-card__specs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+  color: var(--text-gray);
+  margin-bottom: 1rem;
+}
+
+.car-card__specs span {
+  position: relative;
+  padding-right: 0.5rem;
+}
+
+.car-card__specs span:not(:last-child)::after {
+  content: "•";
+  margin-left: 0.5rem;
+  color: var(--border-light);
+}
+
+.car-card__price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+  margin: 0.5rem 0 1.25rem;
+}
+
+.car-card__btn {
+  width: 100%;
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 0.85rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  margin-top: auto;
+}
+
+.car-card__btn:hover,
+.car-card__btn:active {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Services
+   ============================================================ */
+
+.services {
+  padding: 4rem 1rem;
+  background: #fff;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+  border: 1px solid var(--border-light);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.service-card__icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.service-card__title {
+  font-size: 1.25rem;
+  color: var(--brand-primary);
+  margin: 0 0 0.75rem;
+  font-weight: 700;
+}
+
+.service-card__desc {
+  color: var(--text-gray);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ============================================================
+   Why Choose Us
+   ============================================================ */
+
+.why-us {
+  padding: 4rem 1rem;
+  background: var(--bg-light);
+}
+
+.why-us__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.why-us__text .section-title {
+  text-align: left;
+}
+
+.why-us__paragraph {
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin: 0 0 1.5rem;
+}
+
+.why-us__list {
   list-style: none;
   padding: 0;
+  margin: 0;
+}
+
+.why-us__list-item {
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.why-us__check {
+  background: #28a745;
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.why-us__visual {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-hover));
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+.stat-item {
+  text-align: center;
+  color: #fff;
+}
+
+.stat-item__number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  line-height: 1.2;
+}
+
+.stat-item__label {
+  display: block;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 0.25rem;
+}
+
+/* ============================================================
+   Testimonials
+   ============================================================ */
+
+.testimonials {
+  padding: 4rem 1rem;
+  background: var(--bg-lighter);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-card::before {
+  content: "\201C";
+  position: absolute;
+  top: 0.5rem;
+  right: 1.5rem;
+  font-size: 4rem;
+  color: var(--bg-light);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.testimonial-card__quote {
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.7;
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
-#features li {
-  background: #f0f4f8;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #023d6d;
-  font-weight: bold;
+.testimonial-card__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-hover));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.testimonial-card__name {
+  font-weight: 700;
+  color: var(--text-dark);
+  font-size: 1rem;
+}
+
+.testimonial-card__role {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  margin-top: 2px;
+}
+
+/* ============================================================
+   Contact
+   ============================================================ */
+
+.contact {
+  padding: 4rem 1rem;
+  background: #fff;
+}
+
+.contact__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+}
+
+.contact__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact__info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contact__info-icon {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.contact__info-item h4 {
+  margin: 0 0 0.25rem;
+  color: var(--brand-primary);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.contact__info-item p {
+  margin: 0;
+  color: var(--text-gray);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.contact-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--border-light);
+}
+
+.contact-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-form__field label {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--brand-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contact-form__field input,
+.contact-form__field textarea {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 1rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  resize: vertical;
+}
+
+.contact-form__field input:focus,
+.contact-form__field textarea:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(2, 61, 109, 0.12);
+}
+
+.contact-form__btn {
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  margin-top: 0.5rem;
+}
+
+.contact-form__btn:hover,
+.contact-form__btn:active {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.footer {
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 2.5rem 2rem 1.5rem;
+}
+
+.footer__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer__name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.footer__tagline {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.footer__links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.footer__links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color var(--transition);
+}
+
+.footer__links a:hover {
+  color: var(--accent-gold);
+}
+
+.footer__bottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer__bottom p {
+  margin: 0;
+}
+
+/* ============================================================
+   Responsive — Tablet (max-width: 768px)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .hero__subtitle {
+    font-size: 1.1rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .why-us__content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .why-us__text .section-title {
+    text-align: center;
+  }
+
+  .contact__content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer__content {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .cars-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  header {
+    padding: 1rem 1.25rem;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  /* Show the hamburger button on mobile */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Collapse the nav by default on mobile */
+  header nav {
+    flex-direction: column;
+    justify-content: flex-start;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--brand-primary);
+    padding: 0;
+    gap: 0;
+    transition: max-height var(--transition), padding var(--transition);
+    z-index: 1000;
+  }
+
+  /* Expand the nav when toggled open */
+  header nav.nav--open {
+    max-height: 400px;
+    padding: 0.5rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Stack links vertically as full-width blocks */
+  header nav a {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    border-radius: 0;
+  }
+
+  header nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* ============================================================
+   Responsive — Mobile (max-width: 480px)
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: 1.65rem;
+  }
+
+  .hero__btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .cars-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-us__visual {
+    padding: 2rem 1rem;
+  }
+
+  .stat-item__number {
+    font-size: 2rem;
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
+
+  .footer__links {
+    gap: 1rem;
+    justify-content: center;
+  }
 }
 
 
+
+
+
+
+/* ============================================================
+   Scroll-reveal animation base styles
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   Header scrolled state
+   ============================================================ */
+
+header.header--scrolled {
+  padding: 0.6rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================
+   Contact form success message
+   ============================================================ */
+
+.contact-form__success {
+  text-align: center;
+  padding: 2rem;
+  background: #e8f5e9;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* ============================================================
+   Smooth scroll offset for sticky header
+   ============================================================ */
+
+section[id],
+.hero__content {
+  scroll-margin-top: 80px;
+}
 
 
