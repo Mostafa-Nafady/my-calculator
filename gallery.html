@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Gallery - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/gallery.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/gallery.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="gallery-intro">
+      <h2>Calculator Gallery</h2>
+      <p>
+        Browse all available calculators in one place. Click any card to see a
+        quick summary, then open the calculator you need.
+      </p>
+    </section>
+
+    <section id="gallery-grid">
+      <article class="gallery-card" data-calc="Basic Calculator">
+        <div class="card-icon">+/&minus;</div>
+        <h3 class="card-title">Basic Calculator</h3>
+        <p class="card-desc">
+          Perform addition, subtraction, multiplication, and division with a
+          clean 10-function interface.
+        </p>
+        <a class="card-link" href="basics-10-function-refactoring/index.html">Open Calculator</a>
+      </article>
+
+      <article class="gallery-card" data-calc="XPY Calculator">
+        <div class="card-icon">x^y</div>
+        <h3 class="card-title">XPY Calculator</h3>
+        <p class="card-desc">
+          Raise a base number X to the power of Y for quick exponentiation
+          results.
+        </p>
+        <a class="card-link" href="xpy/index.html">Open Calculator</a>
+      </article>
+
+      <article class="gallery-card" data-calc="UYT Calculator">
+        <div class="card-icon">U&rarr;T</div>
+        <h3 class="card-title">UYT Calculator</h3>
+        <p class="card-desc">
+          Calculate U Yield T to evaluate yield relationships between two
+          values.
+        </p>
+        <a class="card-link" href="uyt/index.html">Open Calculator</a>
+      </article>
+
+      <article class="gallery-card" data-calc="ASD Calculator">
+        <div class="card-icon">ASD</div>
+        <h3 class="card-title">ASD Calculator</h3>
+        <p class="card-desc">
+          A specialized calculator for ASD operations with a focused, simple
+          workflow.
+        </p>
+        <a class="card-link" href="asd.html">Open Calculator</a>
+      </article>
+
+      <article class="gallery-card" data-calc="QWE Calculator">
+        <div class="card-icon">QWE</div>
+        <h3 class="card-title">QWE Calculator</h3>
+        <p class="card-desc">
+          A specialized calculator for QWE operations with a focused, simple
+          workflow.
+        </p>
+        <a class="card-link" href="qwe.html">Open Calculator</a>
+      </article>
+    </section>
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">&times;</button>
+        <h3 id="modal-title"></h3>
+        <p id="modal-desc"></p>
+        <a id="modal-link" href="#">Open Calculator</a>
+      </div>
+    </div>
+  </body>
+</html>
+
