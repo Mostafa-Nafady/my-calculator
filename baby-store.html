@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Little Sprout — Premium Baby Accessories</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/store.css" />
+    <script src="assets/scripts/store.js" defer></script>
+  </head>
+  <body>
+    <!-- ============ STICKY HEADER ============ -->
+    <header id="site-header">
+      <div class="header-inner">
+        <a href="#hero" class="brand" aria-label="Little Sprout home">
+          <span class="brand-icon" aria-hidden="true">🌱</span>
+          <span class="brand-name">Little Sprout</span>
+        </a>
+
+        <!-- Desktop navigation -->
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <!-- Cart button with count badge -->
+          <button
+            type="button"
+            id="cart-btn"
+            class="cart-btn"
+            aria-label="View cart"
+          >
+            <span aria-hidden="true">🛒</span>
+            <span class="cart-badge" id="cart-count" aria-live="polite">0</span>
+          </button>
+
+          <!-- Hamburger toggle for mobile -->
+          <button
+            type="button"
+            id="nav-toggle"
+            class="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile navigation (toggled by JS) -->
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ============ HERO SECTION ============ -->
+      <section id="hero" class="hero">
+        <div class="hero-content">
+          <h1 class="hero-headline">Premium Baby Accessories for Your Little One</h1>
+          <p class="hero-subheadline">
+            Thoughtfully crafted with organic materials and gentle care —
+            everything your baby needs to feel cozy, safe, and loved.
+          </p>
+          <div class="hero-cta">
+            <a href="#products" class="btn btn-primary">Shop Now</a>
+            <a href="#features" class="btn btn-secondary">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-image-container">
+          <img
+            id="hero-image"
+            src="assets/generated/hero-baby.jpg"
+            alt="A cheerful flat-lay of premium baby accessories including a knitted blanket, wooden teether, plush bunny toy, knitted booties, and a baby bib arranged on a cream linen background with soft natural daylight"
+            width="600"
+            height="450"
+          />
+        </div>
+      </section>
+
+      <!-- ============ PRODUCTS SECTION ============ -->
+      <section id="products" class="products">
+        <div class="section-header">
+          <h2 class="section-title">Our Featured Products</h2>
+          <p class="section-subtitle">
+            Handpicked essentials made with love for your little sprout.
+          </p>
+        </div>
+
+        <div class="product-grid">
+          <!-- Product 1: Blanket -->
+          <article class="product-card">
+            <img
+              class="product-img"
+              src="assets/generated/product-blanket.jpg"
+              alt="A soft mint-green knitted baby blanket neatly folded on a cream background"
+              width="400"
+              height="300"
+            />
+            <h3 class="product-name">Organic Knitted Blanket</h3>
+            <p class="product-desc">
+              Ultra-soft, breathable organic cotton blanket to keep your baby
+              warm and snug all year round.
+            </p>
+            <p class="price">$39.99</p>
+            <button
+              type="button"
+              class="btn btn-add-cart"
+              data-name="Organic Knitted Blanket"
+              data-price="39.99"
+            >
+              Add to Cart
+            </button>
+          </article>
+
+          <!-- Product 2: Teether -->
+          <article class="product-card">
+            <img
+              class="product-img"
+              src="assets/generated/product-teether.jpg"
+              alt="A natural wooden baby teether ring with a sage-green silicone bead strand on a cream background"
+              width="400"
+              height="300"
+            />
+            <h3 class="product-name">Natural Wooden Teether</h3>
+            <p class="product-desc">
+              Smooth beechwood ring with food-grade silicone beads — soothing
+              relief for teething gums.
+            </p>
+            <p class="price">$18.99</p>
+            <button
+              type="button"
+              class="btn btn-add-cart"
+              data-name="Natural Wooden Teether"
+              data-price="18.99"
+            >
+              Add to Cart
+            </button>
+          </article>
+
+          <!-- Product 3: Bunny -->
+          <article class="product-card">
+            <img
+              class="product-img"
+              src="assets/generated/product-bunny.jpg"
+              alt="A cream-colored plush bunny baby comforter toy on a cream background"
+              width="400"
+              height="300"
+            />
+            <h3 class="product-name">Plush Bunny Comforter</h3>
+            <p class="product-desc">
+              Adorable, huggable plush bunny made from hypoallergenic fabric —
+              the perfect snuggle companion.
+            </p>
+            <p class="price">$24.99</p>
+            <button
+              type="button"
+              class="btn btn-add-cart"
+              data-name="Plush Bunny Comforter"
+              data-price="24.99"
+            >
+              Add to Cart
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ FEATURES SECTION ============ -->
+      <section id="features" class="features">
+        <div class="section-header">
+          <h2 class="section-title">Why Shop With Us?</h2>
+          <p class="section-subtitle">
+            We put your baby's comfort and safety first — every single time.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🌿</span>
+            <h3 class="feature-title">Organic Materials</h3>
+            <p class="feature-desc">
+              All products are made from certified organic, non-toxic materials
+              that are gentle on delicate skin.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🚚</span>
+            <h3 class="feature-title">Free Shipping</h3>
+            <p class="feature-desc">
+              Enjoy free, carbon-neutral shipping on every order over $35 —
+              delivered right to your door.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">↩️</span>
+            <h3 class="feature-title">30-Day Returns</h3>
+            <p class="feature-desc">
+              Not completely satisfied? Return any item within 30 days for a
+              full, no-questions-asked refund.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">🔒</span>
+            <h3 class="feature-title">Secure Checkout</h3>
+            <p class="feature-desc">
+              Shop with confidence using our 256-bit SSL encrypted checkout —
+              your data is always protected.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ TESTIMONIALS SECTION ============ -->
+      <section id="testimonials" class="testimonials">
+        <div class="section-header">
+          <h2 class="section-title">What Parents Are Saying</h2>
+          <p class="section-subtitle">
+            Real reviews from real families who trust Little Sprout.
+          </p>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <div class="stars" aria-label="Rated 5 out of 5 stars">
+              <span aria-hidden="true">★★★★★</span>
+            </div>
+            <blockquote class="testimonial-quote">
+              "The knitted blanket is incredibly soft and the quality is
+              unmatched. My little one sleeps so much better now!"
+            </blockquote>
+            <p class="testimonial-author">— Sarah M.</p>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars" aria-label="Rated 5 out of 5 stars">
+              <span aria-hidden="true">★★★★★</span>
+            </div>
+            <blockquote class="testimonial-quote">
+              "I love that everything is organic and safe. The wooden teether
+              was a lifesaver during teething. Highly recommend!"
+            </blockquote>
+            <p class="testimonial-author">— Jessica T.</p>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars" aria-label="Rated 5 out of 5 stars">
+              <span aria-hidden="true">★★★★★</span>
+            </div>
+            <blockquote class="testimonial-quote">
+              "Beautiful packaging, fast shipping, and the plush bunny is now
+              my daughter's favorite toy. Will definitely order again!"
+            </blockquote>
+            <p class="testimonial-author">— Michael R.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ NEWSLETTER SECTION ============ -->
+      <section id="newsletter" class="newsletter">
+        <div class="newsletter-inner">
+          <h2 class="section-title">Join the Little Sprout Family</h2>
+          <p class="newsletter-text">
+            Subscribe to our newsletter for exclusive offers, parenting tips,
+            and early access to new product launches.
+          </p>
+          <form id="newsletter-form" class="newsletter-form" novalidate>
+            <label for="newsletter-email" class="visually-hidden">
+              Email address
+            </label>
+            <input
+              type="email"
+              id="newsletter-email"
+              name="newsletter-email"
+              placeholder="Enter your email address"
+              required
+              autocomplete="email"
+            />
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer id="footer" class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-col footer-brand">
+          <h3 class="brand-name">🌱 Little Sprout</h3>
+          <p>
+            Premium, organic baby accessories crafted with love. Because your
+            little one deserves the very best.
+          </p>
+        </div>
+
+        <div class="footer-col" id="contact">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#newsletter">Newsletter</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <ul>
+            <li>📧 hello@littlesprout.com</li>
+            <li>📞 (555) 123-4567</li>
+            <li>📍 123 Baby Lane, Cozy Town</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Little Sprout. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- ============ BACK TO TOP BUTTON ============ -->
+    <button
+      type="button"
+      id="back-to-top"
+      class="back-to-top"
+      aria-label="Back to top"
+      title="Back to top"
+    >
+      <span aria-hidden="true">↑</span>
+    </button>
+  </body>
+</html>
+
