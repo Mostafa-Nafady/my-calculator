@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Car Accessories - Premium Auto Gear</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/car-accessories.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/car-accessories.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <!-- Hero Section -->
+    <section id="hero">
+      <img
+        id="hero-image"
+        src="assets/generated/hero-car-accessories.jpg"
+        alt="Premium car accessories flat-lay on a dark charcoal surface including a leather steering wheel cover, dash cam, phone mount, LED ambient light strip, microfiber detailing cloths, and all-weather floor mats"
+      />
+      <div id="hero-overlay">
+        <div id="hero-content">
+          <span id="cart-badge" class="cart-badge" aria-live="polite">
+            🛒 Cart: <span id="cart-count">0</span>
+          </span>
+          <h1>Upgrade Your Ride</h1>
+          <p>
+            Premium car accessories engineered for performance, comfort, and
+            style. Shop the gear that transforms every drive.
+          </p>
+          <a href="#products" id="hero-cta">Shop Now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits">
+      <h2>Why Choose AutoGear?</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">🏆</span>
+          <h3>Premium Quality</h3>
+          <p>Only top-grade materials and trusted brands make the cut.</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">🚚</span>
+          <h3>Fast Shipping</h3>
+          <p>Free 2-day shipping on every order over $50, nationwide.</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">🔧</span>
+          <h3>Easy Install</h3>
+          <p>Plug-and-play accessories with step-by-step video guides.</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true">🛡️</span>
+          <h3>2-Year Warranty</h3>
+          <p>Every product backed by our hassle-free warranty promise.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="products">
+      <h2>Featured Products</h2>
+      <div id="product-grid">
+        <div class="product-card">
+          <div class="product-visual visual-navy">
+            <span class="product-emoji" aria-hidden="true">🚗</span>
+          </div>
+          <div class="product-body">
+            <h3>Leather Steering Wheel Cover</h3>
+            <p>Hand-stitched microfiber leather for a premium grip and comfort.</p>
+            <div class="product-footer">
+              <span class="product-price">$24.99</span>
+              <button class="btn-add-cart" data-product="Leather Steering Wheel Cover">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-visual visual-green">
+            <span class="product-emoji" aria-hidden="true">📷</span>
+          </div>
+          <div class="product-body">
+            <h3>4K Dash Cam</h3>
+            <p>Ultra-HD recording with night vision and built-in GPS tracking.</p>
+            <div class="product-footer">
+              <span class="product-price">$129.99</span>
+              <button class="btn-add-cart" data-product="4K Dash Cam">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-visual visual-orange">
+            <span class="product-emoji" aria-hidden="true">📱</span>
+          </div>
+          <div class="product-body">
+            <h3>Magnetic Phone Mount</h3>
+            <p>Strong neodymium magnets hold any phone securely in place.</p>
+            <div class="product-footer">
+              <span class="product-price">$19.99</span>
+              <button class="btn-add-cart" data-product="Magnetic Phone Mount">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-visual visual-purple">
+            <span class="product-emoji" aria-hidden="true">💡</span>
+          </div>
+          <div class="product-body">
+            <h3>LED Interior Light Strip</h3>
+            <p>16-color ambient lighting kit with app control and music sync.</p>
+            <div class="product-footer">
+              <span class="product-price">$34.99</span>
+              <button class="btn-add-cart" data-product="LED Interior Light Strip">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-visual visual-navy">
+            <span class="product-emoji" aria-hidden="true">🧽</span>
+          </div>
+          <div class="product-body">
+            <h3>All-Weather Floor Mats</h3>
+            <p>Durable rubber mats with raised edges to trap dirt and water.</p>
+            <div class="product-footer">
+              <span class="product-price">$49.99</span>
+              <button class="btn-add-cart" data-product="All-Weather Floor Mats">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-visual visual-green">
+            <span class="product-emoji" aria-hidden="true">🔌</span>
+          </div>
+          <div class="product-body">
+            <h3>Wireless Car Charger</h3>
+            <p>15W fast Qi charging mount with auto-clamp and cooling fan.</p>
+            <div class="product-footer">
+              <span class="product-price">$39.99</span>
+              <button class="btn-add-cart" data-product="Wireless Car Charger">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promo CTA Section -->
+    <section id="promo-cta">
+      <h2>Ready to Transform Your Drive?</h2>
+      <p>
+        Join thousands of happy drivers. Get 10% off your first order with code
+        <strong>WELCOME10</strong>.
+      </p>
+      <a href="#products" class="btn-secondary">Browse All Products</a>
+    </section>
+
+    <!-- Footer -->
+    <footer id="site-footer">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="car-accessories.html">Car Accessories</a>
+        <a href="about.html">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <p class="footer-copy">
+        &copy; 2025 AutoGear — Premium Car Accessories. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>
+
+
