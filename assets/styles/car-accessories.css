@@ -1,0 +1,432 @@
+/* ==========================================================================
+   Car Accessories Landing Page Styles
+   Color scheme: navy #023d6d, hover #084f88,
+   accents: green #28a745, orange #fd7e14, purple #6f42c1
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Hero Section
+   -------------------------------------------------------------------------- */
+#hero {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  overflow: hidden;
+}
+
+#hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+#hero-overlay {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 50rem;
+  background: linear-gradient(
+    135deg,
+    rgba(2, 61, 109, 0.82),
+    rgba(2, 61, 109, 0.65)
+  );
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  backdrop-filter: blur(2px);
+}
+
+#hero-content {
+  position: relative;
+}
+
+#hero h1 {
+  color: #ffffff;
+  font-size: 3rem;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+#hero p {
+  color: #f0f4f8;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin: 0 auto 2rem auto;
+  max-width: 36rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Cart badge in hero */
+.cart-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+#hero-cta {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: #ffffff;
+  border: 1px solid #023d6d;
+  padding: 1rem 2.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+#hero-cta:hover,
+#hero-cta:active {
+  background: #084f88;
+  border-color: #084f88;
+  transform: translateY(-2px);
+}
+
+/* Secondary outline button variant */
+.btn-secondary {
+  display: inline-block;
+  font: inherit;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  padding: 0.9rem 2.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active {
+  background: #ffffff;
+  color: #023d6d;
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Benefits Section
+   -------------------------------------------------------------------------- */
+#benefits {
+  margin: 3rem auto;
+  width: 60rem;
+  max-width: 90%;
+  text-align: center;
+}
+
+#benefits h2 {
+  color: #023d6d;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.benefit-card {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(2, 61, 109, 0.15);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.benefit-card h3 {
+  color: #023d6d;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.benefit-card p {
+  color: #023d6d;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Products Section
+   -------------------------------------------------------------------------- */
+#products {
+  margin: 3rem auto;
+  width: 60rem;
+  max-width: 90%;
+}
+
+#products h2 {
+  color: #023d6d;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: #ffffff;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(2, 61, 109, 0.2);
+}
+
+/* Gradient visual headers using accent colors */
+.product-visual {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-emoji {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.visual-navy {
+  background: linear-gradient(135deg, #023d6d, #084f88);
+}
+
+.visual-green {
+  background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.visual-orange {
+  background: linear-gradient(135deg, #fd7e14, #e56b0a);
+}
+
+.visual-purple {
+  background: linear-gradient(135deg, #6f42c1, #5a32a3);
+}
+
+.product-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-body h3 {
+  color: #023d6d;
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.product-body p {
+  color: #023d6d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+  flex-grow: 1;
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.product-price {
+  color: #023d6d;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.btn-add-cart {
+  font: inherit;
+  background: #023d6d;
+  color: #ffffff;
+  border: 1px solid #023d6d;
+  border-radius: 5px;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-add-cart:hover,
+.btn-add-cart:active {
+  background: #084f88;
+  border-color: #084f88;
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Promo CTA Section
+   -------------------------------------------------------------------------- */
+#promo-cta {
+  background: #023d6d;
+  color: #ffffff;
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  margin-top: 3rem;
+}
+
+#promo-cta h2 {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+}
+
+#promo-cta p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0 auto 2rem auto;
+  max-width: 36rem;
+  color: #f0f4f8;
+}
+
+#promo-cta strong {
+  color: #fd7e14;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+#site-footer {
+  background: #021e35;
+  color: #a0b4c8;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-links a {
+  color: #a0b4c8;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #6a8298;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — Mobile
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  #hero h1 {
+    font-size: 2rem;
+  }
+
+  #hero p {
+    font-size: 1.05rem;
+  }
+
+  #hero-cta,
+  .btn-secondary {
+    padding: 0.85rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  #benefits h2,
+  #products h2,
+  #promo-cta h2 {
+    font-size: 1.6rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-add-cart {
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer-links {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #hero {
+    min-height: 50vh;
+    padding: 2rem 1rem;
+  }
+
+  #hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .product-visual {
+    height: 110px;
+  }
+
+  .product-emoji {
+    font-size: 2.8rem;
+  }
+}
+
+
