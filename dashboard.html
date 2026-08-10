@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dashboard - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/dashboard.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/dashboard.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="dashboard-intro">
+      <h2>Calculator Dashboard</h2>
+      <p>
+        Welcome to your control center. This dashboard gives you an overview of
+        all available calculators and quick access to each one.
+      </p>
+    </section>
+
+    <section id="dashboard-stats">
+      <article class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Calculators</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-value">6+</div>
+        <div class="stat-label">Operations</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Free</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-value">Browser</div>
+        <div class="stat-label">Based</div>
+      </article>
+    </section>
+
+    <section id="dashboard-tools">
+      <h3>Quick Access</h3>
+      <div class="tools-grid">
+        <article class="tool-card">
+          <div class="tool-icon">+/&minus;</div>
+          <h4 class="tool-name">Basic Calculator</h4>
+          <p class="tool-desc">
+            Addition, subtraction, multiplication, and division.
+          </p>
+          <a class="tool-link" href="basics-10-function-refactoring/index.html">Open</a>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-icon">x^y</div>
+          <h4 class="tool-name">XPY Calculator</h4>
+          <p class="tool-desc">
+            Raise a base number X to the power of Y.
+          </p>
+          <a class="tool-link" href="xpy/index.html">Open</a>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-icon">U&rarr;T</div>
+          <h4 class="tool-name">UYT Calculator</h4>
+          <p class="tool-desc">
+            Evaluate U Yield T relationships.
+          </p>
+          <a class="tool-link" href="uyt/index.html">Open</a>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-icon">ASD</div>
+          <h4 class="tool-name">ASD Calculator</h4>
+          <p class="tool-desc">
+            Specialized ASD operations.
+          </p>
+          <a class="tool-link" href="asd.html">Open</a>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-icon">QWE</div>
+          <h4 class="tool-name">QWE Calculator</h4>
+          <p class="tool-desc">
+            Specialized QWE operations.
+          </p>
+          <a class="tool-link" href="qwe.html">Open</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="dashboard-tips">
+      <h3>Tips</h3>
+      <ul>
+        <li>Use the Gallery to compare all calculators at a glance.</li>
+        <li>Bookmark your favorite calculator for quick access.</li>
+        <li>All calculators run entirely in your browser — no data leaves your device.</li>
+      </ul>
+    </section>
+  </body>
+</html>
+
