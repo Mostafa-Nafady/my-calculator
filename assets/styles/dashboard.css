@@ -1,0 +1,162 @@
+#dashboard-intro {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#dashboard-intro h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#dashboard-intro p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
+#dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin: 2rem auto;
+  max-width: 60rem;
+  padding: 0 1rem;
+}
+
+.stat-card {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card.stat-active {
+  background: #d6e4f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #023d6d;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: #333;
+  margin-top: 0.25rem;
+}
+
+#dashboard-tools {
+  margin: 2rem auto;
+  max-width: 60rem;
+  padding: 0 1rem;
+}
+
+#dashboard-tools h3 {
+  text-align: center;
+  color: #023d6d;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.tool-card {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tool-icon {
+  font-size: 2rem;
+  color: #023d6d;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tool-name {
+  color: #023d6d;
+  margin: 0.5rem 0;
+}
+
+.tool-desc {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.tool-link {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tool-link:hover,
+.tool-link:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+#dashboard-tips {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  color: #023d6d;
+}
+
+#dashboard-tips h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #023d6d;
+}
+
+#dashboard-tips ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .tools-grid,
+  #dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
