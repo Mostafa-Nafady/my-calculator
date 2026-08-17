@@ -1,0 +1,164 @@
+/* ===== Beach Hero Section ===== */
+#beach-hero {
+  background-image: url("../generated/beach-hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#beach-hero-overlay {
+  background: rgba(0, 0, 0, 0.45);
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: white;
+}
+
+#beach-hero h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+#beach-hero p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 40rem;
+  margin: 1.5rem auto;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+#btn-beach-hero {
+  display: inline-block;
+  font: inherit;
+  background: #0d9488;
+  color: white;
+  border: 1px solid #0d9488;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+#btn-beach-hero:hover,
+#btn-beach-hero:active {
+  background: #0a7a72;
+  border-color: #0a7a72;
+}
+
+/* ===== Beach Features Section ===== */
+#beach-features {
+  margin: 2rem auto;
+  width: 60rem;
+  max-width: 90%;
+  padding: 1.5rem;
+  color: #023d6d;
+}
+
+#beach-features h2 {
+  text-align: center;
+  color: #023d6d;
+  margin-bottom: 2rem;
+}
+
+#beach-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.5rem;
+}
+
+.beach-card {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.beach-card:hover {
+  background: #e2eaf2;
+}
+
+.beach-card h3 {
+  color: #023d6d;
+  margin-top: 0;
+}
+
+.beach-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 1rem 0 0;
+}
+
+/* ===== Beach CTA Section ===== */
+#beach-cta {
+  background: #023d6d;
+  color: white;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  margin: 2rem auto 0;
+  width: 100%;
+}
+
+#beach-cta h2 {
+  margin-top: 0;
+  color: white;
+}
+
+#beach-cta p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 40rem;
+  margin: 1.5rem auto;
+}
+
+#btn-beach-cta {
+  display: inline-block;
+  font: inherit;
+  background: #0d9488;
+  color: white;
+  border: 1px solid #0d9488;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+#btn-beach-cta:hover,
+#btn-beach-cta:active {
+  background: #0a7a72;
+  border-color: #0a7a72;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 600px) {
+  #beach-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  #beach-hero p {
+    font-size: 1rem;
+  }
+
+  #beach-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
