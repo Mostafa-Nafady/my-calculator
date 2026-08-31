@@ -121,4 +121,133 @@
   margin-bottom: 0;
 }
 
+/* ===== ASD Calculator ===== */
+
+#asd-calculator {
+  max-width: 24rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  background: #fff;
+}
+
+#asd-display {
+  width: 100%;
+  text-align: right;
+  font-size: 1.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #023d6d;
+  border-radius: 5px;
+  color: #023d6d;
+  background: #f0f4f8;
+  box-sizing: border-box;
+}
+
+.asd-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.asd-keys button,
+.asd-key {
+  font: inherit;
+  font-size: 1.1rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  border: 1px solid #023d6d;
+  border-radius: 5px;
+  background: #fff;
+  color: #023d6d;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.asd-keys button:hover,
+.asd-keys button:active {
+  background: #023d6d;
+  color: #fff;
+}
+
+/* Operator buttons */
+#btn-add,
+#btn-sub,
+#btn-mul,
+#btn-div,
+.asd-key-op {
+  background: #084f88;
+  color: #fff;
+  border-color: #084f88;
+}
+
+#btn-add:hover, #btn-add:active,
+#btn-sub:hover, #btn-sub:active,
+#btn-mul:hover, #btn-mul:active,
+#btn-div:hover, #btn-div:active,
+.asd-key-op:hover, .asd-key-op:active {
+  background: #023d6d;
+  border-color: #023d6d;
+}
+
+/* Equals button */
+#btn-equals,
+.asd-key-equals {
+  background: #28a745;
+  color: #fff;
+  border-color: #28a745;
+}
+
+#btn-equals:hover,
+#btn-equals:active,
+.asd-key-equals:hover,
+.asd-key-equals:active {
+  background: #218838;
+  border-color: #218838;
+}
+
+/* Clear button */
+#btn-clear {
+  background: #dc3545;
+  color: #fff;
+  border-color: #dc3545;
+}
+
+#btn-clear:hover,
+#btn-clear:active {
+  background: #c82333;
+  border-color: #c82333;
+}
+
+/* Backspace button */
+#btn-backspace {
+  background: #6c757d;
+  color: #fff;
+  border-color: #6c757d;
+}
+
+#btn-backspace:hover,
+#btn-backspace:active {
+  background: #5a6268;
+  border-color: #5a6268;
+}
+
+/* Zero button spans two columns */
+#btn-0,
+.asd-key-zero {
+  grid-column: span 2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  #asd-display {
+    font-size: 1.25rem;
+  }
+
+  .asd-keys button {
+    font-size: 1rem;
+  }
+}
+
+
 

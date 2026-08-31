@@ -21,14 +21,39 @@
       <h2>ASD Calculator</h2>
       <p>
         The ASD Calculator is a specialized tool designed to help you perform
-        advanced arithmetic and scientific calculations. Built with precision and
-        ease of use in mind, it provides a powerful interface for complex mathematical operations.
+        advanced arithmetic and scientific calculations. Use the keypad below to
+        enter expressions and evaluate results instantly.
       </p>
-      <p>
-        Whether you need to perform advanced calculations, scientific computations,
-        or specialized mathematical operations, the ASD Calculator has you covered
-        with its intuitive design and robust functionality.
-      </p>
+
+      <div id="asd-calculator">
+        <input type="text" id="asd-display" readonly value="" />
+
+        <div class="asd-keys">
+          <button type="button" id="btn-clear" class="asd-key asd-key-action">C</button>
+          <button type="button" id="btn-backspace" class="asd-key asd-key-action">⌫</button>
+          <button type="button" id="btn-div" class="asd-key asd-key-op">/</button>
+          <button type="button" id="btn-mul" class="asd-key asd-key-op">*</button>
+
+          <button type="button" id="btn-7" class="asd-key">7</button>
+          <button type="button" id="btn-8" class="asd-key">8</button>
+          <button type="button" id="btn-9" class="asd-key">9</button>
+          <button type="button" id="btn-sub" class="asd-key asd-key-op">-</button>
+
+          <button type="button" id="btn-4" class="asd-key">4</button>
+          <button type="button" id="btn-5" class="asd-key">5</button>
+          <button type="button" id="btn-6" class="asd-key">6</button>
+          <button type="button" id="btn-add" class="asd-key asd-key-op">+</button>
+
+          <button type="button" id="btn-1" class="asd-key">1</button>
+          <button type="button" id="btn-2" class="asd-key">2</button>
+          <button type="button" id="btn-3" class="asd-key">3</button>
+          <button type="button" id="btn-equals" class="asd-key asd-key-equals">=</button>
+
+          <button type="button" id="btn-0" class="asd-key asd-key-zero">0</button>
+          <button type="button" id="btn-decimal" class="asd-key">.</button>
+        </div>
+      </div>
+
       <div id="asd-actions">
         <a href="index.html" id="btn-home">Back to Home</a>
         <a href="basics-10-function-refactoring/index.html" id="btn-start">Start Calculating</a>
@@ -49,6 +74,7 @@
     </section>
   </body>
 </html>
+
 
 
 

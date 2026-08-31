@@ -1,0 +1,19 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "description": "A web-based calculator with multiple calculator variants",
+  "main": "index.html",
+  "scripts": {
+    "serve": "npx http-server -p 3000",
+    "lint:html": "npx htmlhint *.html **/*.html",
+    "lint:css": "npx stylelint assets/styles/*.css **/assets/styles/*.css",
+    "lint:js": "npx eslint assets/scripts/*.js **/assets/scripts/*.js --ignore-pattern node_modules",
+    "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
+    "format": "npx prettier --write *.html assets/**/*.{js,css} **/assets/**/*.{js,css} --ignore-path .gitignore"
+  },
+  "keywords": ["calculator", "web", "html", "javascript", "css"],
+  "author": "Mostafa Nafady",
+  "license": "MIT",
+  "devDependencies": {}
+}
+

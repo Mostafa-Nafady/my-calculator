@@ -1,0 +1,41 @@
+# Version control
+.git/
+.gitignore
+
+# Dependencies (no build step needs these in the Docker image)
+node_modules/
+package-lock.json
+
+# Environment files (secrets — never bake into image)
+.env
+.env.local
+.env.example
+
+# IDE / editor directories
+.vscode/
+.idea/
+
+# Docker files (not needed inside the image)
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Test / coverage artifacts
+tests/
+coverage/
+
+# Documentation (not needed at runtime)
+*.md
+
+# OS / misc files
+.DS_Store
+Thumbs.db
+
+# IMPORTANT: Do NOT exclude the following — they are needed by the Dockerfile COPY step:
+# - *.html (all HTML files in root and subdirectories)
+# - assets/
+# - basics-10-function-refactoring/
+# - xpy/
+# - uyt/
+# - package.json (harmless to include, may be useful for metadata)
+
