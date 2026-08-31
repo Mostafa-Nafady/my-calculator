@@ -1,0 +1,22 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    env_file:
+      - .env
+    # Optional: mount source directory for live development editing
+    # Uncomment the volumes block below for dev mode
+    # volumes:
+    #   - ./:/usr/share/nginx/html:ro
+
