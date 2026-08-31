@@ -1,0 +1,34 @@
+version: 2
+
+updates:
+  # npm dependencies — dev tooling (htmlhint, stylelint, prettier, serve)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: America/New_York
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect
+    open-pull-requests-limit: 10
+
+  # Docker base images (nginx:1.27-alpine, node:20-alpine)
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: America/New_York
+
+  # GitHub Actions versions (checkout, setup-node, buildx, etc.)
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: America/New_York
+
