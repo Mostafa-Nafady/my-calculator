@@ -1,0 +1,27 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "description": "A web-based calculator application with multiple calculator variants (basic, XPY, UYT, ASD, ADDOP, ASDSFSF)",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "dev": "npx serve . -l 3000",
+    "lint": "npx htmlhint *.html */*.html && npx stylelint assets/styles/*.css */assets/styles/*.css",
+    "lint:fix": "npx stylelint --fix assets/styles/*.css */assets/styles/*.css",
+    "format": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
+    "test": "echo \"No tests configured yet\" && exit 0",
+    "build": "echo \"Static site - no build step required\" && exit 0"
+  },
+  "keywords": ["calculator", "web", "html", "css", "javascript"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "htmlhint": "^1.1.4",
+    "prettier": "^3.3.3",
+    "serve": "^14.2.3",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.1"
+  }
+}
+
