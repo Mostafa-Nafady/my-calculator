@@ -1,4 +1,9 @@
-// Render the Header component and wire up gallery card interactivity when DOM is loaded
+/**
+ * Gallery page initialization script.
+ * Renders the shared header via renderHeader() and sets up modal overlay
+ * behavior for gallery cards — click-to-open, close on overlay click,
+ * close button click, or Escape key press.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
     renderHeader('header-container', 'Calculator Gallery', [
@@ -40,6 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /**
+   * Hides the modal overlay by adding the 'hidden' CSS class to the
+   * modal overlay element, effectively closing the modal dialog.
+   *
+   * @function closeModal
+   * @description Adds the 'hidden' class to `modalOverlay` to hide the modal.
+   * @returns {void}
+   */
   function closeModal() {
     modalOverlay.classList.add('hidden');
   }
@@ -70,4 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
 
