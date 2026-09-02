@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ASX Stock - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/asx.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/asx.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="asx-content">
+      <h2>ASX Stock Calculator</h2>
+      <p>
+        The ASX Stock Calculator helps investors calculate stock returns,
+        dividends, and position sizes for Australian Securities Exchange listed
+        shares. It provides a clear breakdown of capital gains, dividend income,
+        and total return percentage.
+      </p>
+      <p>
+        Whether you are evaluating a new position or reviewing past performance,
+        the ASX Stock Calculator makes it easy to assess your investment returns
+        on ASX-listed shares with an intuitive and straightforward interface.
+      </p>
+      <div id="asx-actions">
+        <a href="index.html" id="btn-home">Back to Home</a>
+        <a href="basics-10-function-refactoring/index.html" id="btn-start">Basic Calculator</a>
+        <a href="about.html" id="btn-about">About</a>
+      </div>
+    </section>
+
+    <section id="asx-calculator">
+      <h3>Stock Return Calculator</h3>
+      <form>
+        <input type="number" id="asx-purchase-price" placeholder="Purchase Price (AUD)" />
+        <input type="number" id="asx-sale-price" placeholder="Sale Price (AUD)" />
+        <input type="number" id="asx-quantity" placeholder="Quantity (shares)" />
+        <input type="number" id="asx-dividend" placeholder="Dividend per Share (AUD)" />
+        <button type="button" id="asx-calculate">Calculate</button>
+      </form>
+      <div id="asx-result"></div>
+    </section>
+
+    <section id="asx-info">
+      <h3>ASX Calculator Features</h3>
+      <ul>
+        <li>Calculate capital gains and losses</li>
+        <li>Include dividend income in returns</li>
+        <li>Compute total return percentage</li>
+        <li>Position size in AUD</li>
+        <li>Designed for ASX-listed shares</li>
+        <li>Free to use</li>
+      </ul>
+    </section>
+  </body>
+</html>
+
