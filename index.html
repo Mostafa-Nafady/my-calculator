@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Home - My Calculator</title>
+    <title>Pawfect Accessories - Premium Pet Products</title>
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
       rel="stylesheet"
@@ -17,36 +17,132 @@
   <body>
     <div id="header-container"></div>
 
-    <section id="home-content">
-      <h2>Your Simple Web-Based Calculator</h2>
-      <p>
-        This calculator allows you to perform basic arithmetic operations including
-        addition, subtraction, multiplication, and division.
-      </p>
-      <div id="home-actions">
-        <a href="basics-10-function-refactoring/index.html" id="btn-start">Start Calculating</a>
-        <a href="xpy/index.html" id="btn-xpy">XPY Calculator</a>
-        <a href="uyt/index.html" id="btn-uyt">UYT Calculator</a>
-        <a href="asd.html" id="btn-asd">ASD Calculator</a>
-        <a href="qwe.html" id="btn-qwe">QWE Calculator</a>
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Premium Accessories for Your Beloved Pets</h1>
+          <p>Discover handcrafted, high-quality products that keep your furry friends happy, healthy, and stylish.</p>
+          <div class="hero-buttons">
+            <a href="#products" id="btn-shop">Shop Now</a>
+            <a href="#features" id="btn-learn">Learn More</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img id="hero-image" src="assets/generated/hero-pets.jpg" alt="Happy pet with premium accessories" />
+        </div>
       </div>
     </section>
 
+    <!-- Features Section -->
     <section id="features">
-      <h3>Features</h3>
-      <ul>
-        <li>Addition (+)</li>
-        <li>Subtraction (-)</li>
-        <li>Multiplication (*)</li>
-        <li>Division (/)</li>
-        <li>X Power Y (XPY)</li>
-        <li>U Yield T (UYT)</li>
-        <li>ASD Calculator</li>
-        <li>QWE Calculator</li>
-      </ul>
+      <h2>Why Pet Lovers Choose Us</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🐾</div>
+          <h3>Handpicked Quality</h3>
+          <p>Every product is carefully selected and tested to meet our high standards for safety and comfort.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🚚</div>
+          <h3>Free Fast Shipping</h3>
+          <p>Enjoy free shipping on all orders over $50 with delivery within 3-5 business days.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💯</div>
+          <h3>Satisfaction Guarantee</h3>
+          <p>Not happy? Return any product within 30 days for a full refund, no questions asked.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">❤️</div>
+          <h3>Made with Love</h3>
+          <p>Every item is crafted with care by artisans who share your passion for pets.</p>
+        </div>
+      </div>
     </section>
+
+    <!-- Products Section -->
+    <section id="products">
+      <h2>Featured Products</h2>
+      <div class="products-grid">
+        <div class="product-card">
+          <img class="product-img" src="assets/generated/product-1.jpg" alt="Cozy round pet bed in warm terracotta" />
+          <h4>Cozy Pet Bed</h4>
+          <p>Ultra-soft memory foam bed for ultimate comfort.</p>
+          <span class="price">$39.99</span>
+          <button class="btn-add-cart">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="assets/generated/product-2.jpg" alt="Adjustable pet harness in teal and orange" />
+          <h4>Adjustable Harness</h4>
+          <p>Lightweight, breathable harness with secure clips.</p>
+          <span class="price">$24.99</span>
+          <button class="btn-add-cart">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="assets/generated/product-3.jpg" alt="Ceramic pet food bowl in cream and sage" />
+          <h4>Ceramic Food Bowl</h4>
+          <p>Handmade ceramic bowl, dishwasher safe.</p>
+          <span class="price">$18.99</span>
+          <button class="btn-add-cart">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="assets/generated/product-4.jpg" alt="Interactive pet toy set with rope, ball and wand" />
+          <h4>Interactive Toy Set</h4>
+          <p>3-piece set to keep your pet entertained for hours.</p>
+          <span class="price">$29.99</span>
+          <button class="btn-add-cart">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+      <h2>What Our Customers Say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-quote">"My dog absolutely loves his new bed! The quality is outstanding and it looks great in our living room."</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-name">Sarah M.</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-quote">"The harness is perfect — easy to adjust and my cat doesn't struggle at all during walks. Highly recommend!"</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-name">James K.</p>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-quote">"Fast shipping and beautiful packaging. The ceramic bowl is gorgeous and my two cats love it."</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-name">Emily R.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter">
+      <h2>Join Our Pet Family</h2>
+      <p>Subscribe for exclusive deals, pet care tips, and new product announcements.</p>
+      <div class="newsletter-form">
+        <input type="email" id="newsletter-email" placeholder="Enter your email" />
+        <button id="btn-subscribe">Subscribe</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 Pawfect Accessories. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="about.html">Contact</a>
+          <a href="about.html">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
+
 
 
 
