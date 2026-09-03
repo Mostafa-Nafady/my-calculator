@@ -1,0 +1,120 @@
+#aer-content {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#aer-content h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#aer-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
+#aer-components {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  color: #023d6d;
+}
+
+#aer-components h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #023d6d;
+}
+
+#aer-card {
+  background: #f0f4f8;
+  border: 1px solid #023d6d;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: box-shadow 0.2s;
+}
+
+#aer-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#aer-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+#aer-buttons button {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#aer-buttons button:hover,
+#aer-buttons button:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
+#aer-buttons button.secondary {
+  background: white;
+  color: #023d6d;
+  border: 1px solid #023d6d;
+}
+
+#aer-buttons button.secondary:hover,
+#aer-buttons button.secondary:active {
+  background: #f0f4f8;
+  border-color: #084f88;
+  color: #084f88;
+}
+
+#aer-alert {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 5px;
+  padding: 1rem;
+  color: #856404;
+  margin: 1rem 0;
+}
+
+#about-actions a {
+  display: inline-block;
+  font: inherit;
+  background: #023d6d;
+  color: white;
+  border: 1px solid #023d6d;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+#about-actions a:hover,
+#about-actions a:active {
+  background: #084f88;
+  border-color: #084f88;
+}
+
