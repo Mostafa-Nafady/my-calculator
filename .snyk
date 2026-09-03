@@ -1,0 +1,12 @@
+# Snyk (https://snyk.io) configuration for my-calculator
+# This project is a static HTML/CSS/JS website with no npm dependencies.
+# Snyk monitors for vulnerabilities in dependencies and container images.
+version: v1.0.0
+
+# Vulnerabilities to ignore (add by issue ID)
+# Example:
+# ignore:
+#   SNYK-JS-LODASH-1234567:
+#     - "*"
+ignore: {}
+

@@ -1,0 +1,7 @@
+# Trivy Ignore File
+# List CVEs to ignore in Trivy scans (one per line)
+# Format: CVE-YYYY-NNNN
+#
+# Example (uncomment to use):
+# CVE-2023-1234
+
