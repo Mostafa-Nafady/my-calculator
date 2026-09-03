@@ -1,0 +1,23 @@
+# CodeQL analysis configuration for my-calculator
+# https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-the-codeqlqls-file
+
+name: "My Calculator CodeQL Config"
+
+# Use the default queries from CodeQL
+disable-default-queries: false
+
+# Paths to include in CodeQL analysis
+paths:
+  - "."
+  - "assets/"
+  - "basics-10-function-refactoring/"
+  - "uyt/"
+  - "xpy/"
+
+# Paths to exclude from CodeQL analysis
+paths-ignore:
+  - "docs/"
+  - "offloaded/"
+  - "**/*.md"
+  - "**/*.css"
+

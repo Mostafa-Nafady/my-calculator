@@ -1,0 +1,25 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Build output
+dist/
+offloaded/
+
+# Temporary files
+*.tmp
+
+# Editor directories
+.vscode/
+.idea/
+
