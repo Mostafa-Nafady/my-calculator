@@ -1,0 +1,36 @@
+# Version control
+.git/
+.gitignore
+
+# Environment & secrets
+.env
+.env.example
+
+# CI/CD & security tooling
+.github/
+.trivyignore
+.snyk
+
+# Documentation (not needed in the image)
+docs/
+*.md
+README.md
+SECURITY.md
+
+# Temporary / offloaded files
+offloaded/
+
+# Node.js (empty lockfile, no dependencies — not needed in image)
+node_modules/
+package-lock.json
+package.json
+
+# Docker files themselves (not needed in build context)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Misc
+*.log
+.DS_Store
+
