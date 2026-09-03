@@ -1,0 +1,19 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "description": "A web-based calculator application",
+  "scripts": {
+    "lint": "htmlhint '**/*.html' && stylelint 'assets/styles/**/*.css' 'basics-10-function-refactoring/assets/styles/**/*.css' 'xpy/assets/styles/**/*.css' 'uyt/assets/styles/**/*.css'",
+    "lint:js": "eslint assets/scripts/**/*.js basics-10-function-refactoring/assets/scripts/**/*.js xpy/assets/scripts/**/*.js uyt/assets/scripts/**/*.js",
+    "test": "node scripts/smoke-test.js",
+    "build": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "htmlhint": "^1.1.4",
+    "stylelint": "^16.6.1",
+    "stylelint-config-standard": "^36.0.0",
+    "eslint": "^8.57.0",
+    "rimraf": "^5.0.7"
+  }
+}
+
