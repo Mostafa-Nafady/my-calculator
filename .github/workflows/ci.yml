@@ -1,0 +1,278 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─────────────────────────────────────────────
+  # Stage 1: Lint — HTML and CSS validation
+  # ─────────────────────────────────────────────
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache npm global packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-global-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-global-${{ runner.os }}-
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Lint HTML files
+        run: htmlhint "**/*.html"
+
+      - name: Install Stylelint
+        run: npm install -g stylelint stylelint-config-standard
+
+      - name: Lint CSS files
+        run: |
+          stylelint \
+            "assets/styles/**/*.css" \
+            "basics-10-function-refactoring/assets/styles/**/*.css" \
+            "uyt/assets/styles/**/*.css" \
+            "xpy/assets/styles/**/*.css"
+
+  # ─────────────────────────────────────────────
+  # Stage 2: Test — Jest unit tests for Header component
+  # ─────────────────────────────────────────────
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache npm global packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-global-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-global-${{ runner.os }}-
+
+      - name: Install Jest and jsdom
+        run: npm install -g jest jsdom
+
+      - name: Create Header component test
+        run: |
+          mkdir -p __tests__
+          cat > __tests__/header.test.js << 'TESTEOF'
+          /**
+           * @jest-environment jsdom
+           */
+
+          const { createHeader } = require('../assets/scripts/components/Header.js');
+
+          describe('createHeader', () => {
+            test('returns a header element containing an h1 with the given title', () => {
+              const header = createHeader('Test Title');
+              expect(header.tagName).toBe('HEADER');
+
+              const h1 = header.querySelector('h1');
+              expect(h1).not.toBeNull();
+              expect(h1.textContent).toBe('Test Title');
+            });
+
+            test('returns a header with a nav containing anchor links when navLinks provided', () => {
+              const header = createHeader('Title', [{ label: 'Home', href: '/' }]);
+
+              const nav = header.querySelector('nav');
+              expect(nav).not.toBeNull();
+
+              const anchor = nav.querySelector('a');
+              expect(anchor).not.toBeNull();
+              expect(anchor.getAttribute('href')).toBe('/');
+              expect(anchor.textContent).toBe('Home');
+            });
+
+            test('does NOT include a nav element when no navLinks are provided', () => {
+              const header = createHeader('No Nav');
+              const nav = header.querySelector('nav');
+              expect(nav).toBeNull();
+            });
+          });
+          TESTEOF
+
+      - name: Run Jest tests
+        run: jest --env=jsdom __tests__/
+
+  # ─────────────────────────────────────────────
+  # Stage 3: Build — Validate asset references and create dist artifact
+  # ─────────────────────────────────────────────
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache npm global packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-global-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-global-${{ runner.os }}-
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Validate HTML files are well-formed
+        run: htmlhint "**/*.html"
+
+      - name: Verify all referenced CSS and JS assets exist
+        run: |
+          node << 'SCRIPT'
+          const fs = require('fs');
+          const path = require('path');
+          const glob = require('path');
+
+          // Recursively find all HTML files
+          function findHtmlFiles(dir, fileList = []) {
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const entry of entries) {
+              const fullPath = path.join(dir, entry.name);
+              if (entry.isDirectory()) {
+                if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'dist') continue;
+                findHtmlFiles(fullPath, fileList);
+              } else if (entry.name.endsWith('.html')) {
+                fileList.push(fullPath);
+              }
+            }
+            return fileList;
+          }
+
+          const htmlFiles = findHtmlFiles('.');
+          let missing = [];
+
+          for (const htmlFile of htmlFiles) {
+            const content = fs.readFileSync(htmlFile, 'utf-8');
+            const htmlDir = path.dirname(htmlFile);
+
+            // Match <link rel="stylesheet" href="...">
+            const linkRegex = /<link\s+[^>]*?href=["']([^"']+)["'][^>]*?>/gi;
+            let match;
+            while ((match = linkRegex.exec(content)) !== null) {
+              const href = match[1];
+              // Skip external URLs and data URIs
+              if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//') || href.startsWith('data:')) continue;
+              const resolved = path.resolve(htmlDir, href);
+              if (!fs.existsSync(resolved)) {
+                missing.push({ htmlFile, ref: href, resolved });
+              }
+            }
+
+            // Match <script src="...">
+            const scriptRegex = /<script\s+[^>]*?src=["']([^"']+)["'][^>]*?>/gi;
+            while ((match = scriptRegex.exec(content)) !== null) {
+              const src = match[1];
+              if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('//') || src.startsWith('data:')) continue;
+              const resolved = path.resolve(htmlDir, src);
+              if (!fs.existsSync(resolved)) {
+                missing.push({ htmlFile, ref: src, resolved });
+              }
+            }
+          }
+
+          if (missing.length > 0) {
+            console.error('\n❌ Missing asset references found:');
+            for (const m of missing) {
+              console.error(`  ${m.htmlFile} → references "${m.ref}" (resolved: ${m.resolved})`);
+            }
+            console.error(`\nTotal missing: ${missing.length}`);
+            process.exit(1);
+          } else {
+            console.log(`✅ All asset references verified across ${htmlFiles.length} HTML file(s).`);
+          }
+          SCRIPT
+
+      - name: Create dist directory and copy site files
+        run: |
+          mkdir -p dist
+          # Copy all root HTML files
+          cp *.html dist/
+          # Copy asset directories
+          cp -r assets dist/
+          cp -r basics-10-function-refactoring dist/
+          cp -r uyt dist/
+          cp -r xpy dist/
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build
+          path: dist/
+          retention-days: 7
+
+  # ─────────────────────────────────────────────
+  # Stage 4: Deploy — Publish to GitHub Pages
+  # ─────────────────────────────────────────────
+  deploy:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: dist/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/
+
