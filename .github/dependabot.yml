@@ -1,0 +1,65 @@
+# Dependabot Configuration
+#
+# Keeps GitHub Actions SHA pins, Docker base images, and npm dependencies
+# up to date automatically by opening pull requests on a weekly schedule.
+# All updates are grouped by ecosystem to reduce PR noise.
+---
+version: 2
+updates:
+  # ── GitHub Actions ──────────────────────────────────────────────
+  # Bumps SHA-pinned actions in .github/workflows/ when new versions
+  # are released, keeping supply-chain pins both secure and current.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: "UTC"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers: []
+    assignees: []
+
+  # ── Docker ─────────────────────────────────────────────────────
+  # Bumps the nginx base image in the Dockerfile when new versions
+  # are published (e.g. nginx:1.27-alpine → nginx:1.28-alpine).
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: "UTC"
+    groups:
+      docker:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers: []
+    assignees: []
+
+  # ── npm ────────────────────────────────────────────────────────
+  # Monitors package.json for dependency updates. Currently the
+  # project has no runtime dependencies, but this ensures any future
+  # additions are tracked automatically.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+      timezone: "UTC"
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers: []
+    assignees: []
+
