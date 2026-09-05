@@ -1,0 +1,265 @@
+# =============================================================================
+# CI/CD Pipeline — 4-Stage Pipeline
+# =============================================================================
+#
+# Stage 1: lint    — HTML, CSS, and JS linting (HTMLHint, Stylelint, ESLint)
+# Stage 2: test    — Jest unit tests with coverage report
+# Stage 3: build   — Docker image build + Trivy vulnerability scans (image + fs)
+# Stage 4: deploy  — Push image to GHCR (only on push to main, production env)
+#
+# Job ordering: lint → test → build → deploy
+# All action versions are pinned to version tags for reproducibility and security.
+# Deploy stage pushes to GHCR only — add a deployment target (Kubernetes, EC2,
+# Cloud Run) when infrastructure is provisioned.
+# =============================================================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/my-calculator
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Stage 1: Lint — HTML, CSS, and JS linting
+  # ---------------------------------------------------------------------------
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Run HTML lint
+        run: npm run lint:html
+
+      - name: Run CSS lint
+        run: npm run lint:css
+
+      - name: Run JS lint
+        run: npm run lint:js
+
+      - name: Generate job summary
+        run: |
+          echo "## Lint Results ✅" >> $GITHUB_STEP_SUMMARY
+          echo "All linting checks passed (HTML, CSS, JS)" >> $GITHUB_STEP_SUMMARY
+
+  # ---------------------------------------------------------------------------
+  # Stage 2: Test — Jest unit tests with coverage
+  # ---------------------------------------------------------------------------
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Run tests with coverage
+        run: npm test -- --coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+      - name: Generate job summary
+        run: |
+          echo "## Test Results ✅" >> $GITHUB_STEP_SUMMARY
+          echo "All tests passed with coverage report generated" >> $GITHUB_STEP_SUMMARY
+
+  # ---------------------------------------------------------------------------
+  # Stage 3: Build — Docker image build + Trivy security scans
+  # ---------------------------------------------------------------------------
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: my-calculator:ci
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Trivy vulnerability scanner on image (table)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: my-calculator:ci
+          exit-code: '1'
+          severity: HIGH,CRITICAL
+          format: table
+
+      - name: Run Trivy filesystem scan on source code (table)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          exit-code: '1'
+          severity: HIGH,CRITICAL
+          format: table
+
+      - name: Run Trivy vulnerability scanner on image (SARIF)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: my-calculator:ci
+          exit-code: '0'
+          severity: HIGH,CRITICAL
+          format: sarif
+          output: trivy-image-results.sarif
+
+      - name: Run Trivy filesystem scan on source code (SARIF)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          exit-code: '0'
+          severity: HIGH,CRITICAL
+          format: sarif
+          output: trivy-fs-results.sarif
+
+      - name: Upload Trivy image SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-image-results.sarif
+          category: trivy-image
+
+      - name: Upload Trivy filesystem SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-fs-results.sarif
+          category: trivy-filesystem
+
+      - name: Generate job summary
+        run: |
+          echo "## Build Results ✅" >> $GITHUB_STEP_SUMMARY
+          echo "Docker image built and security scans passed" >> $GITHUB_STEP_SUMMARY
+          echo "Image: my-calculator:ci (nginx:1.27-alpine)" >> $GITHUB_STEP_SUMMARY
+          echo "Security scans: Trivy image + filesystem (table + SARIF uploaded to GitHub Security tab)" >> $GITHUB_STEP_SUMMARY
+
+  # ---------------------------------------------------------------------------
+  # Stage 4: Deploy — Push image to GHCR (production, main branch only)
+  # ---------------------------------------------------------------------------
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract metadata for tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+            type=ref,event=branch
+
+      - name: Build and push Docker image to GHCR
+        id: docker-push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Output image digest
+        run: |
+          echo "## Deployment Summary 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "**Image pushed to GHCR:** \`${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Image** | \`${{ env.IMAGE_NAME }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Tags** | \`${{ steps.meta.outputs.tags }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Digest** | \`${{ steps.docker-push.outputs.digest }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit SHA** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Base image** | \`nginx:1.27-alpine\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Container port** | \`80\` (host: \`8080\`) |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "Pull the image and deploy:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ env.IMAGE_NAME }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "docker run -d -p 8080:80 ${{ env.IMAGE_NAME }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> **Note:** Add a deployment target (Kubernetes, EC2, Cloud Run) here when infrastructure is provisioned." >> $GITHUB_STEP_SUMMARY
+
+
+
+
+
+
+
+
+
+
