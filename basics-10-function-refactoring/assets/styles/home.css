@@ -2,16 +2,16 @@
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 2rem;
-  color: #023d6d;
+  color: var(--color-text);
   text-align: center;
 }
 
 #home-content h2 {
   margin-top: 0;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #home-content p {
@@ -27,9 +27,9 @@
 #btn-start {
   display: inline-block;
   font: inherit;
-  background: #023d6d;
+  background: var(--color-primary);
   color: white;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   padding: 1rem 2rem;
   cursor: pointer;
   text-decoration: none;
@@ -40,24 +40,24 @@
 
 #btn-start:hover,
 #btn-start:active {
-  background: #084f88;
-  border-color: #084f88;
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 #features {
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 1.5rem;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #features h3 {
   margin-top: 0;
   text-align: center;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #features ul {
@@ -70,10 +70,11 @@
 }
 
 #features li {
-  background: #f0f4f8;
+  background: var(--color-surface);
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   font-weight: bold;
 }
+
 

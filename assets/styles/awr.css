@@ -1,4 +1,4 @@
-#asd-content {
+#awr-content {
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
@@ -9,18 +9,18 @@
   text-align: center;
 }
 
-#asd-content h2 {
+#awr-content h2 {
   margin-top: 0;
   color: var(--color-text);
 }
 
-#asd-content p {
+#awr-content p {
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 1.5rem 0;
 }
 
-#asd-actions {
+#awr-actions {
   margin-top: 2rem;
 }
 
@@ -86,7 +86,7 @@
   border-color: var(--color-btn-about-hover);
 }
 
-#asd-info {
+#awr-info {
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
@@ -96,19 +96,19 @@
   color: var(--color-text);
 }
 
-#asd-info h3 {
+#awr-info h3 {
   margin-top: 0;
   text-align: center;
   color: var(--color-text);
 }
 
-#asd-info ul {
+#awr-info ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-#asd-info li {
+#awr-info li {
   background: var(--color-surface);
   padding: 0.75rem 1rem;
   margin-bottom: 0.75rem;
@@ -117,7 +117,7 @@
   font-weight: bold;
 }
 
-#asd-info li:last-child {
+#awr-info li:last-child {
   margin-bottom: 0;
 }
 

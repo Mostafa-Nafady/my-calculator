@@ -1,3 +1,49 @@
+:root {
+  --color-primary: #023d6d;
+  --color-primary-hover: #084f88;
+  --color-header-bg: #023d6d;
+  --color-bg: #ffffff;
+  --color-surface: #f0f4f8;
+  --color-text: #023d6d;
+  --color-text-on-primary: #ffffff;
+  --color-border: #023d6d;
+  --color-btn-home-bg: #6c757d;
+  --color-btn-home-hover: #5a6268;
+  --color-btn-start-bg: #023d6d;
+  --color-btn-start-hover: #084f88;
+  --color-btn-xpy-bg: #28a745;
+  --color-btn-xpy-hover: #218838;
+  --color-btn-uyt-bg: #fd7e14;
+  --color-btn-uyt-hover: #e56b0a;
+  --color-btn-asd-bg: #6f42c1;
+  --color-btn-asd-hover: #5a32a3;
+  --color-btn-about-bg: #28a745;
+  --color-btn-about-hover: #218838;
+}
+
+body.dark-theme {
+  --color-bg: #1a1a2e;
+  --color-surface: #16213e;
+  --color-text: #e0e0e0;
+  --color-header-bg: #0f3460;
+  --color-border: #1a3a5c;
+  --color-text-on-primary: #ffffff;
+  --color-primary: #4a90d9;
+  --color-primary-hover: #5ba0e9;
+  --color-btn-home-bg: #4a5568;
+  --color-btn-home-hover: #2d3748;
+  --color-btn-start-bg: #4a90d9;
+  --color-btn-start-hover: #5ba0e9;
+  --color-btn-xpy-bg: #38a169;
+  --color-btn-xpy-hover: #2f855a;
+  --color-btn-uyt-bg: #dd6b20;
+  --color-btn-uyt-hover: #c05621;
+  --color-btn-asd-bg: #805ad5;
+  --color-btn-asd-hover: #6b46c1;
+  --color-btn-about-bg: #38a169;
+  --color-btn-about-hover: #2f855a;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -8,11 +54,12 @@ html {
 
 body {
   margin: 0;
+  background: var(--color-bg);
 }
 
 header {
-  background: #023d6d;
-  color: white;
+  background: var(--color-header-bg);
+  color: var(--color-text-on-primary);
   padding: 1rem;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -24,11 +71,11 @@ header nav {
 }
 
 header nav a {
-  color: white;
+  color: var(--color-text-on-primary);
   text-decoration: none;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  border: 1px solid white;
+  border: 1px solid var(--color-text-on-primary);
   border-radius: 5px;
   transition: background 0.2s;
 }
@@ -42,10 +89,10 @@ header nav a:hover {
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 1rem;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #results {
@@ -55,12 +102,12 @@ header nav a:hover {
 #calculator input {
   font: inherit;
   font-size: 3rem;
-  border: 2px solid #023d6d;
+  border: 2px solid var(--color-border);
   width: 10rem;
   padding: 0.15rem;
   margin: auto;
   display: block;
-  color: #023d6d;
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -70,9 +117,9 @@ header nav a:hover {
 
 #calculator button {
   font: inherit;
-  background: #023d6d;
-  color: white;
-  border: 1px solid #023d6d;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border: 1px solid var(--color-border);
   padding: 1rem;
   cursor: pointer;
 }
@@ -83,8 +130,8 @@ header nav a:hover {
 
 #calculator button:hover,
 #calculator button:active {
-  background: #084f88;
-  border-color: #084f88;
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 #calc-actions button {
@@ -95,4 +142,21 @@ header nav a:hover {
   margin-top: 1rem;
   text-align: center;
 }
+
+#dark-mode-toggle {
+  background: transparent;
+  border: 1px solid var(--color-text-on-primary);
+  color: var(--color-text-on-primary);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+#dark-mode-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 
