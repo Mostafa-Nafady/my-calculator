@@ -2,16 +2,16 @@
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 2rem;
-  color: #023d6d;
+  color: var(--color-text);
   text-align: center;
 }
 
 #awr-content h2 {
   margin-top: 0;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #awr-content p {
@@ -27,9 +27,9 @@
 #btn-home {
   display: inline-block;
   font: inherit;
-  background: #6c757d;
+  background: var(--color-btn-home-bg);
   color: white;
-  border: 1px solid #6c757d;
+  border: 1px solid var(--color-btn-home-bg);
   padding: 1rem 2rem;
   cursor: pointer;
   text-decoration: none;
@@ -40,16 +40,16 @@
 
 #btn-home:hover,
 #btn-home:active {
-  background: #5a6268;
-  border-color: #5a6268;
+  background: var(--color-btn-home-hover);
+  border-color: var(--color-btn-home-hover);
 }
 
 #btn-start {
   display: inline-block;
   font: inherit;
-  background: #023d6d;
+  background: var(--color-primary);
   color: white;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   padding: 1rem 2rem;
   cursor: pointer;
   text-decoration: none;
@@ -61,16 +61,16 @@
 
 #btn-start:hover,
 #btn-start:active {
-  background: #084f88;
-  border-color: #084f88;
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 #btn-about {
   display: inline-block;
   font: inherit;
-  background: #28a745;
+  background: var(--color-btn-about-bg);
   color: white;
-  border: 1px solid #28a745;
+  border: 1px solid var(--color-btn-about-bg);
   padding: 1rem 2rem;
   cursor: pointer;
   text-decoration: none;
@@ -82,24 +82,24 @@
 
 #btn-about:hover,
 #btn-about:active {
-  background: #218838;
-  border-color: #218838;
+  background: var(--color-btn-about-hover);
+  border-color: var(--color-btn-about-hover);
 }
 
 #awr-info {
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 1.5rem;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #awr-info h3 {
   margin-top: 0;
   text-align: center;
-  color: #023d6d;
+  color: var(--color-text);
 }
 
 #awr-info ul {
@@ -109,16 +109,17 @@
 }
 
 #awr-info li {
-  background: #f0f4f8;
+  background: var(--color-surface);
   padding: 0.75rem 1rem;
   margin-bottom: 0.75rem;
   border-radius: 5px;
-  border: 1px solid #023d6d;
+  border: 1px solid var(--color-border);
   font-weight: bold;
 }
 
 #awr-info li:last-child {
   margin-bottom: 0;
 }
+
 
 

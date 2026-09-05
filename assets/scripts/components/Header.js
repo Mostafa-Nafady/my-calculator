@@ -17,6 +17,30 @@ function createHeader(title, navLinks = []) {
   titleElement.textContent = title;
   header.appendChild(titleElement);
   
+  // Create dark mode toggle button
+  const toggleButton = document.createElement('button');
+  toggleButton.type = 'button';
+  toggleButton.id = 'dark-mode-toggle';
+  toggleButton.setAttribute('aria-label', 'Toggle dark mode');
+  toggleButton.textContent = '🌙';
+  header.appendChild(toggleButton);
+  
+  // Apply saved theme preference
+  const isDark = localStorage.getItem('dark-theme') === 'true' ||
+    (!localStorage.getItem('dark-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (isDark) {
+    document.body.classList.add('dark-theme');
+    toggleButton.textContent = '☀️';
+  }
+  
+  // Toggle handler
+  toggleButton.addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme');
+    const dark = document.body.classList.contains('dark-theme');
+    localStorage.setItem('dark-theme', dark);
+    toggleButton.textContent = dark ? '☀️' : '🌙';
+  });
+  
   // Create navigation if links are provided
   if (navLinks.length > 0) {
     const nav = document.createElement('nav');
@@ -72,4 +96,5 @@ function replaceHeader(title, navLinks = []) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { createHeader, renderHeader, replaceHeader };
 }
+
 
