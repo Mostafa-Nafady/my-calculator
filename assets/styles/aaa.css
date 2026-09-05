@@ -1,0 +1,22 @@
+#aaa-content {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  border: 1px solid #023d6d;
+  border-radius: 10px;
+  padding: 2rem;
+  color: #023d6d;
+  text-align: center;
+}
+
+#aaa-content h2 {
+  margin-top: 0;
+  color: #023d6d;
+}
+
+#aaa-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+}
+
