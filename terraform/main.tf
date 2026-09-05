@@ -8,8 +8,20 @@ terraform {
     }
   }
 
-  # Backend: local (suitable for single-developer or prototyping)
-  # For team environments, switch to a remote backend (S3 + DynamoDB lock)
+  # ── Remote State Backend: S3 + DynamoDB ──────────────────────────
+  # State is stored in an S3 bucket with DynamoDB-based locking for
+  # team safety. The backend resources are provisioned in backend.tf.
+  #
+  # NOTE: Terraform backend blocks do NOT support variable interpolation.
+  # The bucket name and table name below must match the defaults in
+  # variables.tf. If you change them, update both places.
+  backend "s3" {
+    bucket         = "my-calculator-terraform-state"
+    key            = "my-calculator/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "my-calculator-terraform-locks"
+  }
 }
 
 provider "aws" {
@@ -23,4 +35,5 @@ provider "aws" {
     }
   }
 }
+
 

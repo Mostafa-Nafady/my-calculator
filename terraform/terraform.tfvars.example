@@ -26,3 +26,9 @@ domain_name = ""
 #   Owner       = "devops"
 # }
 
+# Terraform remote state backend resources
+# These must match the backend configuration in main.tf
+terraform_state_bucket = "my-calculator-terraform-state"
+terraform_locks_table  = "my-calculator-terraform-locks"
+
+

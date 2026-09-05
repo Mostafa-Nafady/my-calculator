@@ -1,3 +1,6 @@
+# Note: required_version and required_providers are declared in main.tf.
+# Per-file terraform blocks are omitted to avoid duplicate declaration warnings.
+
 # ------------------------------------------------------------------------------
 # CloudFront Distribution — HTTPS edge for the S3 static site
 # ------------------------------------------------------------------------------
@@ -72,4 +75,5 @@ resource "aws_cloudfront_distribution" "this" {
   # Ensure the OAC exists before the distribution references it
   depends_on = [aws_cloudfront_origin_access_control.this]
 }
+
 

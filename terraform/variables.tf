@@ -37,3 +37,16 @@ variable "tags" {
   default     = {}
 }
 
+variable "terraform_state_bucket" {
+  description = "Name of the S3 bucket for Terraform remote state storage. Must match the backend configuration in main.tf."
+  type        = string
+  default     = "my-calculator-terraform-state"
+}
+
+variable "terraform_locks_table" {
+  description = "Name of the DynamoDB table for Terraform state locking. Must match the backend configuration in main.tf."
+  type        = string
+  default     = "my-calculator-terraform-locks"
+}
+
+

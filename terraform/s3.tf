@@ -1,3 +1,6 @@
+# Note: required_version and required_providers are declared in main.tf.
+# Per-file terraform blocks are omitted to avoid duplicate declaration warnings.
+
 # ------------------------------------------------------------------------------
 # S3 Bucket — Static Site Origin (private, served only via CloudFront OAC)
 # ------------------------------------------------------------------------------
@@ -80,4 +83,5 @@ resource "aws_s3_bucket_policy" "this" {
   # Ensure the public access block is in place before the policy
   depends_on = [aws_s3_bucket_public_access_block.this]
 }
+
 
