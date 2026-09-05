@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>AAA - My Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <link rel="stylesheet" href="assets/styles/aaa.css" />
+    <script src="assets/scripts/components/Header.js" defer></script>
+    <script src="assets/scripts/aaa.js" defer></script>
+  </head>
+  <body>
+    <div id="header-container"></div>
+
+    <section id="aaa-content">
+      <h2>AAA Calculator</h2>
+      <p>
+        The AAA Calculator is a simple AAA calculator that performs basic
+        arithmetic operations including addition, subtraction, multiplication,
+        and division.
+      </p>
+    </section>
+
+    <section id="calculator">
+      <input id="input-x" type="number" placeholder="Enter number" />
+      <input id="input-y" type="number" placeholder="Enter number" />
+      <div id="calc-actions">
+        <button type="button" id="btn-add" data-action="add">+</button>
+        <button type="button" id="btn-subtract" data-action="subtract">-</button>
+        <button type="button" id="btn-multiply" data-action="multiply">*</button>
+        <button type="button" id="btn-divide" data-action="divide">/</button>
+      </div>
+    </section>
+
+    <section id="results">
+      <p id="result-text">Result: </p>
+    </section>
+  </body>
+</html>
+
