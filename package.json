@@ -1,0 +1,22 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "description": "A web-based calculator suite with multiple calculator types: basic arithmetic, XPY power, UYT yield, ASX stock returns, ASD, ADDOP, and ASDSFSF",
+  "main": "index.html",
+  "scripts": {
+    "serve": "npx serve -l 3000 .",
+    "deploy": "aws s3 sync . s3://my-calculator-site --delete --exclude '.git/*' --exclude 'node_modules/*' --exclude '.github/*' --exclude 'offloaded/*' --exclude 'terraform/*'",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths '/*'",
+    "deploy:full": "npm run deploy && npm run invalidate"
+  },
+  "keywords": [
+    "calculator",
+    "static-site",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
