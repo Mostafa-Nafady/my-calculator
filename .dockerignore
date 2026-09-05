@@ -1,0 +1,30 @@
+# Version control
+.git
+.gitignore
+
+# Environment files — never include secrets in the image
+.env
+.env.example
+
+# Node.js artifacts (not needed — static site, no build step)
+node_modules
+package-lock.json
+
+# Documentation
+README.md
+*.md
+
+# CI/CD and Docker files (not needed inside the image)
+.github/
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+*~
+
