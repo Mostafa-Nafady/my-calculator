@@ -1,0 +1,90 @@
+# CI/CD Pipeline for Static Website (AWS S3 + CloudFront)
+#
+# Required GitHub Secrets:
+#   S3_BUCKET_NAME             - The name of the S3 bucket for static site hosting
+#   CLOUDFRONT_DISTRIBUTION_ID - The CloudFront distribution ID to invalidate
+#   AWS_ACCESS_KEY_ID          - AWS access key with S3 and CloudFront permissions
+#   AWS_SECRET_ACCESS_KEY      - AWS secret access key
+#
+# This workflow runs security scans on every push and PR.
+# On push to main, it deploys the static site to S3 and invalidates CloudFront.
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Cancel in-progress runs for the same branch/PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─────────────────────────────────────────────
+  # Job 1: Security Scanning
+  # ─────────────────────────────────────────────
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          args: --severity HIGH,CRITICAL --exit-code 1 --ignore-unfixed .
+
+      - name: Run gitleaks secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─────────────────────────────────────────────
+  # Job 2: Deploy to AWS S3 + CloudFront
+  # Only runs on push to main (not on PRs)
+  # ─────────────────────────────────────────────
+  deploy:
+    needs: security-scan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Sync static files to S3
+        run: |
+          aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }} \
+            --delete \
+            --exclude '.git/*' \
+            --exclude 'node_modules/*' \
+            --exclude '.github/*' \
+            --exclude 'offloaded/*' \
+            --exclude 'terraform/*' \
+            --exclude '.env*'
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths '/*'
+
