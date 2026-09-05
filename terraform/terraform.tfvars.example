@@ -1,0 +1,28 @@
+# ==============================================================================
+# Example Terraform Variables — copy to terraform.tfvars and adjust as needed
+#   cp terraform.tfvars.example terraform.tfvars
+# ==============================================================================
+
+# S3 bucket name — must be globally unique across all AWS accounts
+bucket_name = "my-calculator-site"
+
+# AWS region for all resources
+# CloudFront is global, but the S3 origin bucket is regional
+aws_region = "us-east-1"
+
+# Deployment environment — used in resource tags
+# Valid values: production, staging, dev
+environment = "production"
+
+# Optional custom domain name (e.g. "www.my-calculator.com")
+# Leave empty ("") to use the default CloudFront domain (*.cloudfront.net)
+# If set, you must also configure Route 53 / ACM certificate separately
+domain_name = ""
+
+# Additional tags merged with default tags (Project, Environment, ManagedBy)
+# tags = {
+#   Team        = "frontend"
+#   CostCenter  = "CC-1001"
+#   Owner       = "devops"
+# }
+
