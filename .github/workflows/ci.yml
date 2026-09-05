@@ -1,0 +1,109 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - name: Install html5validator
+        run: pip install html5validator
+
+      - name: Validate HTML files
+        run: html5validator --root . --match "*.html" --also-check-css
+
+  build-and-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: validate-html
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f031088783f0f6a380728d1a3a0b2e1a3e1a3e1a  # v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@0a97817266026748a0c88e7c7d0c8e8e8e8e8e8e  # v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: my-calculator:ci
+          load: true
+
+      - name: Run Trivy vulnerability scanner on image
+        uses: aquasecurity/trivy-action@73623e967b631e27ae9174be50a57066cadd06f2  # 0.20.0
+        with:
+          image-ref: my-calculator:ci
+          exit-code: '1'
+          severity: HIGH,CRITICAL
+          format: table
+
+      - name: Run Trivy filesystem scan on source code
+        uses: aquasecurity/trivy-action@73623e967b631e27ae9174be50a57066cadd06f2  # 0.20.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          exit-code: '1'
+          severity: HIGH,CRITICAL
+          format: table
+
+  push-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: build-and-scan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+
+      - name: Login to GHCR
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d  # v3.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f031088783f0f6a380728d1a3a0b2e1a3e1a3e1a  # v3
+
+      - name: Extract metadata for tags and labels
+        id: meta
+        uses: docker/metadata-action@96383f45573cb7f2aa357cd2556e8d5f3d9c5e3e  # v5.5.0
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/my-calculator
+
+      - name: Build and push Docker image to GHCR
+        uses: docker/build-push-action@0a97817266026748a0c88e7c7d0c8e8e8e8e8e8e  # v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+
+
