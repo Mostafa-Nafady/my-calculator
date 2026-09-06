@@ -1,0 +1,11 @@
+{
+  "version": "v1.0.0",
+  "language": "js",
+  "ignore": {},
+  "exclude": [
+    "**/node_modules/**",
+    "**/.git/**"
+  ],
+  "severityThreshold": "high"
+}
+
