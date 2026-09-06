@@ -1,0 +1,27 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "description": "Web-based calculator with multiple calculator variants",
+  "main": "index.html",
+  "scripts": {
+    "start": "docker compose up",
+    "serve": "npx serve .",
+    "build": "echo 'No build step required for static site'",
+    "test": "echo 'No tests configured yet' && exit 0",
+    "lint": "npx htmlhint *.html || echo 'htmlhint not installed, skipping'"
+  },
+  "keywords": [
+    "calculator",
+    "html",
+    "css",
+    "javascript",
+    "static-site"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+
