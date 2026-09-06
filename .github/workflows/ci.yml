@@ -1,0 +1,230 @@
+# ------------------------------------------------------------------------------
+# CI/CD Pipeline for my-calculator (static HTML/CSS/JS website)
+# ------------------------------------------------------------------------------
+# Stages: lint → security-scan → build → deploy-staging → deploy-production
+# ------------------------------------------------------------------------------
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: my-calculator
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Lint — HTML validation with HTMLHint + asset reference check
+  # ---------------------------------------------------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Run HTMLHint on all HTML files
+        run: htmlhint '**/*.html' --config .htmlhintrc
+
+      - name: Verify referenced CSS/JS files exist
+        run: |
+          set -euo pipefail
+          echo "Checking that all locally referenced CSS and JS files exist..."
+          missing=0
+          while IFS= read -r htmlfile; do
+            dir="$(dirname "$htmlfile")"
+            # Extract href values ending in .css and src values ending in .js
+            refs=$(grep -ohE '(href|src)="[^"]+\.(css|js)"' "$htmlfile" \
+              | sed -E 's/.*="([^"]+)"/\1/' \
+              | grep -vE '^https?://' \
+              || true)
+            for ref in $refs; do
+              # Resolve relative to the HTML file's directory
+              target="$dir/$ref"
+              if [ ! -f "$target" ]; then
+                echo "WARNING: Referenced file not found: $ref (in $htmlfile)"
+                missing=$((missing + 1))
+              fi
+            done
+          done < <(find . -name '*.html' -not -path './.git/*')
+          if [ "$missing" -gt 0 ]; then
+            echo "::warning::$missing referenced CSS/JS file(s) not found."
+          else
+            echo "All referenced CSS/JS files exist."
+          fi
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Security Scan — Trivy filesystem scan + secret detection
+  # ---------------------------------------------------------------------------
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy filesystem scan (SARIF)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+
+      - name: Run Trivy secret scan on .env
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'secret'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+
+  # ---------------------------------------------------------------------------
+  # Job 3: Build — Docker image build + image scan + artifact upload
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [lint, security-scan]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Trivy image scan
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: ${{ env.IMAGE_NAME }}:latest
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          format: 'table'
+
+      - name: Save Docker image as artifact
+        run: docker save -o my-calculator.tar ${{ env.IMAGE_NAME }}:latest
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: my-calculator.tar
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # Job 4: Deploy to Staging (only on push to main/master)
+  # ---------------------------------------------------------------------------
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: staging
+    timeout-minutes: 10
+    steps:
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: docker-image
+
+      - name: Load Docker image
+        run: docker load -i docker-image/my-calculator.tar
+
+      - name: Deploy to staging server
+        run: |
+          echo "Deploy to staging server"
+          echo "Image: ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          # Actual deployment would use SSH, docker-compose, or cloud provider actions
+
+      - name: Verify staging deployment
+        run: |
+          echo "Verify staging deployment"
+          # Actual health check would run on the staging server:
+          # ssh staging-host curl -sf http://localhost:8080/ || exit 1
+
+  # ---------------------------------------------------------------------------
+  # Job 5: Deploy to Production (requires manual approval via environment)
+  # ---------------------------------------------------------------------------
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: production
+    timeout-minutes: 10
+    steps:
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: docker-image
+
+      - name: Load Docker image
+        run: docker load -i docker-image/my-calculator.tar
+
+      - name: Deploy to production server
+        run: |
+          echo "Deploy to production server"
+          echo "Image: ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          # Actual deployment would use SSH, docker-compose, or cloud provider actions
+
+      - name: Verify production deployment
+        run: |
+          echo "Verify production deployment"
+          # Actual health check would run on the production server:
+          # ssh prod-host curl -sf http://localhost:8080/ || exit 1
+
