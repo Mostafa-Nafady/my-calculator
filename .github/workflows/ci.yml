@@ -12,7 +12,7 @@ on:
 permissions:
   contents: read
   security-events: write
-  packages: read
+  packages: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,9 +23,60 @@ env:
 
 jobs:
   # ──────────────────────────────────────────────
-  # Quality: install, check, build, upload dist/
+  # Lint: Run ESLint on the codebase to catch
+  # style and quality issues early.
   # ──────────────────────────────────────────────
-  quality:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  # ──────────────────────────────────────────────
+  # Test: Run Vitest unit tests to verify
+  # application logic and prevent regressions.
+  # ──────────────────────────────────────────────
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  # ──────────────────────────────────────────────
+  # Build: Run astro check for type diagnostics,
+  # then build the static site and upload dist/
+  # as an artifact for downstream jobs.
+  # ──────────────────────────────────────────────
+  build:
+    needs: [lint, test]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -56,9 +107,12 @@ jobs:
           retention-days: 7
 
   # ──────────────────────────────────────────────
-  # Security: Trivy filesystem scan + CodeQL
+  # Security: Run Trivy filesystem scan and CodeQL
+  # SAST analysis to detect vulnerabilities in
+  # source code and dependencies.
   # ──────────────────────────────────────────────
   security:
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -93,13 +147,18 @@ jobs:
           category: codeql
 
   # ──────────────────────────────────────────────
-  # Docker: build image & scan (push to main only)
+  # Docker: Build the multi-stage Docker image,
+  # push to GitHub Container Registry (GHCR),
+  # and scan the built image with Trivy.
+  # Runs only on pushes to main.
   # ──────────────────────────────────────────────
   docker:
-    needs: quality
+    needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    outputs:
+      image: ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -113,22 +172,40 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image (no push)
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha
+            type=raw,value=latest
+            type=raw,value=${{ github.ref_name }}
+
+      - name: Build and push Docker image
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           target: production
-          push: false
-          load: true
-          tags: ${{ env.IMAGE_NAME }}:ci
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Trivy container scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ env.IMAGE_NAME }}:ci
+          image-ref: ghcr.io/${{ github.repository }}:latest
           severity: CRITICAL,HIGH
           exit-code: '1'
           format: sarif
@@ -140,4 +217,67 @@ jobs:
         with:
           sarif_file: trivy-image-results.sarif
           category: trivy-image
+
+  # ──────────────────────────────────────────────
+  # Deploy: SSH into the production server, pull
+  # the latest image from GHCR, and perform a
+  # zero-downtime deploy with docker compose.
+  # Requires both docker and security jobs to pass.
+  # ──────────────────────────────────────────────
+  deploy:
+    needs: [docker, security]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      # Anti-pattern #7: use fetch-depth: 1 (NOT 0) for fast shallow clone
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Configure SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+      - name: Scan host keys
+        run: ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts || true
+
+      - name: Copy docker-compose.yml to server
+        run: scp -i ~/.ssh/deploy_key docker-compose.yml ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:~/my-calculator/
+
+      # Anti-pattern #1: use double-quoted heredoc (<< "EOF") for variable expansion
+      - name: Deploy via SSH
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << "EOF"
+          cd ~/my-calculator
+          export IMAGE_TAG=${{ github.sha }}
+          # Login to GHCR
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          # Pull latest image
+          docker pull ghcr.io/${{ github.repository }}:latest
+          # Update image tag in docker-compose.yml (anti-pattern #4: anchored to image: key)
+          sed -i "s|image: my-calculator:latest|image: ghcr.io/${{ github.repository }}:latest|g" docker-compose.yml
+          # Zero-downtime deploy (anti-pattern #5: use --force-recreate, NOT down && up)
+          docker compose up -d --force-recreate
+          EOF
+
+      # Anti-pattern #6: health check runs ON the server via SSH, NOT from the GitHub runner
+      - name: Health check (on server)
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << "EOF"
+          sleep 5
+          curl -sf http://localhost:8080/health || exit 1
+          EOF
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
+
 
