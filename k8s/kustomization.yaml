@@ -1,0 +1,25 @@
+---
+# Kustomize bundle for the my-calculator application.
+#
+# Usage:
+#   kubectl apply -k k8s/
+#   kubectl delete -k k8s/
+#
+# commonLabels are applied to all resources for consistent labeling
+# and easy selection via kubectl (e.g., kubectl get all -l app.kubernetes.io/name=my-calculator).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+  - pdb.yaml
+  - networkpolicy.yaml
+
+commonLabels:
+  app.kubernetes.io/name: my-calculator
+  app.kubernetes.io/managed-by: kustomize
+

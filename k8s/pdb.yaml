@@ -1,0 +1,23 @@
+---
+# PodDisruptionBudget for my-calculator.
+#
+# Ensures at least 1 pod remains available during voluntary disruptions
+# (e.g., node drain, cluster autoscaler, maintenance). This prevents
+# total downtime when nodes are taken offline.
+#
+# With 3 replicas and minAvailable: 1, at most 2 pods can be
+# simultaneously disrupted, keeping the service responsive.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: my-calculator
+  namespace: my-calculator
+  labels:
+    app.kubernetes.io/name: my-calculator
+    app.kubernetes.io/part-of: my-calculator
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: my-calculator
+

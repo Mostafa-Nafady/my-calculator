@@ -1,0 +1,142 @@
+---
+# Deployment for the my-calculator static website.
+#
+# The container image (my-calculator:latest) is built from a multi-stage
+# Dockerfile whose production stage uses nginx:1.27-alpine, runs as the
+# non-root 'nginx' user (UID 101), and serves static HTML on port 80.
+#
+# Security posture mirrors docker-compose.yml:
+#   - Read-only root filesystem (nginx writes only to tmpfs mounts)
+#   - All Linux capabilities dropped
+#   - No privilege escalation allowed
+#   - Runs as non-root user (UID/GID 101)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-calculator
+  namespace: my-calculator
+  labels:
+    app.kubernetes.io/name: my-calculator
+    app.kubernetes.io/part-of: my-calculator
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10  # Keep 10 old ReplicaSets for rollback
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # Allow 1 extra pod during rollout (4 total)
+      maxUnavailable: 0  # Never go below desired replica count (zero-downtime)
+  selector:
+    matchLabels:
+      app: my-calculator
+  template:
+    metadata:
+      labels:
+        app: my-calculator
+        tier: frontend
+        app.kubernetes.io/name: my-calculator
+    spec:
+      # Pod-level security context.
+      # runAsNonRoot: enforce non-root execution at the pod level.
+      # seccompProfile: use the runtime's default seccomp profile to
+      #   block unnecessary syscalls.
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: my-calculator
+          image: my-calculator:latest
+          imagePullPolicy: IfNotPresent  # Local image; avoid pulling from registry
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          # Resource requests and limits match docker-compose.yml:
+          #   limits:   256M memory / 0.5 CPU
+          #   requests:  64M memory / 0.1 CPU
+          # Static file serving is lightweight; these values provide
+          # headroom for traffic spikes without over-provisioning.
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 500m
+          # Container-level security context — mirrors docker-compose:
+          #   runAsUser/Group 101 (nginx user built into the base image)
+          #   readOnlyRootFilesystem: true (writes go to tmpfs mounts)
+          #   allowPrivilegeEscalation: false
+          #   capabilities.drop: ALL
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          # tmpfs mounts (emptyDir with medium: Memory) for nginx
+          # writable directories. These match the docker-compose tmpfs
+          # mounts and are required because the root filesystem is read-only.
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            # Mount the custom nginx.conf from the ConfigMap.
+            # subPath ensures only nginx.conf is mounted (not the entire
+            # /etc/nginx directory), preserving the base image's other
+            # config files (mime.types, fastcgi_params, etc.).
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+          # Liveness probe: restart the pod if nginx stops responding.
+          # Matches the Dockerfile HEALTHCHECK (curl http://localhost:80/).
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          # Readiness probe: only route traffic to pods that are ready.
+          # Shorter interval than liveness for faster traffic convergence.
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          # Startup probe: give nginx up to 5 minutes (30 × 10s) to start.
+          # Prevents liveness probe from killing slow-starting pods.
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 30
+            periodSeconds: 10
+      volumes:
+        # tmpfs-backed emptyDir volumes for nginx writable paths.
+        # medium: Memory uses RAM (tmpfs), matching docker-compose tmpfs.
+        - name: tmp
+          emptyDir:
+            medium: Memory
+        - name: nginx-cache
+          emptyDir:
+            medium: Memory
+        - name: nginx-run
+          emptyDir:
+            medium: Memory
+        # ConfigMap volume for the custom nginx.conf.
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+

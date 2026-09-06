@@ -1,0 +1,66 @@
+---
+# ConfigMap containing a custom nginx.conf.
+#
+# The Dockerfile sets readOnlyRootFilesystem: true, which means nginx
+# cannot write to its default temp/cache paths (/var/cache/nginx,
+# /var/run, /tmp are mounted as tmpfs/emptyDir in the deployment).
+# This config explicitly redirects all temp paths to /tmp-backed
+# directories so nginx starts cleanly under a read-only root filesystem.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: my-calculator
+  labels:
+    app.kubernetes.io/name: my-calculator
+    app.kubernetes.io/part-of: my-calculator
+data:
+  nginx.conf: |
+    worker_processes auto;
+    pid /tmp/nginx.pid;
+
+    events {
+      worker_connections 1024;
+    }
+
+    http {
+      # Redirect all temp/cache paths to /tmp so they work on a
+      # read-only root filesystem (tmpfs-backed emptyDir volumes).
+      client_body_temp_path /tmp/client_temp;
+      proxy_temp_path       /tmp/proxy_temp;
+      fastcgi_temp_path     /tmp/fastcgi_temp;
+      uwsgi_temp_path       /tmp/uwsgi_temp;
+      scgi_temp_path        /tmp/scgi_temp;
+
+      # Cache and log paths under writable directories.
+      # /var/cache/nginx is mounted as an emptyDir (tmpfs) in the deployment.
+      access_log /var/cache/nginx/access.log;
+      error_log  /var/cache/nginx/error.log warn;
+
+      include /etc/nginx/mime.types;
+      default_type application/octet-stream;
+
+      sendfile on;
+      tcp_nopush on;
+      keepalive_timeout 65;
+      gzip on;
+
+      server {
+        listen 80;
+        server_name _;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+          try_files $uri $uri/ =404;
+        }
+
+        # Cache static assets for better performance.
+        location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+          expires 1y;
+          add_header Cache-Control "public, immutable";
+        }
+      }
+    }
+

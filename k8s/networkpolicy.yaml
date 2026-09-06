@@ -1,0 +1,49 @@
+---
+# NetworkPolicy for my-calculator.
+#
+# Ingress: Allow traffic from any namespace on port 80.
+#   The LoadBalancer service forwards external traffic to pods, so
+#   ingress must be open. Restricting by namespace would block the
+#   cloud provider's load balancer health checks and external traffic.
+#
+# Egress: Allow all egress.
+#   nginx needs DNS resolution (kube-dns on port 53) and may need
+#   to reach external endpoints. For a static site, egress is minimal,
+#   but DNS must work for nginx to start properly.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: my-calculator
+  namespace: my-calculator
+  labels:
+    app.kubernetes.io/name: my-calculator
+    app.kubernetes.io/part-of: my-calculator
+spec:
+  podSelector:
+    matchLabels:
+      app: my-calculator
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow inbound HTTP traffic on port 80 from any source.
+    # Required for LoadBalancer traffic and health checks.
+    - from:
+        - namespaceSelector: {}  # Any namespace
+      ports:
+        - protocol: TCP
+          port: 80
+  egress:
+    # Allow all egress — needed for DNS resolution and general connectivity.
+    # A static site has minimal egress needs, but DNS (kube-dns) is essential.
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53  # DNS
+        - protocol: TCP
+          port: 53  # DNS over TCP
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0  # Allow egress to any IP (non-DNS)
+
