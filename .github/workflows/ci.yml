@@ -1,3 +1,5 @@
+# CI/CD Pipeline for my-calculator static HTML website
+# Builds nginx-based Docker image, scans for vulnerabilities, and pushes to GHCR
 name: CI/CD Pipeline
 
 on:
@@ -6,27 +8,30 @@ on:
   pull_request:
     branches: [main]
 
+# Least-privilege permissions:
+#   contents: read  — checkout source code
+#   packages: write — push container image to GHCR
 permissions:
   contents: read
   packages: write
-  security-events: write
 
+# Cancel in-progress runs for the same branch/PR to save CI minutes
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # ─────────────────────────────────────────────
-  # Job 1: Validate HTML files
-  # ─────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────
+  # Job 1: Validate — HTML linting and structural checks
+  # ──────────────────────────────────────────────────────────────
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -34,27 +39,52 @@ jobs:
       - name: Install HTMLHint
         run: npm install -g htmlhint
 
-      - name: Run HTML validation
+      - name: Run HTMLHint on all HTML files
+        # continue-on-error: true because htmlhint is a newly introduced check
+        # and may flag existing issues. Once issues are resolved, set to false.
         continue-on-error: true
-        run: htmlhint *.html **/*.html
+        run: htmlhint "**/*.html"
 
-  # ─────────────────────────────────────────────
-  # Job 2: Security scan (filesystem + secrets)
-  # ─────────────────────────────────────────────
+      - name: Validate HTML files exist and are non-empty
+        run: |
+          set -euo pipefail
+          echo "Checking that all HTML files are non-empty..."
+          found=0
+          while IFS= read -r -d '' file; do
+            found=1
+            size=$(stat -c%s "$file")
+            if [ "$size" -eq 0 ]; then
+              echo "::error::HTML file is empty: $file"
+              exit 1
+            fi
+            echo "✓ $file ($size bytes)"
+          done < <(find . -name '*.html' -not -path './.git/*' -print0)
+          if [ "$found" -eq 0 ]; then
+            echo "::error::No HTML files found in repository"
+            exit 1
+          fi
+          echo "All HTML files validated successfully."
+
+  # ──────────────────────────────────────────────────────────────
+  # Job 2: Security Scan — Trivy filesystem & secret scanning
+  # ──────────────────────────────────────────────────────────────
   security-scan:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout repository
+      - name: Checkout source (full history for secret scanning)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Trivy filesystem scan
+      - name: Trivy filesystem scan (vulnerabilities)
         uses: aquasecurity/trivy-action@0.24.0
         with:
           scan-type: fs
           scan-ref: .
           severity: HIGH,CRITICAL
           exit-code: '1'
+          format: table
 
       - name: Trivy secret scan
         uses: aquasecurity/trivy-action@0.24.0
@@ -62,54 +92,71 @@ jobs:
           scan-type: fs
           scan-ref: .
           scanners: secret
+          exit-code: '1'
+          format: table
 
-  # ─────────────────────────────────────────────
-  # Job 3: Build, push, and scan Docker image
-  # ─────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────
+  # Job 3: Build and Push — Docker image build, scan, and GHCR push
+  # ──────────────────────────────────────────────────────────────
   build-and-push:
     needs: [validate, security-scan]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to GHCR
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
+      - name: Extract metadata (tags, labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=ref,event=branch
-            type=sha,prefix=sha-
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=short
+            type=ref,event=pr
 
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./Dockerfile
-          push: ${{ github.event_name == 'push' }}
+          # Push only on merge to main (push event); on PRs, load locally for scanning
+          push: ${{ github.event_name != 'pull_request' }}
+          load: ${{ github.event_name == 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          load: ${{ github.event_name != 'push' }}
 
-      - name: Trivy image scan
+      - name: Trivy image scan (on push to main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: aquasecurity/trivy-action@0.24.0
         with:
-          image-ref: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
+          scan-type: image
+          scan-ref: ghcr.io/${{ github.repository }}:latest
           severity: HIGH,CRITICAL
           exit-code: '1'
+          format: table
+
+      - name: Trivy image scan (on PR — local image)
+        if: github.event_name == 'pull_request'
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: image
+          scan-ref: ghcr.io/${{ github.repository }}:pr-${{ github.event.pull_request.number }}
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          format: table
+
 

@@ -1,3 +1,5 @@
+# CodeQL Analysis — SAST scanning for JavaScript
+# Runs on every push/PR to main and weekly on Sunday at 00:00 UTC
 name: CodeQL Analysis
 
 on:
@@ -6,12 +8,17 @@ on:
   pull_request:
     branches: [main]
   schedule:
+    # Weekly scan every Sunday at 00:00 UTC
     - cron: '0 0 * * 0'
 
+# Least-privilege permissions:
+#   contents: read         — checkout source code
+#   security-events: write — upload CodeQL analysis results to GitHub Security
 permissions:
   contents: read
   security-events: write
 
+# Cancel in-progress runs for the same branch/PR
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -21,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Initialize CodeQL
@@ -30,9 +37,9 @@ jobs:
           languages: javascript
           queries: security-and-quality
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
-
-      - name: Perform CodeQL analysis
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:javascript'
+
 
