@@ -1,17 +1,30 @@
+:root {
+  --color-gray: #6c757d;
+  --color-gray-dark: #5a6268;
+}
+
 #uyt-calculator {
   margin: 2rem auto;
   width: 40rem;
   max-width: 90%;
-  border: 1px solid #023d6d;
-  border-radius: 10px;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
   padding: 2rem;
-  color: #023d6d;
+  color: var(--color-primary);
   text-align: center;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--transition-base);
+}
+
+#uyt-calculator:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 #uyt-calculator h2 {
   margin-top: 0;
-  color: #023d6d;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
 }
 
 #uyt-calculator p {
@@ -31,23 +44,31 @@
 #uyt-inputs input {
   font: inherit;
   font-size: 1.5rem;
-  border: 2px solid #023d6d;
+  border: 2px solid var(--color-primary);
   width: 6rem;
   padding: 0.5rem;
-  color: #023d6d;
+  color: var(--color-primary);
   text-align: center;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast);
 }
 
 #uyt-inputs input:focus {
   outline: none;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(2, 61, 109, 0.15);
+}
+
+#uyt-inputs input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 #multiply-symbol,
 #divide-symbol {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #023d6d;
+  color: var(--color-primary);
 }
 
 #uyt-actions {
@@ -59,30 +80,50 @@
 
 #uyt-actions button {
   font: inherit;
-  background: #023d6d;
-  color: white;
-  border: 1px solid #023d6d;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-primary);
   padding: 1rem 2rem;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   font-size: 1.1rem;
-  transition: background 0.2s, border-color 0.2s;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+  transform: translateY(0);
+}
+
+#uyt-actions button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 #uyt-actions button:hover,
 #uyt-actions button:active {
-  background: #084f88;
-  border-color: #084f88;
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 #btn-clear {
-  background: #6c757d !important;
-  border-color: #6c757d !important;
+  background: var(--color-gray);
+  border-color: var(--color-gray);
+  font-weight: 700;
+  transition: all var(--transition-fast);
+  transform: translateY(0);
+}
+
+#btn-clear:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 #btn-clear:hover,
 #btn-clear:active {
-  background: #5a6268 !important;
-  border-color: #5a6268 !important;
+  background: var(--color-gray-dark);
+  border-color: var(--color-gray-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
+
 
