@@ -18,7 +18,41 @@ COPY . .
 RUN npm run build
 
 # ============================================
-# Stage 2: Serve with nginx
+# Stage 2: Development with hot-reloading
+# ============================================
+FROM node:22-alpine AS development
+
+WORKDIR /app
+
+# Set development environment
+ENV NODE_ENV=development
+
+# Copy package manifest and lockfile for deterministic installs
+COPY package.json package-lock.json ./
+
+# Install all dependencies (including devDependencies)
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Create non-root user for security
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Set ownership of the app directory
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose Astro dev server port
+EXPOSE 4321
+
+# Start Astro dev server with host binding for container access
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
+# ============================================
+# Stage 3: Serve with nginx
 # ============================================
 FROM nginx:1.27-alpine AS production
 
@@ -47,4 +81,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 # Start nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
+
 

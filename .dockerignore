@@ -44,7 +44,9 @@ yarn-error.log*
 # Docker files (not needed inside the build context)
 Dockerfile
 docker-compose.yml
+docker-compose.dev.yml
 .dockerignore
 
 # NOTE: package-lock.json is intentionally NOT excluded — required for `npm ci`
+
 
