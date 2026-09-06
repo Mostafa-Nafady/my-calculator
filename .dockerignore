@@ -1,0 +1,39 @@
+# ---------- .dockerignore for my-calculator ----------
+# Excludes non-runtime files from the Docker build context.
+
+# Version control
+.git/
+.gitignore
+
+# Node.js (no build step — not needed in image)
+node_modules/
+package.json
+package-lock.json
+
+# Environment & secrets
+.env
+.env.*
+
+# Security tooling configs
+.trivyignore
+.snyk
+
+# CI/CD
+.github/
+
+# Documentation
+*.md
+docs/
+
+# Docker files (not needed inside the image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+logs/
+
+# Misc
+.DS_Store
+*.log
+
