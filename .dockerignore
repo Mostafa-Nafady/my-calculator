@@ -33,7 +33,11 @@ docker-compose.yml
 # Logs
 logs/
 
+# Offloaded context (internal tooling)
+offloaded/
+
 # Misc
 .DS_Store
 *.log
+
 

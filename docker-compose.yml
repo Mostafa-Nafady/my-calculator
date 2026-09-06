@@ -1,17 +1,22 @@
 # ---------- docker-compose.yml for my-calculator ----------
-# Static website served by nginx on port 8080.
+# Development-optimized: live volume mounts reflect local file changes
+# immediately in the running container without rebuild.
 
 services:
   calculator-web:
     build:
       context: .
       dockerfile: Dockerfile
+      target: production
     image: my-calculator:latest
     container_name: calculator-web
     ports:
       - "8080:8080"
-    environment:
-      - NODE_ENV=production
+    volumes:
+      # Live development: mount local source so file changes are reflected immediately
+      - ./:/usr/share/nginx/html/
+      # Mount nginx config as read-only
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/"]
@@ -27,10 +32,9 @@ services:
         reservations:
           memory: 64M
           cpus: "0.1"
-    volumes:
-      - ./logs:/var/log/nginx
 
 networks:
   default:
     driver: bridge
+
 
