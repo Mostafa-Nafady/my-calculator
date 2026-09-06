@@ -41,7 +41,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   let currentResult: number = defaultResult;
   let inputUser: string = getUserInput();
   let description: string;
-  let logEntry: { operation: string; result: number; operand: string }[] = [];
+  const logEntry: { operation: string; result: number; operand: string }[] = [];
 
   function getUserInput(): string {
     return userInput.value;
@@ -115,5 +115,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   multiplyBtn.addEventListener('click', multiplication);
   divideBtn.addEventListener('click', division);
 </script>
+
 
 
