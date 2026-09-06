@@ -1,0 +1,35 @@
+/*
+  zzz.css — Page-specific styles for the ZZZ page.
+  Complements assets/styles/app.css; does not redefine shared
+  header, #calculator, or #results rules. Reuses the same
+  #023d6d / #084f88 palette tokens for visual consistency.
+*/
+
+#zzz-content {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  padding: 1rem;
+  color: #023d6d;
+}
+
+#zzz-content h2 {
+  margin-bottom: 1rem;
+}
+
+#zzz-content p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+#zzz-content a {
+  color: #023d6d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+#zzz-content a:hover,
+#zzz-content a:active {
+  color: #084f88;
+}
+
