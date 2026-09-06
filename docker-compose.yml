@@ -1,0 +1,54 @@
+# Docker Compose — my-calculator static website
+# Usage:  docker compose up -d --build
+# Access: http://localhost:8080
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-calculator:latest
+    container_name: my-calculator
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+    # Read-only root filesystem for security.
+    # nginx needs writable temp directories, so we mount tmpfs for those paths.
+    read_only: true
+    tmpfs:
+      - /tmp:size=10M
+      - /var/cache/nginx:size=20M
+      - /var/run:size=1M
+
+    # Drop all Linux capabilities and prevent privilege escalation
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+    # Resource limits — static site is lightweight
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+        reservations:
+          memory: 64M
+          cpus: "0.1"
+
+    # Health check — matches the Dockerfile HEALTHCHECK
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:80/"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+
+    # Logging — prevent unbounded log growth
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+

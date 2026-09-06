@@ -1,0 +1,38 @@
+# --- Version control ---
+.git
+.gitignore
+.github
+
+# --- Environment / secrets ---
+.env
+.env.*
+
+# --- Node.js (not needed in container — static files only) ---
+node_modules
+package-lock.json
+package.json
+
+# --- Docker files (not needed inside the image) ---
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# --- Documentation ---
+*.md
+LICENSE
+
+# --- Editor / OS artifacts ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode
+.idea
+
+# --- CI / tooling config ---
+.editorconfig
+.prettierrc
+.eslintrc*
+
