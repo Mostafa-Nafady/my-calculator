@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About My Calculator" pageTitle="About" activePage="About">
+  <section id="about-content">
+    <h2>About My Calculator</h2>
+    <p>
+      My Calculator is a simple, web-based calculator application designed to help you
+      perform basic arithmetic operations quickly and easily. Built with modern web
+      technologies, it provides a clean and intuitive interface for all your calculation needs.
+    </p>
+    <p>
+      Whether you need to add up expenses, calculate percentages, perform complex
+      power operations with our XPY calculator, or use our UYT calculator for yield calculations,
+      we've got you covered.
+    </p>
+    <div id="about-actions">
+      <a href="/" id="btn-home">Back to Home</a>
+      <a href="/calculator" id="btn-start">Start Calculating</a>
+      <a href="/uyt" id="btn-uyt">UYT Calculator</a>
+    </div>
+  </section>
+
+  <section id="about-info">
+    <h3>Why Choose My Calculator?</h3>
+    <ul>
+      <li>Simple and intuitive interface</li>
+      <li>Fast and responsive design</li>
+      <li>No installation required - works in your browser</li>
+      <li>Supports basic and advanced operations</li>
+      <li>XPY and UYT calculators included</li>
+      <li>Free to use</li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  #about-content {
+    margin: 2rem auto;
+    width: 40rem;
+    max-width: 90%;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    color: var(--color-primary);
+    text-align: center;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-base);
+  }
+
+  #about-content:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  #about-content h2 {
+    margin-top: 0;
+    color: var(--color-primary);
+    letter-spacing: 0.5px;
+  }
+
+  #about-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 1.5rem 0;
+  }
+
+  #about-actions {
+    margin-top: 2rem;
+  }
+
+  #btn-home {
+    display: inline-block;
+    font: inherit;
+    background: var(--color-gray);
+    color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+  }
+
+  #btn-home:hover,
+  #btn-home:active {
+    background: var(--color-gray-dark);
+    border-color: var(--color-gray-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-home:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #btn-start {
+    display: inline-block;
+    font: inherit;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: 1px solid var(--color-primary);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+    margin-left: 1rem;
+  }
+
+  #btn-start:hover,
+  #btn-start:active {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-start:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #btn-uyt {
+    display: inline-block;
+    font: inherit;
+    background: var(--color-orange);
+    color: var(--color-white);
+    border: 1px solid var(--color-orange);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+    margin-left: 1rem;
+  }
+
+  #btn-uyt:hover,
+  #btn-uyt:active {
+    background: var(--color-orange-dark);
+    border-color: var(--color-orange-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-uyt:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #about-info {
+    margin: 2rem auto;
+    width: 40rem;
+    max-width: 90%;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    color: var(--color-primary);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-base);
+  }
+
+  #about-info:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  #about-info h3 {
+    margin-top: 0;
+    text-align: center;
+    color: var(--color-primary);
+  }
+
+  #about-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #about-info li {
+    background: var(--color-bg);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-primary);
+    font-weight: bold;
+    transition: transform var(--transition-fast);
+  }
+
+  #about-info li:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #about-info li:last-child {
+    margin-bottom: 0;
+  }
+</style>
+
