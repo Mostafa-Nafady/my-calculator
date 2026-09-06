@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="My Calculator" pageTitle="XPY Calculator" activePage="XPY Calculator">
+  <section id="xpy-calculator">
+    <h2>XPY (X Power Y) Calculator</h2>
+    <p>Calculate X raised to the power of Y</p>
+    <div id="xpy-inputs">
+      <input type="number" id="input-base" placeholder="Base (X)" />
+      <span id="power-symbol">^</span>
+      <input type="number" id="input-exponent" placeholder="Exponent (Y)" />
+    </div>
+    <div id="xpy-actions">
+      <button type="button" id="btn-calculate">Calculate</button>
+      <button type="button" id="btn-clear">Clear</button>
+    </div>
+  </section>
+  <section id="results">
+    <h2 id="current-calculation">0</h2>
+    <h2>Result: <span id="current-result">0</span></h2>
+  </section>
+</BaseLayout>
+
+<style>
+  #xpy-calculator {
+    margin: 2rem auto;
+    width: 40rem;
+    max-width: 90%;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    color: var(--color-primary);
+    text-align: center;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-base);
+  }
+
+  #xpy-calculator:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  #xpy-calculator h2 {
+    margin-top: 0;
+    color: var(--color-primary);
+    letter-spacing: 0.5px;
+  }
+
+  #xpy-calculator p {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+  }
+
+  #xpy-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  #xpy-inputs input {
+    font: inherit;
+    font-size: 2rem;
+    border: 2px solid var(--color-primary);
+    width: 8rem;
+    padding: 0.5rem;
+    color: var(--color-primary);
+    text-align: center;
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast);
+  }
+
+  #xpy-inputs input:focus {
+    outline: none;
+    border-color: var(--color-primary-light);
+    box-shadow: 0 0 0 3px rgba(2, 61, 109, 0.15);
+  }
+
+  #xpy-inputs input:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #power-symbol {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+
+  #xpy-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  #xpy-actions button {
+    font: inherit;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: 1px solid var(--color-primary);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+  }
+
+  #xpy-actions button:hover,
+  #xpy-actions button:active {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #xpy-actions button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #btn-clear {
+    background: var(--color-gray);
+    border-color: var(--color-gray);
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+  }
+
+  #btn-clear:hover,
+  #btn-clear:active {
+    background: var(--color-gray-dark);
+    border-color: var(--color-gray-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-clear:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  const baseInput = document.getElementById('input-base') as HTMLInputElement;
+  const exponentInput = document.getElementById('input-exponent') as HTMLInputElement;
+  const calculateBtn = document.getElementById('btn-calculate') as HTMLButtonElement;
+  const clearBtn = document.getElementById('btn-clear') as HTMLButtonElement;
+  const currentCalculation = document.getElementById('current-calculation') as HTMLElement;
+  const currentResult = document.getElementById('current-result') as HTMLElement;
+
+  let defaultResult: number = 0;
+  let currentBase: number = 0;
+  let currentExponent: number = 0;
+
+  function calculateXPY(base: number, exponent: number): number {
+    return Math.pow(base, exponent);
+  }
+
+  function updateCalculationDisplay(base: number, exponent: number, result: number): void {
+    currentCalculation.textContent = `${base} ^ ${exponent}`;
+    currentResult.textContent = String(result);
+  }
+
+  function handleCalculate(): void {
+    const base = parseFloat(baseInput.value);
+    const exponent = parseFloat(exponentInput.value);
+
+    if (isNaN(base) || isNaN(exponent)) {
+      alert('Please enter valid numbers for both base and exponent.');
+      return;
+    }
+
+    currentBase = base;
+    currentExponent = exponent;
+    defaultResult = calculateXPY(base, exponent);
+
+    updateCalculationDisplay(base, exponent, defaultResult);
+  }
+
+  function handleClear(): void {
+    baseInput.value = '';
+    exponentInput.value = '';
+    currentBase = 0;
+    currentExponent = 0;
+    defaultResult = 0;
+    currentCalculation.textContent = '0';
+    currentResult.textContent = '0';
+  }
+
+  calculateBtn.addEventListener('click', handleCalculate);
+  clearBtn.addEventListener('click', handleClear);
+
+  baseInput.addEventListener('keypress', (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleCalculate();
+    }
+  });
+
+  exponentInput.addEventListener('keypress', (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleCalculate();
+    }
+  });
+</script>
+
+

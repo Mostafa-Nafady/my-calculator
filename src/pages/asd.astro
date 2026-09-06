@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="ASD Calculator" pageTitle="ASD" activePage="ASD">
+  <section id="asd-content">
+    <h2>ASD Calculator</h2>
+    <p>
+      The ASD Calculator is a specialized tool designed to help you perform
+      advanced arithmetic and scientific calculations. Built with precision and
+      ease of use in mind, it provides a powerful interface for complex mathematical operations.
+    </p>
+    <p>
+      Whether you need to perform advanced calculations, scientific computations,
+      or specialized mathematical operations, the ASD Calculator has you covered
+      with its intuitive design and robust functionality.
+    </p>
+    <div id="asd-actions">
+      <a href="/" id="btn-home">Back to Home</a>
+      <a href="/calculator" id="btn-start">Start Calculating</a>
+      <a href="/about" id="btn-about">About</a>
+    </div>
+  </section>
+
+  <section id="asd-info">
+    <h3>ASD Calculator Features</h3>
+    <ul>
+      <li>Advanced arithmetic operations</li>
+      <li>Scientific calculation support</li>
+      <li>Precision mathematical functions</li>
+      <li>Fast and responsive design</li>
+      <li>Easy to use interface</li>
+      <li>Free to use</li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  #asd-content {
+    margin: 2rem auto;
+    width: 40rem;
+    max-width: 90%;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    color: var(--color-primary);
+    text-align: center;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-base);
+  }
+
+  #asd-content:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  #asd-content h2 {
+    margin-top: 0;
+    color: var(--color-primary);
+    letter-spacing: 0.5px;
+  }
+
+  #asd-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 1.5rem 0;
+  }
+
+  #asd-actions {
+    margin-top: 2rem;
+  }
+
+  #btn-home {
+    display: inline-block;
+    font: inherit;
+    background: var(--color-gray);
+    color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+  }
+
+  #btn-home:hover,
+  #btn-home:active {
+    background: var(--color-gray-dark);
+    border-color: var(--color-gray-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-home:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #btn-start {
+    display: inline-block;
+    font: inherit;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: 1px solid var(--color-primary);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+    margin-left: 1rem;
+  }
+
+  #btn-start:hover,
+  #btn-start:active {
+    background: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-start:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #btn-about {
+    display: inline-block;
+    font: inherit;
+    background: var(--color-green);
+    color: var(--color-white);
+    border: 1px solid var(--color-green);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+    transform: translateY(0);
+    margin-left: 1rem;
+  }
+
+  #btn-about:hover,
+  #btn-about:active {
+    background: var(--color-green-dark);
+    border-color: var(--color-green-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #btn-about:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  #asd-info {
+    margin: 2rem auto;
+    width: 40rem;
+    max-width: 90%;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    color: var(--color-primary);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-base);
+  }
+
+  #asd-info:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  #asd-info h3 {
+    margin-top: 0;
+    text-align: center;
+    color: var(--color-primary);
+  }
+
+  #asd-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #asd-info li {
+    background: var(--color-bg);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-primary);
+    font-weight: bold;
+    transition: transform var(--transition-fast);
+  }
+
+  #asd-info li:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #asd-info li:last-child {
+    margin-bottom: 0;
+  }
+</style>
+

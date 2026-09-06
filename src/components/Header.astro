@@ -1,0 +1,31 @@
+---
+export interface Props {
+  title: string;
+  activePage?: string;
+}
+
+const { title, activePage } = Astro.props;
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Basic Calculator', href: '/calculator' },
+  { label: 'XPY Calculator', href: '/xpy' },
+  { label: 'UYT Calculator', href: '/uyt' },
+  { label: 'ASD', href: '/asd' },
+  { label: 'ADDOP', href: '/addop' },
+  { label: 'QWQ', href: '/qwq' },
+];
+---
+
+<header>
+  <h1>{title}</h1>
+  <nav>
+    {navLinks.map((link) => (
+      <a href={link.href} class={activePage === link.label ? 'active' : ''}>
+        {link.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
