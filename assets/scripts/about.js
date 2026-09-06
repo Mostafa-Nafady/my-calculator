@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHeader('header-container', 'About My Calculator', [
       { label: 'Home', href: 'index.html' },
       { label: 'About', href: 'about.html' },
+      { label: 'Portfolio', href: 'portfolio.html' },
       { label: 'ASD', href: 'asd.html' },
       { label: 'Basic Calculator', href: 'basics-10-function-refactoring/index.html' },
       { label: 'XPY Calculator', href: 'xpy/index.html' }
     ]);
   }
 });
+
 
 

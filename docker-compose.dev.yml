@@ -1,0 +1,37 @@
+# Docker Compose — my-calculator LOCAL DEVELOPMENT
+# Usage:  docker compose -f docker-compose.dev.yml up
+#         (or: npm run dev)
+# Access: http://localhost:8080
+#
+# This file is optimized for development:
+# - Bind-mounts the source directory so HTML/CSS/JS changes appear instantly
+# - No read-only filesystem, no capability restrictions, no resource limits
+# - Uses nginx directly (no build step needed for static files)
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: my-calculator-dev
+    ports:
+      - "8080:80"
+    volumes:
+      # Bind-mount the entire project directory for live editing.
+      # Changes to HTML/CSS/JS files are reflected immediately in the browser.
+      - .:/usr/share/nginx/html:ro
+      # nginx needs writable temp directories — mount as tmpfs
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      start_period: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+

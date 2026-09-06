@@ -1,0 +1,43 @@
+# --- Version control ---
+.git
+.gitignore
+.github/
+
+# --- Environment / secrets ---
+.env
+.env.*
+
+# --- Node.js (not needed in container — static files only) ---
+# NOTE: If a real build step is added to the builder stage (e.g., CSS minification,
+# JS bundling), un-exclude package.json and package-lock.json so they are available
+# during the build.
+node_modules
+package-lock.json
+package.json
+
+# --- Docker files (not needed inside the image) ---
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# --- Documentation ---
+*.md
+LICENSE
+
+# --- Editor / OS artifacts ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode
+.idea
+
+# --- CI / tooling config ---
+.editorconfig
+.prettierrc
+.eslintrc*
+
+
+

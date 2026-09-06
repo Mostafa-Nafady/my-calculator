@@ -1,0 +1,13 @@
+---
+# Namespace for the my-calculator application.
+# Isolates all resources (pods, services, configmaps, etc.) from other
+# workloads running on the cluster, enabling RBAC scoping and
+# ResourceQuota enforcement at the namespace boundary.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-calculator
+  labels:
+    app.kubernetes.io/name: my-calculator
+    app.kubernetes.io/part-of: my-calculator
+

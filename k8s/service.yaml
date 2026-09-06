@@ -1,0 +1,26 @@
+---
+# Service exposing the my-calculator deployment externally.
+#
+# type: LoadBalancer — user confirmed this exposure method.
+# The cloud provider provisions an external load balancer with a
+# public IP that forwards traffic to the pods on port 80.
+# For local development (minikube/kind), use `minikube tunnel` or
+# `kubectl port-forward` to access the LoadBalancer service.
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-calculator
+  namespace: my-calculator
+  labels:
+    app.kubernetes.io/name: my-calculator
+    app.kubernetes.io/part-of: my-calculator
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-calculator
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  sessionAffinity: None  # Stateless static site; no session stickiness needed
+
