@@ -4,12 +4,35 @@
 
 Before deploying, verify that all of the following conditions are met:
 
-- [ ] **All CI checks pass** — Lint (HTMLHint), Security Scan (Trivy), and Build (Docker) jobs complete successfully in GitHub Actions.
+- [ ] **All CI checks pass** — Lint (HTMLHint), Test (JS syntax + CSS validation), Security Scan (Trivy), and Build (Docker) jobs complete successfully in GitHub Actions.
 - [ ] **Docker image built successfully** — The build job produces the `my-calculator:latest` and `my-calculator:<sha>` image tags without errors.
 - [ ] **No CRITICAL/HIGH vulnerabilities** — Trivy filesystem scan and Trivy image scan report zero CRITICAL or HIGH vulnerabilities. Review the GitHub Security tab for details.
 - [ ] **Code reviewed and approved** — All changes have been reviewed and approved via pull request.
 - [ ] **No uncommitted changes** — The working tree is clean (`git status` shows no uncommitted changes).
 - [ ] **`.env` file is not committed** — Verify `.env` is in `.gitignore` and no real secrets are in the repository.
+
+## Pipeline Stages
+
+The CI/CD pipeline consists of 6 stages, running sequentially:
+
+| # | Stage | Description |
+|---|-------|-------------|
+| 1 | **lint** | HTML validation with HTMLHint + asset reference check |
+| 2 | **test** | HTMLHint validation + JavaScript syntax check (`node --check`) + CSS non-empty validation |
+| 3 | **security-scan** | Trivy filesystem scan + secret detection |
+| 4 | **build** | Docker image build + Trivy image scan + artifact upload |
+| 5 | **deploy-staging** | SSH-based deployment to staging server |
+| 6 | **deploy-production** | SSH-based deployment to production server (manual approval) |
+
+## Required GitHub Secrets
+
+The deployment jobs require the following GitHub Secrets to be configured in the repository settings (**Settings → Secrets and variables → Actions**):
+
+| Secret Name | Description |
+|---|---|
+| `SSH_KEY` | SSH private key for accessing the deployment server |
+| `SSH_HOST` | Hostname or IP address of the deployment server |
+| `SSH_USER` | SSH username for the deployment server |
 
 ## Deployment Process
 
@@ -20,14 +43,22 @@ Staging deployment is **fully automatic** on push to the `main` or `master` bran
 **What happens:**
 
 1. GitHub Actions triggers the CI/CD pipeline.
-2. The **lint**, **security-scan**, and **build** jobs run sequentially.
-3. Once the build completes, the **deploy-staging** job downloads the Docker image artifact, loads it, and deploys to the staging server.
-4. A verification step checks that the staging deployment is healthy.
+2. The **lint**, **test**, **security-scan**, and **build** jobs run sequentially.
+3. Once the build completes, the **deploy-staging** job executes the following SSH-based deployment process:
+   1. Checks out code to get `docker-compose.yml`.
+   2. Downloads the Docker image artifact from GitHub Actions.
+   3. Loads the Docker image locally.
+   4. Sets up the SSH key from GitHub Secrets (`SSH_KEY`, `SSH_HOST`, `SSH_USER`).
+   5. Copies the Docker image tar and `docker-compose.yml` to the server via SCP.
+   6. Deploys via SSH using `docker compose up -d --force-recreate` (zero-downtime).
+   7. Runs a health check **on the server** via SSH: `curl -sf http://localhost:8080/`.
+   8. Cleans up unused Docker images on the server.
+   9. Removes the SSH key (cleanup with `if: always()`).
 
 **To verify staging deployment:**
 
 ```bash
-# On the staging server, verify the container is running
+# SSH to the staging server, then verify the container is running
 docker compose ps
 
 # Check that the site responds with HTTP 200
@@ -39,7 +70,7 @@ docker compose logs --tail=50 calculator-web
 
 ### Production Deployment
 
-Production deployment requires **manual approval** via GitHub Environment protection rules.
+Production deployment requires **manual approval** via GitHub Environment protection rules. The deployment process is identical to staging, but is gated behind a manual review step.
 
 **Steps:**
 
@@ -48,8 +79,16 @@ Production deployment requires **manual approval** via GitHub Environment protec
 3. Select the workflow run that was triggered by the push to `main`/`master`.
 4. The **deploy-production** job will be in a "Waiting" state with a review required.
 5. Click **Review deployments** → select **production** → click **Approve and deploy**.
-6. The job downloads the Docker image artifact, loads it, and deploys to the production server.
-7. A verification step checks that the production deployment is healthy.
+6. The job executes the same SSH-based deployment process as staging:
+   1. Checks out code to get `docker-compose.yml`.
+   2. Downloads the Docker image artifact from GitHub Actions.
+   3. Loads the Docker image locally.
+   4. Sets up the SSH key from GitHub Secrets (`SSH_KEY`, `SSH_HOST`, `SSH_USER`).
+   5. Copies the Docker image tar and `docker-compose.yml` to the server via SCP.
+   6. Deploys via SSH using `docker compose up -d --force-recreate` (zero-downtime).
+   7. Runs a health check **on the server** via SSH: `curl -sf http://localhost:8080/`.
+   8. Cleans up unused Docker images on the server.
+   9. Removes the SSH key (cleanup with `if: always()`).
 
 **Zero-downtime deployment:**
 
@@ -62,6 +101,65 @@ docker compose up -d --force-recreate
 # ❌ Incorrect — causes downtime
 docker compose down && docker compose up -d
 ```
+
+## Release Process
+
+Releases are managed via the **Release workflow** (`.github/workflows/release.yml`), which automates semantic versioning and changelog generation.
+
+**Triggering a release:**
+
+1. Navigate to the **GitHub Actions** tab in the repository.
+2. Select the **Release** workflow in the left sidebar.
+3. Click **Run workflow**.
+4. Choose the version type: `patch`, `minor`, or `major`.
+5. Click **Run workflow** to start the release.
+
+**What the workflow does:**
+
+1. Generates a changelog from git commits, categorized by conventional commit prefixes.
+2. Determines the new semantic version number based on the selected version type.
+3. Creates and pushes a git tag (e.g., `v1.2.3`).
+4. Creates a GitHub Release with the generated changelog as the release body.
+
+**Commit conventions:**
+
+| Commit Prefix | Version Bump |
+|---|---|
+| `feat:` | MINOR |
+| `fix:` | PATCH |
+| `BREAKING CHANGE` | MAJOR |
+
+## Security
+
+All GitHub Actions used in the CI/CD pipeline are pinned to full 40-character commit SHAs for supply chain security. Version tags are included in comments for readability and traceability. This prevents supply chain attacks where a compromised action tag could be silently moved to malicious code.
+
+## Troubleshooting CI/CD Failures
+
+### Lint Job Failures
+
+- **HTMLHint errors**: Check `.htmlhintrc` for configured rules. Common issues: missing `<!DOCTYPE>`, duplicate IDs, unclosed tags.
+- **Missing referenced files**: Check that all CSS/JS files referenced in HTML exist at the expected paths.
+
+### Test Job Failures
+
+- **JavaScript syntax errors**: Run `node --check <file>` locally to find syntax issues.
+- **Empty CSS files**: Ensure all CSS files have content.
+
+### Security Scan Failures
+
+- **Trivy vulnerabilities**: Review the SARIF report in the GitHub Security tab. Update base images or add justified ignores to `.trivyignore`.
+- **Secret detection**: Ensure no secrets are committed. The `.env` file should be in `.gitignore`.
+
+### Build Failures
+
+- **Docker build errors**: Check Dockerfile syntax. Ensure all `COPY` source files exist.
+- **Trivy image scan**: Review vulnerabilities in the built image. Update nginx base image or add ignores.
+
+### Deployment Failures
+
+- **SSH connection refused**: Verify `SSH_HOST`, `SSH_USER`, and `SSH_KEY` secrets are set correctly.
+- **Health check failed**: SSH to the server and check `docker compose ps` and `docker compose logs calculator-web`.
+- **Permission denied**: Ensure the SSH key has appropriate permissions on the server.
 
 ## Rollback Procedure
 
@@ -180,4 +278,6 @@ Expected output:
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 ```
+
+
 
