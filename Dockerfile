@@ -10,7 +10,7 @@ FROM nginx:1.27-alpine AS builder
 WORKDIR /app/build
 
 # Copy HTML files explicitly
-COPY index.html about.html addop.html asd.html ASDSFSF.html zzz.html ./
+COPY index.html about.html addop.html asd.html ASDSFSF.html zzz.html landing.html ./
 
 # Copy asset directories
 COPY assets/ ./assets/
@@ -50,6 +50,7 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget --spider -q http://127.0.0.1:8080/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
+
 
 
 
