@@ -1,18 +1,13 @@
 // Render the Header component when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
-    renderHeader('header-container', 'Welcome to My Calculator', [
+    renderHeader('header-container', 'ASW Calculator', [
       { label: 'Home', href: 'index.html' },
       { label: 'About', href: 'about.html' },
       { label: 'ASD', href: 'asd.html' },
-      { label: 'ASW', href: 'asw.html' },
       { label: 'Basic Calculator', href: 'basics-10-function-refactoring/index.html' },
       { label: 'XPY Calculator', href: 'xpy/index.html' }
     ]);
   }
 });
-
-
-
-
 
