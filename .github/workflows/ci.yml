@@ -1,0 +1,335 @@
+# ------------------------------------------------------------------------------
+# CI/CD Pipeline for my-calculator (static HTML/CSS/JS website)
+# ------------------------------------------------------------------------------
+# Stages: lint → test → security-scan → build → deploy-staging → deploy-production
+# ------------------------------------------------------------------------------
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: my-calculator
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Lint — HTML validation with HTMLHint + asset reference check
+  # ---------------------------------------------------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: '22'
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Run HTMLHint on all HTML files
+        run: htmlhint '**/*.html' --config .htmlhintrc
+
+      - name: Verify referenced CSS/JS files exist
+        run: |
+          set -euo pipefail
+          echo "Checking that all locally referenced CSS and JS files exist..."
+          missing=0
+          while IFS= read -r htmlfile; do
+            dir="$(dirname "$htmlfile")"
+            # Extract href values ending in .css and src values ending in .js
+            refs=$(grep -ohE '(href|src)="[^"]+\.(css|js)"' "$htmlfile" \
+              | sed -E 's/.*="([^"]+)"/\1/' \
+              | grep -vE '^https?://' \
+              || true)
+            for ref in $refs; do
+              # Resolve relative to the HTML file's directory
+              target="$dir/$ref"
+              if [ ! -f "$target" ]; then
+                echo "WARNING: Referenced file not found: $ref (in $htmlfile)"
+                missing=$((missing + 1))
+              fi
+            done
+          done < <(find . -name '*.html' -not -path './.git/*')
+          if [ "$missing" -gt 0 ]; then
+            echo "::warning::$missing referenced CSS/JS file(s) not found."
+          else
+            echo "All referenced CSS/JS files exist."
+          fi
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Test — HTMLHint validation + JS syntax check + CSS non-empty check
+  # ---------------------------------------------------------------------------
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: '22'
+
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+
+      - name: Run HTMLHint on all HTML files
+        run: htmlhint '**/*.html' --config .htmlhintrc
+
+      - name: Validate JavaScript syntax
+        run: |
+          find . -name '*.js' -not -path './.git/*' -not -path './node_modules/*' | while read f; do node --check "$f" || exit 1; done
+
+      - name: Validate CSS files are non-empty
+        run: |
+          find . -name '*.css' -not -path './.git/*' -not -path './node_modules/*' | while read f; do [ -s "$f" ] || { echo "Empty CSS: $f"; exit 1; }; done
+
+  # ---------------------------------------------------------------------------
+  # Job 3: Security Scan — Trivy filesystem scan + secret detection
+  # ---------------------------------------------------------------------------
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Run Trivy filesystem scan (SARIF)
+        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@9887d98ae49f1f598651b556d8c8f02f3ea065cb # v3.27.0
+        with:
+          sarif_file: trivy-results.sarif
+
+      - name: Run Trivy secret scan on .env
+        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'secret'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+
+  # ---------------------------------------------------------------------------
+  # Job 4: Build — Docker image build + image scan + artifact upload
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [lint, test, security-scan]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3.8.0
+
+      - name: Build Docker image
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Trivy image scan
+        uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8 # v0.24.0
+        with:
+          image-ref: ${{ env.IMAGE_NAME }}:latest
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          format: 'table'
+
+      - name: Save Docker image as artifact
+        run: docker save -o my-calculator.tar ${{ env.IMAGE_NAME }}:latest
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        with:
+          name: docker-image
+          path: my-calculator.tar
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # Job 5: Deploy to Staging (only on push to main/master)
+  # ---------------------------------------------------------------------------
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: staging
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: docker-image
+          path: docker-image
+
+      - name: Load Docker image
+        run: docker load -i docker-image/my-calculator.tar
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/ec2_key.pem
+          chmod 600 ~/.ssh/ec2_key.pem
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || true
+
+      - name: Copy Docker image to staging server
+        run: |
+          scp -i ~/.ssh/ec2_key.pem docker-image/my-calculator.tar \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/my-calculator/my-calculator.tar
+
+      - name: Copy docker-compose.yml to staging server
+        run: |
+          scp -i ~/.ssh/ec2_key.pem docker-compose.yml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/my-calculator/
+
+      - name: Deploy to staging server
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << "EOF"
+          cd ~/my-calculator
+          docker load -i my-calculator.tar
+          docker compose up -d --force-recreate
+          EOF
+
+      - name: Verify staging deployment
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            'curl -sf http://localhost:8080/ || exit 1'
+
+      - name: Clean up unused Docker images
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            'docker image prune -f || true'
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/ec2_key.pem
+
+  # ---------------------------------------------------------------------------
+  # Job 6: Deploy to Production (requires manual approval via environment)
+  # ---------------------------------------------------------------------------
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: production
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: docker-image
+          path: docker-image
+
+      - name: Load Docker image
+        run: docker load -i docker-image/my-calculator.tar
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/ec2_key.pem
+          chmod 600 ~/.ssh/ec2_key.pem
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || true
+
+      - name: Copy Docker image to production server
+        run: |
+          scp -i ~/.ssh/ec2_key.pem docker-image/my-calculator.tar \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/my-calculator/my-calculator.tar
+
+      - name: Copy docker-compose.yml to production server
+        run: |
+          scp -i ~/.ssh/ec2_key.pem docker-compose.yml \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/my-calculator/
+
+      - name: Deploy to production server
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << "EOF"
+          cd ~/my-calculator
+          docker load -i my-calculator.tar
+          docker compose up -d --force-recreate
+          EOF
+
+      - name: Verify production deployment
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            'curl -sf http://localhost:8080/ || exit 1'
+
+      - name: Clean up unused Docker images
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            'docker image prune -f || true'
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/ec2_key.pem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

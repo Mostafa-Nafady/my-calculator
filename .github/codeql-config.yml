@@ -1,0 +1,13 @@
+name: "CodeQL Config"
+
+disable-default-queries: false
+
+queries:
+  - uses: security-and-quality
+
+paths-ignore:
+  - "node_modules"
+  - "**/*.min.js"
+  - "assets/vendor/**"
+  - "basics-10-function-refactoring/assets/vendor/**"
+

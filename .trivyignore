@@ -1,0 +1,27 @@
+# .trivyignore — Vulnerabilities that are safe to ignore for this project
+#
+# This project serves static HTML/CSS/JS files via nginx:1.27-alpine.
+# The following CVEs do not impact static file serving workloads and are
+# explicitly ignored to reduce CI noise. Each entry includes a justification.
+#
+# Review this file regularly — remove entries when base images are updated
+# or when the threat model changes.
+
+# CVE-2023-44487 - HTTP/2 Rapid Reset DoS; nginx:alpine includes the fix in 1.27+
+# CVE-2023-44487
+
+# CVE-2024-6387 - "RegreSSHion" OpenSSH vulnerability; affects sshd,
+# not nginx. The container does not run an SSH server. Only relevant if sshd
+# is installed and running, which it is not in nginx:alpine.
+# CVE-2024-6387
+
+# CVE-2023-4911 - "Looney Tunables" glibc buffer overflow in ld.so; requires
+# local attacker access to exploit. Container runs as non-root user and does
+# not expose a shell. Not exploitable in this deployment model.
+# CVE-2023-4911
+
+# CVE-2024-3094 - XZ Utils backdoor; affects liblzma compiled with malicious
+# build. nginx:alpine uses musl libc and does not include XZ Utils. Not present
+# in the image.
+# CVE-2024-3094
+

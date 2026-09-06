@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof renderHeader === 'function') {
     renderHeader('header-container', 'About My Calculator', [
+      { label: 'Landing', href: 'landing.html' },
       { label: 'Home', href: 'index.html' },
       { label: 'About', href: 'about.html' },
       { label: 'ASD', href: 'asd.html' },
@@ -10,5 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ]);
   }
 });
+
 
 

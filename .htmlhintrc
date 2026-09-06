@@ -1,0 +1,11 @@
+{
+  "tag-pair": true,
+  "attr-name-dupes": true,
+  "img-alt": false,
+  "doctype-first": true,
+  "id-class-dupes": true,
+  "style-disabled": false,
+  "src-not-empty": true,
+  "title-require": true
+}
+
