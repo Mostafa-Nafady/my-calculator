@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "docker compose up",
+    "dev": "docker compose -f docker-compose.dev.yml up",
     "serve": "npx serve .",
     "build": "echo 'No build step required for static site'",
     "test": "echo 'No tests configured yet' && exit 0",
@@ -24,4 +25,5 @@
     "node": ">=18.0.0"
   }
 }
+
 

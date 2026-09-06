@@ -1,8 +1,31 @@
 # ---------- Static HTML Website — nginx ----------
-# Single-stage build: no compilation step needed for static files.
-# Base image pinned to a specific version — never use :latest in production.
+# Multi-stage build: builder stage (placeholder for future asset processing)
+# + production stage (nginx serving static files).
+# Base images pinned to specific versions — never use :latest in production.
 
-FROM nginx:1.27-alpine
+# ---------- Stage 1: builder ----------
+# This stage is a placeholder for future build tooling. When the project adds
+# CSS minification, JS bundling, image optimization, or other asset processing,
+# those steps will go here. For now it simply copies the source files so the
+# production stage can pull them from a clean, isolated build context.
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# Copy all static site content into the builder workspace.
+# The .dockerignore file ensures .env, .git, node_modules, package-lock.json,
+# package.json, Dockerfile, docker-compose files, *.md, and .github/ are
+# excluded from the build context, so a broad COPY is safe and keeps the
+# layer minimal.
+COPY . .
+
+# No build step is required for a static site — this is a no-op placeholder.
+# Future build tooling (e.g., CSS minification, JS bundling, image optimization)
+# would be added here as RUN commands.
+RUN echo "No build step required for static site"
+
+# ---------- Stage 2: production ----------
+FROM nginx:1.27-alpine AS production
 
 # OCI standard image labels for registry metadata
 LABEL org.opencontainers.image.title="my-calculator" \
@@ -15,14 +38,11 @@ LABEL org.opencontainers.image.title="my-calculator" \
 # --no-cache keeps the layer small by not storing the apk index.
 RUN apk add --no-cache curl
 
-# Copy all static site content into the nginx document root.
-# The .dockerignore file ensures .env, .git, node_modules, package-lock.json,
-# Dockerfile, docker-compose.yml, *.md, and .github/ are excluded from the
-# build context, so a broad COPY is safe and keeps the layer minimal.
+# Copy static site content from the builder stage into the nginx document root.
 # This captures: index.html, about.html, asd.html, aswd.html, ccx.html,
 # cvxz.html, nnn.html, sdssa.html, basics-10-function-refactoring/,
 # tyo/, uyt/, xpy/, and assets/ (styles + scripts + components).
-COPY . /usr/share/nginx/html/
+COPY --from=builder /app/ /usr/share/nginx/html/
 
 # Ensure the non-root 'nginx' user (UID 101, pre-created in nginx:alpine)
 # owns the served files and the writable runtime directories.
@@ -45,5 +65,6 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 # Start nginx in the foreground (daemon off) so the container stays alive
 CMD ["nginx", "-g", "daemon off;"]
+
 
 
