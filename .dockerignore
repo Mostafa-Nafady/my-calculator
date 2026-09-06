@@ -1,7 +1,7 @@
 # --- Version control ---
 .git
 .gitignore
-.github
+.github/
 
 # --- Environment / secrets ---
 .env
@@ -35,4 +35,5 @@ Thumbs.db
 .editorconfig
 .prettierrc
 .eslintrc*
+
 

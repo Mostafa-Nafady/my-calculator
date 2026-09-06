@@ -14,20 +14,23 @@ services:
     restart: unless-stopped
 
     # Read-only root filesystem for security.
-    # nginx needs writable temp directories, so we mount tmpfs for those paths.
+    # nginx needs writable temp directories for caching, PID files, and
+    # temporary request buffers — we mount tmpfs for those paths.
     read_only: true
     tmpfs:
       - /tmp:size=10M
       - /var/cache/nginx:size=20M
       - /var/run:size=1M
 
-    # Drop all Linux capabilities and prevent privilege escalation
+    # Drop ALL Linux capabilities and prevent privilege escalation.
+    # This is a static file server — it needs no special kernel permissions.
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - ALL
 
-    # Resource limits — static site is lightweight
+    # Resource limits — static site is lightweight.
+    # 256M memory and 0.5 CPU is generous for nginx serving static files.
     deploy:
       resources:
         limits:
@@ -37,7 +40,8 @@ services:
           memory: 64M
           cpus: "0.1"
 
-    # Health check — matches the Dockerfile HEALTHCHECK
+    # Health check — matches the Dockerfile HEALTHCHECK.
+    # Uses curl (installed in the Dockerfile) to check the root URL.
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:80/"]
       interval: 30s
@@ -51,4 +55,5 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
 
