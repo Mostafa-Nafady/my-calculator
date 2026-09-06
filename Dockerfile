@@ -19,7 +19,9 @@ FROM nginx:1.27-alpine AS production
 ENV NODE_ENV=production
 
 # Create a non-root user for security
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup && \
+    mkdir -p /var/cache/nginx && \
+    chown -R appuser:appgroup /var/cache/nginx
 
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -42,4 +44,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
 
 # Start nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
+
 
