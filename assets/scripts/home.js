@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
       { label: 'ASD', href: 'asd.html' },
       { label: 'Basic Calculator', href: 'basics-10-function-refactoring/index.html' },
       { label: 'XPY Calculator', href: 'xpy/index.html' },
-      { label: 'Gallery', href: 'gallery.html' }
+      { label: 'Gallery', href: 'gallery.html' },
+      { label: 'AWQ', href: 'awq.html' }
     ]);
   }
 });
+
 
 
 
