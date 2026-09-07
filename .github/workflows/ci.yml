@@ -1,0 +1,160 @@
+# CI/CD Pipeline for my-calculator (static HTML/CSS/JS website)
+#
+# Pipeline stages:
+#   1. security-check  — Trivy filesystem scan + TruffleHog secret detection
+#   2. build           — Docker image build + Trivy container scan
+#   3. deploy-staging  — Push image to GHCR with :staging and :sha-<sha> tags (main only)
+#   4. deploy-production — Retag staging image as :latest (main only, requires manual approval)
+#
+# Production environment protection:
+#   Configure in GitHub → Settings → Environments → production:
+#     - Required reviewers: add team/user who can approve production deploys
+#     - Deployment branch: restrict to main
+#   The deploy-production job will pause until approval is granted.
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  # ──────────────────────────────────────────────
+  # Job 1: Security checks (filesystem + secrets)
+  # ──────────────────────────────────────────────
+  security-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+      - name: Run TruffleHog secret detection
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  # ──────────────────────────────────────────────
+  # Job 2: Build Docker image + scan it
+  # ──────────────────────────────────────────────
+  build:
+    needs: security-check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: my-calculator:latest
+          load: true
+
+      - name: Run Trivy container scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: my-calculator:latest
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+
+  # ──────────────────────────────────────────────
+  # Job 3: Deploy to staging (push to GHCR)
+  # ──────────────────────────────────────────────
+  deploy-staging:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push to GHCR
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:staging
+            ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+
+      - name: Deployment info
+        run: |
+          echo "Staging image pushed: ghcr.io/${{ github.repository }}:staging"
+          echo "Image digest: ${{ steps.docker_build.outputs.digest }}"
+          echo "Note: Configure your staging server to pull this image."
+
+  # ──────────────────────────────────────────────
+  # Job 4: Deploy to production (manual approval)
+  # ──────────────────────────────────────────────
+  # The 'production' environment should have required reviewers configured
+  # in GitHub Settings → Environments → production.
+  # This job will pause and wait for approval before proceeding.
+  deploy-production:
+    needs: deploy-staging
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and retag staging image as production
+        run: |
+          docker pull ghcr.io/${{ github.repository }}:staging
+          docker tag ghcr.io/${{ github.repository }}:staging ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:latest
+
+      - name: Deployment info
+        run: |
+          echo "Production image pushed: ghcr.io/${{ github.repository }}:latest"
+          echo "Note: Configure your production server to pull this image."
+          echo "Rollback: docker pull ghcr.io/${{ github.repository }}:sha-<previous-sha>"
+

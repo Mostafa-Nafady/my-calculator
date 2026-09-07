@@ -1,0 +1,16 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "description": "A web-based calculator with multiple calculator modes",
+  "scripts": {
+    "start": "docker compose up",
+    "build": "docker build -t my-calculator .",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "calculator",
+    "web"
+  ],
+  "license": "MIT"
+}
+

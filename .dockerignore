@@ -1,0 +1,53 @@
+# Version control
+.git/
+.gitignore
+
+# Dependencies (no real deps, but exclude just in case)
+node_modules/
+
+# Environment files — never bake secrets into the image
+.env
+.env.local
+.env.*.local
+
+# Editor / IDE config
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Docker files — not needed inside the image
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Node manifest files — no build step, not needed at runtime
+package.json
+package-lock.json
+
+# Documentation
+README.md
+
+# CI/CD
+.github/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NOTE: Do NOT exclude the following — they are needed in the image:
+#   - nginx.conf          (copied by the Dockerfile)
+#   - *.html              (all HTML pages)
+#   - assets/             (CSS, JS, images)
+#   - basics-10-function-refactoring/
+#   - uyt/
+#   - xpy/
+#   - .env.example        (harmless template, safe to include)
+
