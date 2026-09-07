@@ -20,3 +20,68 @@ services:
       retries: 3
       start_period: 5s
 
+  # ─────────────────────────────────────────────────────────────
+  # nginx Prometheus exporter — scrapes nginx stub_status and
+  # exposes metrics in Prometheus format on port 9113.
+  # ─────────────────────────────────────────────────────────────
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:1.3.0
+    container_name: nginx-exporter
+    command:
+      - -nginx.scrape-uri=http://web:8080/stub_status
+    ports:
+      - "9113:9113"
+    depends_on:
+      web:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────────────────────────
+  # Prometheus — scrapes the nginx-exporter and stores metrics.
+  # Config and alert rules are mounted read-only from ./monitoring.
+  # ─────────────────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+    depends_on:
+      - nginx-exporter
+    restart: unless-stopped
+
+  # ─────────────────────────────────────────────────────────────
+  # Grafana — visualises Prometheus metrics via dashboards.
+  # Provisioning and dashboard JSON are mounted read-only.
+  # ─────────────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+# ─────────────────────────────────────────────────────────────
+# Named volumes for persistent metric and dashboard data.
+# ─────────────────────────────────────────────────────────────
+volumes:
+  prometheus-data:
+  grafana-data:
+
+
